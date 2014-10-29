@@ -4,6 +4,7 @@ var request = {
   "type": "request",
   "method": "selectModel",
   "id": "myModel",
+  "uid": "unique id from dashboard", // send this back for the dashboard to know where to put your response
   "kpi": "kpi1"
 }
 
@@ -13,6 +14,7 @@ var response = {
   "method": "selectModel",
   "type": "response",
   "id": "myModel",
+  "uid": "unique id from dashboard", // same id as in request
   "inputs": [ 
     {
       // the specification of inputs are constantly being expanded, these are the base properties
