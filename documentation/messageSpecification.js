@@ -33,6 +33,7 @@
 { 
     "method": "selectModel",
     "type": "request",
+    "variantId": "variantId", // dashboard needs this id back to save the module input specification in the right place
     "moduleId": "moduleId", // this is why your module knows if the message is relevant
     "kpi": "kpiAlias" // just in case your module delivers more than one kpi. One of these selection messages per kpi delivered
 }
@@ -41,6 +42,7 @@
 {
     "method": "selectModel",
     "type": "response",
+    "variantId": "variantId", // return the same id that came with the request 
     "moduleId": "moduleId",
     "inputs": [] // This array contains the input specification. The components that can be used will be added after demand from modules we connect
 } 
