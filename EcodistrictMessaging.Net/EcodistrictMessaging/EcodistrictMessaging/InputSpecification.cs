@@ -8,16 +8,8 @@ using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
 {
-    [DataContract]
-    public class InputSpecification 
+    public class InputSpecification : List<Input>
     {
-        [DataMember]
-        List<Input> inputs = new List<Input>();
-        
-        public void Add(Input item)
-        {
-            inputs.Add(item);
-        }
 
     }
 }

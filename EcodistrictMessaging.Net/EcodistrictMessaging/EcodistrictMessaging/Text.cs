@@ -9,13 +9,16 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class Input
+    class Text : Atomic
     {
-        [DataMember]
-        protected string type { get; set; }
-        [DataMember]
-        protected string label { get; set; }
-        [DataMember]
-        protected string id { get; set; }
+        //TODO Text data
+        //[DataContract]
+
+        public Text(string label, string id)
+        {
+            this.type = "tumber";
+            this.label = label;
+            this.id = id;
+        }
     }
 }
