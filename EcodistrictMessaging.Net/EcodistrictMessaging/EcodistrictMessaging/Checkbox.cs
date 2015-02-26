@@ -9,13 +9,16 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class Input
+    class Checkbox : Atomic
     {
-        [DataMember]
-        protected string type { get; set; }
-        [DataMember]
-        protected string label { get; set; }
-        [DataMember]
-        protected string id { get; set; }
+        //TODO Checkbox data
+        //[DataContract]
+
+        public Checkbox(string label, string id)
+        {
+            this.type = "checkbox";
+            this.label = label;
+            this.id = id;
+        }
     }
 }

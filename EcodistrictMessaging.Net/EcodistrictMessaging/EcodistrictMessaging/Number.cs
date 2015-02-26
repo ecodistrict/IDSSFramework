@@ -10,16 +10,16 @@ namespace Ecodistrict.Messaging
 {
     [DataContract]
     public class Number : Atomic
-    {
+    { 
         [DataMember]
-        decimal min { get; set; }
+        object min { get; set; }
         [DataMember]
-        decimal max { get; set; }
+        object max { get; set; }
         [DataMember]
-        decimal value { get; set; }
+        object value { get; set; }
 
-        public Number(string label="", string id ="", 
-            decimal min=0, decimal max=10, decimal value=5)
+        public Number(string label, string id,
+            object min = null, object max = null, object value = null)
         {
             this.type = "number";
             this.label = label;

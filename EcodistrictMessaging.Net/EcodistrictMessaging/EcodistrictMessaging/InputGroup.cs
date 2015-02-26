@@ -8,12 +8,13 @@ using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
 {
+    
     [DataContract]
-    public class List : NonAtomic
+    class InputGroup : NonAtomic
     {
-        public List(string label, string id)
+        public InputGroup(string label, string id)
         {
-            this.type = "list";
+            this.type = "inputGroup";
             this.label = label;
             this.id = id;
         }
