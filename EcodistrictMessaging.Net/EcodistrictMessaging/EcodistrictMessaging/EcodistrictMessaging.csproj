@@ -41,9 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Atomic.cs" />
+    <Compile Include="GetModulesMessageRequest.cs" />
+    <Compile Include="iMessage.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="InputSpecification.cs" />
     <Compile Include="List.cs" />
+    <Compile Include="MessageGlobals.cs" />
     <Compile Include="NonAtomic.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
