@@ -11,89 +11,84 @@ using System.Reflection;
 
 using System.CodeDom;
 
+using System.Dynamic;
+using System.Linq.Expressions;
+
+using System.Collections;
+using System.Collections.Specialized;
+
 using Ecodistrict.Messaging;
 
 namespace TestConsole
 {
-
-    [DataContract]
+   
     public class Test
     {
-        [DataMember]
-        //dynamic obj = new System.Dynamic.ExpandoObject();
-        dynamic obj = new System.Dynamic.ExpandoObject();// as IDictionary<string, Object>;
-
+        public dynamic input
+        { get; private set; }
+        
         public Test()
         {
-            var dict = (IDictionary<string, object>)obj;
-            dict["bar"] = 123;
+            input = new OrderedDictionary();
+        }
 
-            //((IDictionary<string, Object>)obj).Add("NewProp", "something");
-            //obj.apa = 1;
-            
-            //Type myType = obj.GetType();
-            //PropertyInfo pinfo = myType.GetProperty("Caption");
-            //pinfo.SetValue(obj, "something", null);
+        public void Add(string key, Input item)
+        {
+            input.Add(key, item);
+        }
 
-            //obj.GetType().GetProperty("bar").SetValue(this, "something", null);
-            //this.apa = "string";
-            
-            //this = new System.Dynamic.ExpandoObject(); 
-            //obj.apa = "string";
+        public string ToJson()
+        {
+            string json = "";
 
-            CodeVariableDeclarationStatement variableDeclaration = new CodeVariableDeclarationStatement(
-                // Type of the variable to declare. 
-        typeof(string),
-                // Name of the variable to declare. 
-        "TestString",
-                // Optional initExpression parameter initializes the variable. 
-        new CodePrimitiveExpression("Testing"));
+            IDictionaryEnumerator myEnumerator = input.GetEnumerator();
+
+            bool done = !myEnumerator.MoveNext();
+
+            while (!done)
+            {
+                json += string.Format("{0}:{1}", myEnumerator.Key, ((Input)myEnumerator.Value).ToJson());
+                done = !myEnumerator.MoveNext();
+                if (!done)
+                    json += ",";
+            }
+
+            json = string.Format("{0}{1}{2}", "{", json, "}");
+            return json;
         }
     }
 
     class Program
     {
-
         void JsonSerializeTest()
-        {
-            var settings = new DataContractJsonSerializerSettings();
-            settings.EmitTypeInformation = EmitTypeInformation.Never;
-            MemoryStream stream1 = new MemoryStream();
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Test), settings);
-
+        {            
             Test obj = new Test();
 
-            ser.WriteObject(stream1, obj);
-            stream1.Position = 0;
-            StreamReader sr = new StreamReader(stream1);
-            Console.WriteLine(sr.ReadToEnd());
+            obj.Add("number1",new Number("aLbl", "aId"));
+            obj.Add("number2", new Number("aLbl2", "aId2"));
 
-            dynamic foo = new System.Dynamic.ExpandoObject();
-            foo.Bar = "something";
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(foo);
-            Console.WriteLine(json);
+            Console.WriteLine(obj.ToJson());
+            Console.WriteLine("");
         }
 
         void JsonSeralizeISpec()
         {
-            var settings = new DataContractJsonSerializerSettings();
-            settings.EmitTypeInformation = EmitTypeInformation.Never;
-            MemoryStream stream1 = new MemoryStream();
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(InputSpecification), settings);
             InputSpecification inputSpec = new InputSpecification();
+            inputSpec.Add("name", new Text("Name"));
+            inputSpec.Add("shoe-size", new Number("Shoe size"));
+            Console.WriteLine(inputSpec.ToJson());
+            Console.WriteLine("");
 
-            inputSpec.Add(new Number(label: "A number", id: "1"));
-            List listRoot = new List(label: "A list", id: "2");
-            List aList = new List(label: "A list", id: "3");
-            aList.Add(new Number(label: "A number", id: "4"));
-            aList.Add(new Number(label: "A number", id: "5"));
-            listRoot.Add(aList);
-            inputSpec.Add(listRoot);
 
-            ser.WriteObject(stream1, inputSpec);
-            stream1.Position = 0;
-            StreamReader sr = new StreamReader(stream1);
-            Console.WriteLine(sr.ReadToEnd());
+            InputSpecification inputSpec2 = new InputSpecification();
+            inputSpec2.Add("name", new Text("Parent name"));
+            inputSpec2.Add("age", new Number("Parent age"));
+            List aList = new List("Children");
+            aList.Add("name", new Text("Child name"));
+            aList.Add("age", new Number("Child age"));
+            inputSpec2.Add("child", aList);
+            Console.WriteLine(inputSpec2.ToJson());
+            Console.WriteLine("");
         }
 
         static void Main(string[] args)
@@ -102,7 +97,7 @@ namespace TestConsole
             {
                 Program prg = new Program();
                 prg.JsonSeralizeISpec();
-                prg.JsonSerializeTest();
+                //prg.JsonSerializeTest();
             }
             catch(Exception ex)
             {

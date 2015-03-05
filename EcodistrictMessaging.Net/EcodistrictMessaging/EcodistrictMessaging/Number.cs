@@ -18,17 +18,15 @@ namespace Ecodistrict.Messaging
         [DataMember]
         object value { get; set; }
 
-        public Number(string label, string id,
+        public Number(string label,
             object min = null, object max = null, object value = null)
         {
-            this.type = "number";
-            this.label = label;
-            this.id = id;
+            inputs.Add("type", "number");
+            inputs.Add("label", label);
 
-            this.min = min;
-            this.max = max;
-            this.value = value;
+            inputs.Add("min", min);
+            inputs.Add("max", max);
+            inputs.Add("value", value);
         }
-
     }
 }

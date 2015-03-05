@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
+using System.Collections.Specialized;
+
 namespace Ecodistrict.Messaging
 {
-    [DataContract]
     public class Input
     {
-        [DataMember]
-        protected string type { get; set; }
-        [DataMember]
-        protected string label { get; set; }
-        [DataMember]
-        protected string id { get; set; }
+        protected dynamic inputs = new OrderedDictionary();
+
+        public virtual string ToJson()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -14,11 +14,10 @@ namespace Ecodistrict.Messaging
         //TODO Checkbox data
         //[DataContract]
 
-        public Checkbox(string label, string id)
+        public Checkbox(string label)
         {
-            this.type = "checkbox";
-            this.label = label;
-            this.id = id;
+            inputs.Add("type", "checkbox");
+            inputs.Add("label", label);
         }
     }
 }

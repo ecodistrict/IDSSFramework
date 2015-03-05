@@ -14,11 +14,10 @@ namespace Ecodistrict.Messaging
         //TODO Select data
         //[DataContract]
 
-        public Select(string label, string id)
+        public Select(string label)
         {
-            this.type = "select";
-            this.label = label;
-            this.id = id;
+            inputs.Add("type", "select");
+            inputs.Add("label", label);
         }
     }
 }

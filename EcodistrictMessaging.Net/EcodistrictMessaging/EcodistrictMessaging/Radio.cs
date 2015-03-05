@@ -14,11 +14,10 @@ namespace Ecodistrict.Messaging
         //TODO Radio data
         //[DataContract]
 
-        public Radio(string label, string id)
+        public Radio(string label)
         {
-            this.type = "radio";
-            this.label = label;
-            this.id = id;
+            inputs.Add("type", "radio");
+            inputs.Add("label", label);
         }
     }
 }

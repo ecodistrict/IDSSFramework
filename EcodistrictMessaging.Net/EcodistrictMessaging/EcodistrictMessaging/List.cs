@@ -11,16 +11,15 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class List : NonAtomic
     {
-        public List(string label, string id)
+        public List(string label)
         {
-            this.type = "list";
-            this.label = label;
-            this.id = id;
+            inputs.Add("\"type\"", "list");
+            inputs.Add("\"label\"", label);
         }
 
-        public override void Add(Input item)
-        {
-            inputs.Add(item);
-        }
+        //public override void Add(string key, Input item)
+        //{
+        //    inputs.Add(key, item);
+        //}
     }
 }

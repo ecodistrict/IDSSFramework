@@ -14,14 +14,13 @@ namespace Ecodistrict.Messaging
     {
         public InputGroup(string label, string id)
         {
-            this.type = "inputGroup";
-            this.label = label;
-            this.id = id;
+            inputs.Add("\"type\"", "inputGroup");
+            inputs.Add("\"label\"", label);
         }
 
-        public override void Add(Input item)
-        {
-            inputs.Add(item);
-        }
+        //public override void Add(string key, Input item)
+        //{
+        //    inputs.Add(key, item);
+        //}
     }
 }

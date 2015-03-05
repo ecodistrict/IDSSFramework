@@ -12,5 +12,9 @@ namespace Ecodistrict.Messaging
     [KnownType(typeof(Number))]
     public class Atomic : Input
     {
+        public override string ToJson()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(inputs);
+        }
     }
 }
