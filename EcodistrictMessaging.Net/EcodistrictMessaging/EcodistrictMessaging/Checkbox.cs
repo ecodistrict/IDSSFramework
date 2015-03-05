@@ -8,17 +8,15 @@ using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
 {
+    [DataContract]
     class Checkbox : Atomic
     {
-        //TODO Checkbox data
-
         public Checkbox(string label, object order = null, object value = null)
         {
-            inputs.Add("type", "checkbox");
-            inputs.Add("label", label);
-
-            inputs.Add("order", order);
-            inputs.Add("value", value);
+            this.type = "checkbox";
+            this.label = label;
+            this.order = order;
+            this.value = value;
         }
     }
 }

@@ -2,19 +2,22 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 using Ecodistrict.Messaging;
 
 namespace EcodistrictMessagingTests
 {
+
     [TestClass]
     public class InputJsonTests
     {
         DataContractJsonSerializerSettings _settings = new DataContractJsonSerializerSettings();
         MemoryStream _mStream = new MemoryStream();
-        DataContractJsonSerializer _serJson;
 
         public InputJsonTests()
         {            
@@ -29,13 +32,12 @@ namespace EcodistrictMessagingTests
             {
                 // arrange
                 InputSpecification inputSpec = new InputSpecification();
-                inputSpec.Add(key: "number", item: new Number(label: "A Label"));
+                inputSpec.Add("number", new Number(label: "A Label"));
                 string expected = "{" +
-                                    "\"number\":{\"type\":\"number\",\"label\":\"A Label\",\"order\":null,\"value\":null,\"unit\":null,\"min\":null,\"max\":null}" +
+                                    "\"number\":{\"label\":\"A Label\",\"type\":\"number\"}" +
                                   "}";
-
                 // act
-                string actual = inputSpec.ToJson();
+                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nNumber not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -53,13 +55,13 @@ namespace EcodistrictMessagingTests
             {
                 // arrange
                 InputSpecification inputSpec = new InputSpecification();
-                inputSpec.Add(key: "text", item: new Text(label: "A Label"));
+                inputSpec.Add("text", new Text(label: "A Label"));
                 string expected = "{" +
-                                        "\"text\":{\"type\":\"text\",\"label\":\"A Label\",\"order\":null,\"value\":null}" +
+                                        "\"text\":{\"label\":\"A Label\",\"type\":\"text\"}" +
                                    "}";
 
                 // act
-                string actual = inputSpec.ToJson();
+                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nText not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -81,19 +83,20 @@ namespace EcodistrictMessagingTests
                 opt.Add(new Option(value: "alp-cheese", label: "Alpku00e4se"));
                 opt.Add(new Option(value: "edam-cheese", label: "Edammer"));
                 opt.Add(new Option(value: "brie-cheese", label: "Brie"));
-                inputSpec.Add(key: "cheese-type", item: new Select(label: "Cheese type", options: opt, value: "brie-cheese"));  //TODO value = brie-cheese makes room for error in dashboard, shuld be connected to the options.
+                inputSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: "brie-cheese"));  //TODO value = brie-cheese makes room for error in dashboard, shuld be connected to the options.
                 string expected = "{" +
-                                        "\"cheese-type\":{\"type\":\"select\",\"label\":\"Cheese type\",\"order\":null,\"value\":\"brie-cheese\"" + "," +
+                                        "\"cheese-type\":{" +
                                                          "\"options\":[" +
                                                            "{\"value\":\"alp-cheese\",\"label\":\"Alpku00e4se\"}" + "," +
                                                            "{\"value\":\"edam-cheese\",\"label\":\"Edammer\"}" + "," +
                                                            "{\"value\":\"brie-cheese\",\"label\":\"Brie\"}" +
-                                                                     "]" +
+                                                                     "]" + "," +
+                                                         "\"value\":\"brie-cheese\",\"label\":\"Cheese type\",\"type\":\"select\"" +
                                                         "}" +
                                    "}";
 
                 // act
-                string actual = inputSpec.ToJson();
+                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nSelect not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -114,11 +117,11 @@ namespace EcodistrictMessagingTests
                 inputSpec.Add("name", new Text(label: "Name"));
                 inputSpec.Add("shoe-size", new Number(label: "Shoe size"));
                 string expected = "{" +
-                                     "\"name\":{\"type\":\"text\",\"label\":\"Name\",\"order\":null,\"value\":null}" + "," +
-                                     "\"shoe-size\":{\"type\":\"number\",\"label\":\"Shoe size\",\"order\":null,\"value\":null,\"unit\":null,\"min\":null,\"max\":null}" +
+                                     "\"name\":{\"label\":\"Name\",\"type\":\"text\"}" + "," +
+                                     "\"shoe-size\":{\"label\":\"Shoe size\",\"type\":\"number\"}" +
                                   "}";                                                 
                 // act
-                string actual = inputSpec.ToJson();
+                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nInputSpecification not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -143,18 +146,18 @@ namespace EcodistrictMessagingTests
                 aList.Add("age", new Number(label: "Child age"));
                 inputSpec.Add("child", aList);
                 string expected = "{" +
-                                    "\"name\":{\"type\":\"text\",\"label\":\"Parent name\",\"order\":null,\"value\":null}" + "," +
-                                    "\"age\":{\"type\":\"number\",\"label\":\"Parent age\",\"order\":null,\"value\":null,\"unit\":null,\"min\":null,\"max\":null}" + "," +
-                                    "\"child\":{\"type\":\"list\",\"label\":\"Children\"," +
+                                    "\"name\":{\"label\":\"Parent name\",\"type\":\"text\"}" + "," +
+                                    "\"age\":{\"label\":\"Parent age\",\"type\":\"number\"}" + "," +
+                                    "\"child\":{\"label\":\"Children\",\"type\":\"list\"," +
                                                 "\"inputs\":{" +
-                                                    "\"name\":{\"type\":\"text\",\"label\":\"Child name\",\"order\":null,\"value\":null}" + "," +
-                                                     "\"age\":{\"type\":\"number\",\"label\":\"Child age\",\"order\":null,\"value\":null,\"unit\":null,\"min\":null,\"max\":null}" +
+                                                    "\"name\":{\"label\":\"Child name\",\"type\":\"text\"}" + "," +
+                                                     "\"age\":{\"label\":\"Child age\",\"type\":\"number\"}" +
                                                            "}" +
                                           "}" +
                                   "}";
 
                 // act
-                string actual = inputSpec.ToJson();
+                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nInputSpecification not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);

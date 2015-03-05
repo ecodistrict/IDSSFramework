@@ -13,14 +13,8 @@ namespace Ecodistrict.Messaging
     {
         public List(string label)
         {
-            inputs.Add("\"type\"", "list");
-            inputs.Add("\"label\"", label);
+            this.type = "list";
+            this.label = label;
         }
-
-
-        //public override void Add(string key, Input item)
-        //{
-        //    inputs.Add(key, item);
-        //}
     }
 }

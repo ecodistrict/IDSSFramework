@@ -9,12 +9,14 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    [KnownType(typeof(Number))]
     public class Atomic : Input
     {
-        public override string ToJson()
+        [DataMember]
+        protected object value;
+
+        public bool ShouldSerializevalue()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(inputs);
+            return value != null;
         }
     }
 }

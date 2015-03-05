@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-using System.Collections.Specialized;
-
 namespace Ecodistrict.Messaging
 {
+    [DataContract]
     public class Input
     {
-        protected dynamic inputs = new OrderedDictionary();
+        [DataMember]
+        protected string label;
+        [DataMember]
+        protected string type;
+        [DataMember]
+        protected object order;
 
-        public virtual string ToJson()
+        public bool ShouldSerializeorder()
         {
-            throw new NotImplementedException();
+            return order != null;
         }
     }
 }

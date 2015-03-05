@@ -27,14 +27,5 @@ namespace Ecodistrict.Messaging
             this.value = value;
             this.label = label;
         }
-
-        //// Implement this method to serialize data. The method is called  
-        //// on serialization. 
-        //public void GetObjectData(SerializationInfo info, StreamingContext context)
-        //{
-        //    // Use the AddValue method to specify serialized values.
-        //    info.AddValue("value", value, typeof(string));
-
-        //}
     }
 }
