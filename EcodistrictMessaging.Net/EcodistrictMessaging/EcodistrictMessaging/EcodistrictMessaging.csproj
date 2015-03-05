@@ -58,6 +58,7 @@
     <Compile Include="MessageGlobals.cs" />
     <Compile Include="NonAtomic.cs" />
     <Compile Include="Number.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Radio.cs" />
     <Compile Include="Select.cs" />

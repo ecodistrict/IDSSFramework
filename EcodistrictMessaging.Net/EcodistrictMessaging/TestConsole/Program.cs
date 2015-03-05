@@ -80,15 +80,24 @@ namespace TestConsole
             Console.WriteLine("");
 
 
-            InputSpecification inputSpec2 = new InputSpecification();
-            inputSpec2.Add("name", new Text("Parent name"));
-            inputSpec2.Add("age", new Number("Parent age"));
+            inputSpec = new InputSpecification();
+            inputSpec.Add("name", new Text("Parent name"));
+            inputSpec.Add("age", new Number("Parent age"));
             List aList = new List("Children");
             aList.Add("name", new Text("Child name"));
             aList.Add("age", new Number("Child age"));
-            inputSpec2.Add("child", aList);
-            Console.WriteLine(inputSpec2.ToJson());
+            inputSpec.Add("child", aList);
+            Console.WriteLine(inputSpec.ToJson());
             Console.WriteLine("");
+
+            inputSpec = new InputSpecification();
+            Options opt = new Options();
+            opt.Add(new Option(value: "alp-cheese", label: "Alpk\\u00e4se"));
+            opt.Add(new Option(value: "edam-cheese", label: "Edammer"));
+            opt.Add(new Option(value: "brie-cheese", label: "Brie"));
+            inputSpec.Add(key: "cheese-type", item: new Select(label: "Cheese type", options: opt, value: "brie-cheese"));
+            Console.WriteLine(inputSpec.ToJson());
+            Console.WriteLine("");    
         }
 
         static void Main(string[] args)

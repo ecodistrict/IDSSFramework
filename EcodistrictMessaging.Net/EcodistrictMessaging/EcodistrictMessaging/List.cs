@@ -17,6 +17,7 @@ namespace Ecodistrict.Messaging
             inputs.Add("\"label\"", label);
         }
 
+
         //public override void Add(string key, Input item)
         //{
         //    inputs.Add(key, item);
