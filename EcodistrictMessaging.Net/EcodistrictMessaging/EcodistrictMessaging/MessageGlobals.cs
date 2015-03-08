@@ -9,21 +9,33 @@ namespace Ecodistrict.Messaging
     {
         public enum EMethod
         {
-            GetModules,
+            GetModels,
             SelectModel,
-            StartModel
+            StartModel,
+            ModelResult,
+            NoMethod
         }
 
         public enum EType
         {
             Request,
             Response,
-            Result
+            Result,
+            NoType
         }
 
-        public static iMessage ParseJsonMessage(string message)
+        public static object ParseJsonMessage(string message)
         {
-           return new GetModulesMessageRequest();
+            IMessage messageObj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
+            Type type = messageObj.GetDerivedType();
+
+            object obj;
+            if (type != null)
+                obj = Newtonsoft.Json.JsonConvert.DeserializeObject(message, type);
+            else
+                obj = null;
+
+            return obj;
         }
     }
 }

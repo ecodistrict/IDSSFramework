@@ -13,7 +13,8 @@ namespace TestConsole
 {  
     class Program
     {
-        static void Main(string[] args)
+
+        static void InputSpecificationTest()
         {
             try
             {
@@ -28,12 +29,37 @@ namespace TestConsole
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
                 settings.Formatting = Newtonsoft.Json.Formatting.Indented;
                 Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec, typeof(InputSpecification), settings));
-                Console.WriteLine(""); 
+                Console.WriteLine("");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }            
+            } 
+        }
+
+        static void IMessageTest()
+        {
+            try
+            {
+                string smessage = "{\"method\":\"getModels\",\"type\":\"request\"}";
+                //IMessage message = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(smessage, typeof(IMessage));
+
+                object message = MessageGlobals.ParseJsonMessage(smessage);
+
+                Type type = message.GetType();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            //InputSpecificationTest();
+            IMessageTest();
+                       
         }
     }
 }
