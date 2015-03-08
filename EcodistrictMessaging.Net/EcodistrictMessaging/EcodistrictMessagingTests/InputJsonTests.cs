@@ -1,10 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -23,8 +23,7 @@ namespace EcodistrictMessagingTests
         {            
             _settings.EmitTypeInformation = EmitTypeInformation.Never;
         }
-
-
+        
         [TestMethod]
         public void AtomicNumber()
         {
@@ -32,12 +31,14 @@ namespace EcodistrictMessagingTests
             {
                 // arrange
                 InputSpecification inputSpec = new InputSpecification();
-                inputSpec.Add("number", new Number(label: "A Label"));
-                string expected = "{" +
-                                    "\"number\":{\"label\":\"A Label\",\"type\":\"number\"}" +
-                                  "}";
+                inputSpec.Add("number", new Number(label: "A label"));
+                var message = File.ReadAllText(@"../../TestData/Json/InputSpecification/AtomicNumber.txt");
+                object obj = JsonConvert.DeserializeObject(message);                
+                string expected = JsonConvert.SerializeObject(obj);
+
                 // act
-                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
+                string actual = Serialize.InputSpecification(inputSpec);
+                //string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nNumber not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -61,7 +62,7 @@ namespace EcodistrictMessagingTests
                                    "}";
 
                 // act
-                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
+                string actual = Serialize.InputSpecification(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nText not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -96,7 +97,7 @@ namespace EcodistrictMessagingTests
                                    "}";
 
                 // act
-                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
+                string actual = Serialize.InputSpecification(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nSelect not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -121,7 +122,7 @@ namespace EcodistrictMessagingTests
                                      "\"shoe-size\":{\"label\":\"Shoe size\",\"type\":\"number\"}" +
                                   "}";                                                 
                 // act
-                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
+                string actual = Serialize.InputSpecification(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nInputSpecification not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -157,7 +158,7 @@ namespace EcodistrictMessagingTests
                                   "}";
 
                 // act
-                string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
+                string actual = Serialize.InputSpecification(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nInputSpecification not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);

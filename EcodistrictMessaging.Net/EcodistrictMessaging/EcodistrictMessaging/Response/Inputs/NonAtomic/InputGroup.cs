@@ -9,10 +9,12 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class Response : IMessage
+    class InputGroup : NonAtomic    
     {
-        [DataMember]
-        protected string moduleId;
-
+        public InputGroup(string label, object order = null)
+        {
+            this.type = "inputGroup";
+            this.label = label;
+        }
     }
 }

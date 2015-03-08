@@ -9,10 +9,14 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class Response : IMessage
+    public class Atomic : Input
     {
         [DataMember]
-        protected string moduleId;
+        protected object value;
 
+        public bool ShouldSerializevalue()
+        {
+            return value != null;
+        }
     }
 }

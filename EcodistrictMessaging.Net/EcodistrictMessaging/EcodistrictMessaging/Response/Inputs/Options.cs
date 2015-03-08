@@ -3,19 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class SelectModelRequest : Request
+    public class Options : List<Option>
+    {
+    }
+
+    [DataContract]
+    public class Option
     {
         [DataMember]
-        public string moduleId { get; private set; }
+        string value;
         [DataMember]
-        public string variantId { get; private set; }
-        [DataMember]
-        public string kpiId { get; private set; }
+        string label;
+
+        public Option(string value, string label)
+        {
+            this.value = value;
+            this.label = label;
+        }
     }
 }

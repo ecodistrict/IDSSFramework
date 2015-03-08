@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    class SelectModelResponse : Response
+    public class SelectModelResponse : Response
     {
         [DataMember]
         private string kpiId;

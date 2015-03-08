@@ -9,10 +9,15 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class Response : IMessage
+    public class NonAtomic : Input
     {
         [DataMember]
-        protected string moduleId;
+        Dictionary<string, Input> inputs = new Dictionary<string, Input>();
 
+        public void Add(string key, Input item)
+        {
+            inputs.Add(key, item);
+        }
+        
     }
 }

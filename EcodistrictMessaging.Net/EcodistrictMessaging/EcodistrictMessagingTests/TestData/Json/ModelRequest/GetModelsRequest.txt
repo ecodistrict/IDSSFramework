@@ -1,0 +1,4 @@
+﻿{
+  "method": "getModels",
+  "type": "request"
+}

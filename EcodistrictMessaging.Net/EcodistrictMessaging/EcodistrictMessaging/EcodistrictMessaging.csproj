@@ -47,31 +47,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Atomic.cs" />
-    <Compile Include="Checkbox.cs" />
+    <Compile Include="Deserialize.cs" />
+    <Compile Include="Response\Inputs\Atomic\Atomic.cs" />
+    <Compile Include="Response\Inputs\Atomic\Checkbox.cs" />
     <Compile Include="Request\GetModelsRequest.cs" />
     <Compile Include="Response\GetModelsResponse.cs" />
     <Compile Include="Request\GetModulesMessageRequest.cs" />
     <Compile Include="IMessage.cs" />
-    <Compile Include="Input.cs" />
-    <Compile Include="InputGroup.cs" />
-    <Compile Include="InputSpecification.cs" />
-    <Compile Include="List.cs" />
-    <Compile Include="MessageGlobals.cs" />
+    <Compile Include="Response\Inputs\Input.cs" />
+    <Compile Include="Response\Inputs\NonAtomic\InputGroup.cs" />
+    <Compile Include="Response\Inputs\InputSpecification.cs" />
+    <Compile Include="Response\Inputs\NonAtomic\List.cs" />
+    <Compile Include="Result\Outputs\Kpi.cs" />
+    <Compile Include="Result\Outputs\Output.cs" />
+    <Compile Include="Serialize.cs" />
+    <Compile Include="Types.cs" />
     <Compile Include="Result\ModelResult.cs" />
-    <Compile Include="NonAtomic.cs" />
-    <Compile Include="Number.cs" />
-    <Compile Include="Options.cs" />
+    <Compile Include="Response\Inputs\NonAtomic\NonAtomic.cs" />
+    <Compile Include="Response\Inputs\Atomic\Number.cs" />
+    <Compile Include="Response\Inputs\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\Request.cs" />
     <Compile Include="Response\Response.cs" />
     <Compile Include="Result\Result.cs" />
-    <Compile Include="Select.cs" />
+    <Compile Include="Response\Inputs\Atomic\Select.cs" />
     <Compile Include="Request\SelectModelRequest.cs" />
     <Compile Include="Response\SelectModelResponse.cs" />
     <Compile Include="Request\StartModelRequest.cs" />
     <Compile Include="Response\StartModelResponse.cs" />
-    <Compile Include="Text.cs" />
+    <Compile Include="Response\Inputs\Atomic\Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

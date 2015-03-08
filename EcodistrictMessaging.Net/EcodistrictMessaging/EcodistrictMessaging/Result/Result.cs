@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    class Result : IMessage
+    public class Result : IMessage
     {
 
     }

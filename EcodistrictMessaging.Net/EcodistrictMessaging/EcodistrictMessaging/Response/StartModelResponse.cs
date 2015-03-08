@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    class StartModelResponse : Response
+    public class StartModelResponse : Response
     {
         [DataMember]
         private string variantId;

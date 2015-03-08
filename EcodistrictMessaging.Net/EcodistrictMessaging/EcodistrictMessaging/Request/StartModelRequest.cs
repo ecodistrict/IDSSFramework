@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    class StartModelRequest : Request
+    public class StartModelRequest : Request
     {
         [DataMember]
         public string moduleId { get; private set; }

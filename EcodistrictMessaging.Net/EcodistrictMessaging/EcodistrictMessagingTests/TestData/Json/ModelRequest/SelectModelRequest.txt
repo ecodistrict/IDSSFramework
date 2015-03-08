@@ -1,0 +1,7 @@
+﻿{
+  "type": "request",
+  "method": "selectModel",
+  "moduleId": "foo-bar_cheese-model-v1-0",
+  "variantId": "503f191e8fcc19729de860ea",
+  "kpiId": "cheese-taste-kpi"
+}

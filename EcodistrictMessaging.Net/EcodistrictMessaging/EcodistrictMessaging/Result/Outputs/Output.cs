@@ -9,10 +9,7 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class Response : IMessage
+    public class Output
     {
-        [DataMember]
-        protected string moduleId;
-
     }
 }

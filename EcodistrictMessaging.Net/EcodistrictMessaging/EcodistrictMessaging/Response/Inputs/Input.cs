@@ -9,10 +9,18 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class Response : IMessage
+    public class Input
     {
         [DataMember]
-        protected string moduleId;
+        protected string label;
+        [DataMember]
+        protected string type;
+        [DataMember]
+        protected object order;
 
+        public bool ShouldSerializeorder()
+        {
+            return order != null;
+        }
     }
 }

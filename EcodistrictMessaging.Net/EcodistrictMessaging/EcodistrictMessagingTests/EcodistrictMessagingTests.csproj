@@ -61,6 +61,9 @@
   <ItemGroup>
     <Compile Include="InputJsonTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseTests.cs" />
+    <Compile Include="RequestTests.cs" />
+    <Content Include="TestData\Json\ModelRequest\StartModelRequest2.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EcodistrictMessaging\EcodistrictMessaging.csproj">
@@ -70,6 +73,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TestData\Json\InputSpecification\AtomicNumber.txt" />
+    <Content Include="TestData\Json\ModelRequest\GetModelsRequest.txt" />
+    <Content Include="TestData\Json\ModelRequest\SelectModelRequest.txt" />
+    <Content Include="TestData\Json\ModelRequest\StartModelRequest.txt" />
+    <Content Include="TestData\Json\ModelResponse\GetModelsResponse.txt" />
+    <Content Include="TestData\Json\ModelResponse\StartModelResponse.txt" />
+    <Content Include="TestData\Json\ModelResponse\SelectModelResponse.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

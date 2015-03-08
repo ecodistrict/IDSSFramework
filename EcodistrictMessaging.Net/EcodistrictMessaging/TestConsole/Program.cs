@@ -44,9 +44,40 @@ namespace TestConsole
                 string smessage = "{\"method\":\"getModels\",\"type\":\"request\"}";
                 //IMessage message = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(smessage, typeof(IMessage));
 
-                object message = MessageGlobals.ParseJsonMessage(smessage);
+                //object message = Types.ParseJsonMessage(smessage);
+
+                IMessage message = Deserialize.JsonMessage(smessage);
 
                 Type type = message.GetType();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static public void Test()
+        {
+            try
+            {
+                //Input Spec
+                InputSpecification iSpec = new InputSpecification();
+                iSpec.Add("age", new Number(label: "Age", min: 0, unit: "years"));
+                List aList = new List("Cheese Types");
+                aList.Add("alp", new Text("Alp cheese"));
+                aList.Add("brie", new Text("Brie cheese"));
+                iSpec.Add("cheese-types", aList);
+                SelectModelResponse mResponse = new SelectModelResponse(method: "selectModel", type: "response", moduleId: "foo-bar_cheese-model-v1-0",
+                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
+                string json = Serialize.Message(mResponse);
+                
+                //Request from dashboard
+                string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModelRequest/StartModelRequest2.txt");
+                object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonmessage);
+                jsonmessage = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+                Type expected = typeof(StartModelRequest);
+                IMessage message = Deserialize.JsonMessage(jsonmessage);
 
             }
             catch (Exception ex)
@@ -58,7 +89,8 @@ namespace TestConsole
         static void Main(string[] args)
         {
             //InputSpecificationTest();
-            IMessageTest();
+            //IMessageTest();
+            Test();
                        
         }
     }

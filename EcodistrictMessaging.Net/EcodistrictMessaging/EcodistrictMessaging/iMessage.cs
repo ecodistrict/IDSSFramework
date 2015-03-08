@@ -18,40 +18,40 @@ namespace Ecodistrict.Messaging
         [DataMember]
         public string type { get; protected set; }
 
-        MessageGlobals.EMethod eMethod
+        Types.MMethod eMethod
         {
             get
             {
                 switch (method)
                 {
                     case "getModels":
-                        return MessageGlobals.EMethod.GetModels;
+                        return Types.MMethod.GetModels;
                     case "selectModel":
-                        return MessageGlobals.EMethod.SelectModel;
+                        return Types.MMethod.SelectModel;
                     case "startModel":
-                        return MessageGlobals.EMethod.StartModel;
+                        return Types.MMethod.StartModel;
                     case "modelResult":
-                        return MessageGlobals.EMethod.ModelResult;
+                        return Types.MMethod.ModelResult;
                     default:
-                        return MessageGlobals.EMethod.NoMethod;
+                        return Types.MMethod.NoMethod;
                 }
             }
         }
 
-        MessageGlobals.EType eType
+        Types.MType eType
         {
             get
             {
                 switch (type)
                 {
                     case "request":
-                        return MessageGlobals.EType.Request;
+                        return Types.MType.Request;
                     case "response":
-                        return MessageGlobals.EType.Response;
+                        return Types.MType.Response;
                     case "result":
-                        return MessageGlobals.EType.Result;
+                        return Types.MType.Result;
                     default:
-                        return MessageGlobals.EType.NoType;
+                        return Types.MType.NoType;
                 }
             }
         }
@@ -61,32 +61,32 @@ namespace Ecodistrict.Messaging
 
             switch(eType)
             {
-                case MessageGlobals.EType.Request:
+                case Types.MType.Request:
                     switch(eMethod)
                     {
-                        case MessageGlobals.EMethod.GetModels:
+                        case Types.MMethod.GetModels:
                             return typeof(GetModelsRequest);
-                        case MessageGlobals.EMethod.SelectModel:
+                        case Types.MMethod.SelectModel:
                             return typeof(SelectModelRequest);
-                        case MessageGlobals.EMethod.StartModel:
+                        case Types.MMethod.StartModel:
                             return typeof(StartModelRequest);
                     }
                     break;
-                case MessageGlobals.EType.Response:
+                case Types.MType.Response:
                     switch (eMethod)
                     {
-                        case MessageGlobals.EMethod.GetModels:
+                        case Types.MMethod.GetModels:
                             return typeof(GetModelsResponse);
-                        case MessageGlobals.EMethod.SelectModel:
+                        case Types.MMethod.SelectModel:
                             return typeof(SelectModelResponse);
-                        case MessageGlobals.EMethod.StartModel:
+                        case Types.MMethod.StartModel:
                             return typeof(StartModelResponse);
                     }
                     break;
-                case MessageGlobals.EType.Result:
+                case Types.MType.Result:
                     switch (eMethod)
                     {
-                        case MessageGlobals.EMethod.ModelResult:
+                        case Types.MMethod.ModelResult:
                             return typeof(ModelResult);
                     }
                     break;

@@ -1,0 +1,14 @@
+﻿{
+  "type": "request",
+  "method": "startModel",
+  "moduleId": "foo-bar_cheese-model-v1-0",
+  "variantId": "503f191e8fcc19729de860ea",
+  "kpiId": "cheese-taste-kpi",
+  "inputData": {
+    "cheese-types": [
+    "alp",
+    "brie"
+  ],
+    "age": 2.718
+  }
+}

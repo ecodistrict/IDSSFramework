@@ -9,10 +9,14 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class Response : IMessage
+    class Checkbox : Atomic
     {
-        [DataMember]
-        protected string moduleId;
-
+        public Checkbox(string label, object order = null, object value = null)
+        {
+            this.type = "checkbox";
+            this.label = label;
+            this.order = order;
+            this.value = value;
+        }
     }
 }
