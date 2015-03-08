@@ -52,7 +52,6 @@
     <Compile Include="Response\Inputs\Atomic\Checkbox.cs" />
     <Compile Include="Request\GetModelsRequest.cs" />
     <Compile Include="Response\GetModelsResponse.cs" />
-    <Compile Include="Request\GetModulesMessageRequest.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="Response\Inputs\Input.cs" />
     <Compile Include="Response\Inputs\NonAtomic\InputGroup.cs" />
