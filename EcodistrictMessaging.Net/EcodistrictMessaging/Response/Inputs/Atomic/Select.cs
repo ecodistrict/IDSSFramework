@@ -14,7 +14,7 @@ namespace Ecodistrict.Messaging
         [DataMember]
         Options options;
 
-        public Select(string label, Options options, object order = null, object value = null)
+        public Select(string label, Options options, int? order = null, object value = null)
         {
             this.type = "select";
             this.label = label;

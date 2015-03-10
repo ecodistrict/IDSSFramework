@@ -11,7 +11,7 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Text : Atomic
     {
-        public Text(string label, object order = null, object value = null)
+        public Text(string label, int? order = null, object value = null)
         {
             this.type = "text";
             this.label = label;
@@ -20,3 +20,4 @@ namespace Ecodistrict.Messaging
         }
     }
 }
+

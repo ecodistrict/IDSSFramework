@@ -6,12 +6,29 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
+using System.Runtime.InteropServices;
+
 namespace Ecodistrict.Messaging
 {
+    /// <summary>
+    /// Input class derived from the class <see cref="Atomic"/>. 
+    /// </summary>
+    /// <remarks>
+    /// May be used to define the input specification <see cref="InputSpecification"/>.
+    /// 
+    /// In that case it will be visualized as a checkbox and will indicata whether the 
+    /// property defined by this object should be used or not.
+    /// </remarks>
     [DataContract]
     class Checkbox : Atomic
     {
-        public Checkbox(string label, object order = null, object value = null)
+        /// <summary>
+        /// Checkbox constructor.
+        /// </summary>
+        /// <param name="label">Mandatory label of the component, e.g. "Use insulation".</param>
+        /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).</param>
+        /// <param name="value">Initial value of the checkbox.</param>
+        public Checkbox(string label, int? order = null, bool value = false)
         {
             this.type = "checkbox";
             this.label = label;

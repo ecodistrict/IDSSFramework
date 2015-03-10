@@ -8,6 +8,11 @@ using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
 {
+    /// <summary>
+    /// Derived from the class <see cref="Response"/> and is a .Net container that can be seralized 
+    /// to a json-message that can be sent to the dashboard as a response to the "selectModel" request
+    /// <see cref=" SelectModelRequest"/>.
+    /// </summary>
     [DataContract]
     public class SelectModelResponse : Response
     {
