@@ -10,8 +10,17 @@ using System.Threading;
 
 namespace Ecodistrict.Messaging
 {
+    /// <summary> 
+    /// Base class to all messagingtypes that can be sent to/from the dashboard.
+    /// </summary> 
+    /// <remarks> 
+    /// Messages that are sent from the dashboard can be deseralized from a json string
+    /// to this type of object by the use of <see cref="Ecodistrict.Messaging.Deseralize.JsonMessage"/>.
+    /// 
+    /// Messages that will be sent to the dashboard must first be seralized to a json string
+    /// this can be done by <see cref="Ecodistrict.Messaging.Seralize.Message"/>.
+    /// </remarks> 
     [DataContract]
-    /// Base class
     public class IMessage 
     {
         [DataMember]
@@ -19,7 +28,11 @@ namespace Ecodistrict.Messaging
         [DataMember]
         public string type { get; protected set; }
 
-        Types.MMethod eMethod
+        /// <summary>
+        /// Enum describing the underlying message method; based on the string property method. 
+        /// If no valid method can be found this property is set to enum "NoMethod".
+        /// </summary>
+        private Types.MMethod eMethod
         {
             get
             {
@@ -39,7 +52,11 @@ namespace Ecodistrict.Messaging
             }
         }
 
-        Types.MType eType
+        /// <summary>
+        /// Enum describing the underlying message type; based on the string property type. 
+        /// If no valid type can be found this property is set to enum "NoType".
+        /// </summary>
+        private Types.MType eType
         {
             get
             {
@@ -57,6 +74,10 @@ namespace Ecodistrict.Messaging
             }
         }
 
+        /// <summary>
+        /// Gets the underlying derived class based on method and type property.
+        /// </summary>
+        /// <returns>Derived type</returns>
         public Type GetDerivedType()
         {
 

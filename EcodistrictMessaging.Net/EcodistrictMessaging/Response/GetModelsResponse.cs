@@ -25,7 +25,7 @@ namespace Ecodistrict.Messaging
         /// </summary>
         /// <param name="name">Name of the model, will be visualized in the dashboard.</param>
         /// <param name="moduleId">Unique identifier of the model.</param>
-        /// <param name="description"></param>
+        /// <param name="description">A description of the model that will be visualized in the dashboard.</param>
         /// <param name="kpiList">A list of kpis that the model can calculate.</param>
         public GetModelsResponse(string name, string moduleId, 
             string description, List<string> kpiList)

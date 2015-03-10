@@ -8,11 +8,12 @@ using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
 {
+    /// <summary> 
+    /// Base class to all messagingtypes that can be sent from the dashboard.
+    /// </summary> 
     [DataContract]
     public class Request : IMessage
     {
-
-
 
     }
 }
