@@ -11,7 +11,8 @@ using System.Threading;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class IMessage // : IConvertible
+    /// Base class
+    public class IMessage 
     {
         [DataMember]
         public string method { get; protected set; }
@@ -95,104 +96,6 @@ namespace Ecodistrict.Messaging
 
             return null;
         }
-
-        //MessageGlobals.EMethod Method { get; set; }
-        //MessageGlobals.EType Type { get; set; }
-
-        //string ToJsonMessage();
-
-        //#region IConvertible Members
-
-        //[Pure]
-        //TypeCode IConvertible.GetTypeCode()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //bool IConvertible.ToBoolean(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //char IConvertible.ToChar(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //sbyte IConvertible.ToSByte(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //byte IConvertible.ToByte(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //short IConvertible.ToInt16(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //ushort IConvertible.ToUInt16(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IConvertible.ToInt32(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //uint IConvertible.ToUInt32(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //long IConvertible.ToInt64(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //ulong IConvertible.ToUInt64(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //float IConvertible.ToSingle(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //double IConvertible.ToDouble(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //Decimal IConvertible.ToDecimal(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //DateTime IConvertible.ToDateTime(IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //[Pure]
-        //String IConvertible.ToString(IFormatProvider provider)
-        //{
-        //    Contract.Ensures(Contract.Result<string>() != null);
-        //    throw new NotImplementedException();
-        //}
-
-        //Object IConvertible.ToType(Type conversionType, IFormatProvider provider)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //#endregion
-
 
     }
 }

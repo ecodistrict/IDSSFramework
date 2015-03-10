@@ -18,11 +18,20 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected List<string> kpiList = new List<string>();
 
-        public GetModelsResponse(string method, string type, string name, string moduleId, 
+        /// <summary>
+        /// Defines the response to the "getModels" broadcast request sent by the dashboard.
+        /// This class contains the model information needed, and can be seralized to a 
+        /// json-string that can be interpeted by the dashboard.
+        /// </summary>
+        /// <param name="name">Name of the model, will be visualized in the dashboard.</param>
+        /// <param name="moduleId">Unique identifier of the model.</param>
+        /// <param name="description"></param>
+        /// <param name="kpiList">A list of kpis that the model can calculate.</param>
+        public GetModelsResponse(string name, string moduleId, 
             string description, List<string> kpiList)
         {
-            this.method = method;
-            this.type = type;
+            this.method = "getModels";
+            this.type = "response";
             this.name = name;
             this.description = description;
             this.moduleId = moduleId;

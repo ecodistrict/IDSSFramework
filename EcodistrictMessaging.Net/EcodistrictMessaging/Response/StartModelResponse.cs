@@ -18,10 +18,17 @@ namespace Ecodistrict.Messaging
         [DataMember]
         private string status;
 
-        public StartModelResponse(string method, string type, string moduleId, string variantId, string kpiId, string status)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="moduleId">Unique identifer of the module using the messaging protokoll.</param>
+        /// <param name="variantId">Used by dashboard for tracking.</param>
+        /// <param name="kpiId">The kpi that the dashboard previously selected.</param>
+        /// <param name="status"></param>
+        public StartModelResponse(string moduleId, string variantId, string kpiId, string status)
         {
-            this.method = method;
-            this.type = type;
+            this.method = "startModel";
+            this.type = "response";
             this.moduleId = moduleId;
             this.variantId = variantId;
             this.kpiId = kpiId;

@@ -20,8 +20,7 @@ namespace EcodistrictMessagingTests
             {                
                 // arrange
                 List<string> kpiList = new List<string>{"cheese-taste-kpi","cheese-price-kpi"};
-                GetModelsResponse mResponse = new GetModelsResponse(method: "getModels", type: "response",
-                    name: "Cheese Model", moduleId: "foo-bar_cheese-model-v1-0", 
+                GetModelsResponse mResponse = new GetModelsResponse(name: "Cheese Model", moduleId: "foo-bar_cheese-model-v1-0", 
                     description: "A model to assess cheese quality.", kpiList: kpiList);
                 var message = File.ReadAllText(@"../../TestData/Json/ModelResponse/GetModelsResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);
@@ -55,7 +54,7 @@ namespace EcodistrictMessagingTests
                 opt.Add(new Option(value: "brie-cheese", label: "Brie"));
                 iSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: "brie-cheese"));  //TODO value = brie-cheese makes room for error in dashboard, shuld be connected to the options.
                 
-                SelectModelResponse mResponse = new SelectModelResponse(method: "selectModel", type: "response", moduleId: "foo-bar_cheese-model-v1-0",
+                SelectModelResponse mResponse = new SelectModelResponse(moduleId: "foo-bar_cheese-model-v1-0",
                     variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
                 var message = File.ReadAllText(@"../../TestData/Json/ModelResponse/SelectModelResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);
@@ -79,7 +78,7 @@ namespace EcodistrictMessagingTests
             try
             {
                 // arrange
-                StartModelResponse smResponse = new StartModelResponse(method: "startModel", type: "response", moduleId: "foo-bar_cheese-model-v1-0",
+                StartModelResponse smResponse = new StartModelResponse(moduleId: "foo-bar_cheese-model-v1-0",
                     variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", status: "processing");
                 var message = File.ReadAllText(@"../../TestData/Json/ModelResponse/StartModelResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);

@@ -13,6 +13,5 @@ namespace Ecodistrict.Messaging
     {
         [DataMember]
         protected string moduleId;
-
     }
 }

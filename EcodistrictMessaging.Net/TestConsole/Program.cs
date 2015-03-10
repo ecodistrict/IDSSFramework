@@ -68,7 +68,7 @@ namespace TestConsole
                 aList.Add("alp", new Text("Alp cheese"));
                 aList.Add("brie", new Text("Brie cheese"));
                 iSpec.Add("cheese-types", aList);
-                SelectModelResponse mResponse = new SelectModelResponse(method: "selectModel", type: "response", moduleId: "foo-bar_cheese-model-v1-0",
+                SelectModelResponse mResponse = new SelectModelResponse(moduleId: "foo-bar_cheese-model-v1-0",
                     variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
                 string json = Serialize.Message(mResponse);
                 
@@ -78,7 +78,6 @@ namespace TestConsole
                 jsonmessage = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
                 Type expected = typeof(StartModelRequest);
                 IMessage message = Deserialize.JsonMessage(jsonmessage);
-
             }
             catch (Exception ex)
             {
@@ -90,7 +89,7 @@ namespace TestConsole
         {
             //InputSpecificationTest();
             //IMessageTest();
-            Test();
+            //Test();
                        
         }
     }
