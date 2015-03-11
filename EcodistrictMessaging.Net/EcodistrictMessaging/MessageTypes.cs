@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ecodistrict.Messaging
 {
-    public static class Types
+    public static class MessageTypes
     {
         public enum MMethod
         {
@@ -23,5 +23,11 @@ namespace Ecodistrict.Messaging
             Result,
             NoType
         }
+    }
+
+    public enum ModelStatus
+    {
+        Processing,
+        Success
     }
 }

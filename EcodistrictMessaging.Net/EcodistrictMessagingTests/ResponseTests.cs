@@ -79,7 +79,7 @@ namespace EcodistrictMessagingTests
             {
                 // arrange
                 StartModelResponse smResponse = new StartModelResponse(moduleId: "foo-bar_cheese-model-v1-0",
-                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", status: "processing");
+                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", status: ModelStatus.Processing);
                 var message = File.ReadAllText(@"../../TestData/Json/ModelResponse/StartModelResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);
                 string expected = JsonConvert.SerializeObject(obj);

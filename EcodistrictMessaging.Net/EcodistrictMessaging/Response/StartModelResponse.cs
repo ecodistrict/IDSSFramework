@@ -36,14 +36,18 @@ namespace Ecodistrict.Messaging
         /// <param name="variantId">Used by dashboard for tracking.</param>
         /// <param name="kpiId">The kpi that the dashboard previously selected.</param>
         /// <param name="status">Staus message</param>
-        public StartModelResponse(string moduleId, string variantId, string kpiId, string status)
+        public StartModelResponse(string moduleId, string variantId, string kpiId, ModelStatus status)
         {
             this.method = "startModel";
             this.type = "response";
             this.moduleId = moduleId;
             this.variantId = variantId;
             this.kpiId = kpiId;
-            this.status = status;
+
+            if(status == ModelStatus.Processing)
+                this.status = "processing";
+            else if (status == ModelStatus.Success)
+                this.status = "success";
         }
     }
 }

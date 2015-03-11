@@ -32,22 +32,22 @@ namespace Ecodistrict.Messaging
         /// Enum describing the underlying message method; based on the string property method. 
         /// If no valid method can be found this property is set to enum "NoMethod".
         /// </summary>
-        private Types.MMethod eMethod
+        private MessageTypes.MMethod eMethod
         {
             get
             {
                 switch (method)
                 {
                     case "getModels":
-                        return Types.MMethod.GetModels;
+                        return MessageTypes.MMethod.GetModels;
                     case "selectModel":
-                        return Types.MMethod.SelectModel;
+                        return MessageTypes.MMethod.SelectModel;
                     case "startModel":
-                        return Types.MMethod.StartModel;
+                        return MessageTypes.MMethod.StartModel;
                     case "modelResult":
-                        return Types.MMethod.ModelResult;
+                        return MessageTypes.MMethod.ModelResult;
                     default:
-                        return Types.MMethod.NoMethod;
+                        return MessageTypes.MMethod.NoMethod;
                 }
             }
         }
@@ -56,20 +56,20 @@ namespace Ecodistrict.Messaging
         /// Enum describing the underlying message type; based on the string property type. 
         /// If no valid type can be found this property is set to enum "NoType".
         /// </summary>
-        private Types.MType eType
+        private MessageTypes.MType eType
         {
             get
             {
                 switch (type)
                 {
                     case "request":
-                        return Types.MType.Request;
+                        return MessageTypes.MType.Request;
                     case "response":
-                        return Types.MType.Response;
+                        return MessageTypes.MType.Response;
                     case "result":
-                        return Types.MType.Result;
+                        return MessageTypes.MType.Result;
                     default:
-                        return Types.MType.NoType;
+                        return MessageTypes.MType.NoType;
                 }
             }
         }
@@ -83,32 +83,32 @@ namespace Ecodistrict.Messaging
 
             switch(eType)
             {
-                case Types.MType.Request:
+                case MessageTypes.MType.Request:
                     switch(eMethod)
                     {
-                        case Types.MMethod.GetModels:
+                        case MessageTypes.MMethod.GetModels:
                             return typeof(GetModelsRequest);
-                        case Types.MMethod.SelectModel:
+                        case MessageTypes.MMethod.SelectModel:
                             return typeof(SelectModelRequest);
-                        case Types.MMethod.StartModel:
+                        case MessageTypes.MMethod.StartModel:
                             return typeof(StartModelRequest);
                     }
                     break;
-                case Types.MType.Response:
+                case MessageTypes.MType.Response:
                     switch (eMethod)
                     {
-                        case Types.MMethod.GetModels:
+                        case MessageTypes.MMethod.GetModels:
                             return typeof(GetModelsResponse);
-                        case Types.MMethod.SelectModel:
+                        case MessageTypes.MMethod.SelectModel:
                             return typeof(SelectModelResponse);
-                        case Types.MMethod.StartModel:
+                        case MessageTypes.MMethod.StartModel:
                             return typeof(StartModelResponse);
                     }
                     break;
-                case Types.MType.Result:
+                case MessageTypes.MType.Result:
                     switch (eMethod)
                     {
-                        case Types.MMethod.ModelResult:
+                        case MessageTypes.MMethod.ModelResult:
                             return typeof(ModelResult);
                     }
                     break;
