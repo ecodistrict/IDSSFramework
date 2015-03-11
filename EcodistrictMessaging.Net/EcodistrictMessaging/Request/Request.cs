@@ -10,6 +10,7 @@ namespace Ecodistrict.Messaging
 {
     /// <summary>
     ///  Is a base class to all messagingtypes that can be sent from the dashboard.
+    ///  Is in turn derived from <see cref="IMessage"/>.
     /// </summary>
     [DataContract]
     public class Request : IMessage

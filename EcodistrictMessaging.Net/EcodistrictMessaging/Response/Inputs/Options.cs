@@ -18,9 +18,9 @@ namespace Ecodistrict.Messaging
     public class Option
     {
         [DataMember]
-        string value;
+        protected string value;
         [DataMember]
-        string label;
+        protected string label;
 
         public Option(string value, string label)
         {

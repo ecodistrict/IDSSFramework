@@ -17,11 +17,11 @@ namespace Ecodistrict.Messaging
     public class SelectModelResponse : Response
     {
         [DataMember]
-        private string kpiId;
+        protected string kpiId;
         [DataMember]
-        private string variantId;
+        protected string variantId;
         [DataMember]
-        private InputSpecification inputSpecification;
+        protected InputSpecification inputSpecification;
 
         /// <summary>
         /// Defines the response to the "selectModel" request sent by the dashboard.

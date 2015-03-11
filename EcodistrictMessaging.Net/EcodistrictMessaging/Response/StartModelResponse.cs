@@ -22,11 +22,11 @@ namespace Ecodistrict.Messaging
     public class StartModelResponse : Response
     {
         [DataMember]
-        private string variantId;
+        protected string variantId;
         [DataMember]
-        private string kpiId;
+        protected string kpiId;
         [DataMember]
-        private string status;
+        protected string status;
 
         /// <summary>
         /// Defines the response to the "startModel" request sent by the dashboard.

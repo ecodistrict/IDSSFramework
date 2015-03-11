@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 namespace Ecodistrict.Messaging
 {
     /// <summary>
-    /// Input class derived from the class <see cref="Atomic"/>. 
+    /// An input class derived from the class <see cref="Atomic"/>. 
     /// </summary>
     /// <remarks>
     /// May be used to define the input specification <see cref="InputSpecification"/>.
@@ -22,19 +22,20 @@ namespace Ecodistrict.Messaging
     public class Number : Atomic
     {
         [DataMember]
-        object unit;
+        protected object unit;
         [DataMember]
-        object min;
+        protected object min;
         [DataMember]
-        object max;
+        protected object max;
 
         /// <summary>
         /// Number constructor.
         /// </summary>
-        /// <param name="label">Mandatory label of the component, e.g. "Energy consumption".</param>
-        /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).</param>
+        /// <param name="label">Mandatory label of the visualized component, e.g. "Energy consumption".</param>
+        /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).
+        /// Left out or null value will be interpeted as 0 in the dashboard.</param>
         /// <param name="value">Initial value, between min and max (if these are supplied).</param>
-        /// <param name="unit">String indication the unit of the number, e.g. kWh/year.</param>
+        /// <param name="unit">String indicating the unit of the number, e.g. kWh/year.</param>
         /// <param name="min">Inclusive min. Default: no limit.</param>
         /// <param name="max">Inclusve max. Default: no limit.</param>
         public Number(string label, int? order = null, object value = null,

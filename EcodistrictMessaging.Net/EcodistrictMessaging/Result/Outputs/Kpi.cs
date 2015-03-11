@@ -20,9 +20,9 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected string unit;
 
-        public Kpi(string type, string value, string info, string unit)
+        public Kpi(string value, string info, string unit)
         {
-            this.type = type;
+            this.type = "kpi";
             this.value = value;
             this.info = info;
             this.unit = unit;

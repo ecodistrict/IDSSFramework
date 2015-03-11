@@ -12,18 +12,18 @@ namespace Ecodistrict.Messaging
     public class ModelResult : Result
     {
         [DataMember]
-        private string kpiId;
+        protected string kpiId;
         [DataMember]
-        private string moduleId;
+        protected string moduleId;
         [DataMember]
-        private string variantId;
+        protected string variantId;
         [DataMember]
-        private List<Output> outputs;
+        protected List<Output> outputs;
 
-        public ModelResult(string method, string type, string moduleId, string variantId, string kpiId, List<Output> outputs)
+        public ModelResult(string moduleId, string variantId, string kpiId, List<Output> outputs)
         {
-            this.method = method;
-            this.type = type;
+            this.method = "modelResult";
+            this.type = "result";
             this.moduleId = moduleId;
             this.kpiId = kpiId;
             this.variantId = variantId;

@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 namespace Ecodistrict.Messaging
 {
     /// <summary>
-    /// Input class derived from the class <see cref="Atomic"/>. 
+    /// An input class derived from the class <see cref="Atomic"/>. 
     /// </summary>
     /// <remarks>
     /// May be used to define the input specification <see cref="InputSpecification"/>.
@@ -20,13 +20,14 @@ namespace Ecodistrict.Messaging
     /// property defined by this object should be used or not.
     /// </remarks>
     [DataContract]
-    class Checkbox : Atomic
+    public class Checkbox : Atomic
     {
         /// <summary>
         /// Checkbox constructor.
         /// </summary>
-        /// <param name="label">Mandatory label of the component, e.g. "Use insulation".</param>
-        /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).</param>
+        /// <param name="label">Mandatory label of the visualized component, e.g. "Use insulation".</param>
+        /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).
+        /// Left out or null value will be interpeted as 0 in the dashboard.</param>
         /// <param name="value">Initial value of the checkbox.</param>
         public Checkbox(string label, int? order = null, bool value = false)
         {

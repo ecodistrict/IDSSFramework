@@ -9,9 +9,8 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     /// <summary>
-    /// The base class for all atomic types of inputs that can be used in the input specification.
+    /// The base class for all atomic types of inputs that can be used in the <see cref="InputSpecification"/>.
     /// Derived from the general class <see cref="Input"/>.
-    /// <see cref="InputSpecification"/>.
     /// </summary>
     /// <remarks>
     /// A atomic input will be derived in the dashboard into some simple object like choose a number 
