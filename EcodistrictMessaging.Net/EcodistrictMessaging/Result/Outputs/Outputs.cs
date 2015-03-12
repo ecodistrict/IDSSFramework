@@ -9,6 +9,11 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
+    public class Outputs : List<Output>
+    {
+    }
+
+    [DataContract]
     public class Output
     {
     }

@@ -56,7 +56,7 @@
     <Compile Include="Response\Inputs\InputSpecification.cs" />
     <Compile Include="Response\Inputs\NonAtomic\List.cs" />
     <Compile Include="Result\Outputs\Kpi.cs" />
-    <Compile Include="Result\Outputs\Output.cs" />
+    <Compile Include="Result\Outputs\Outputs.cs" />
     <Compile Include="Serialize.cs" />
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Result\ModelResult.cs" />

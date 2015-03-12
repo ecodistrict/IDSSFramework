@@ -18,9 +18,9 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected string variantId;
         [DataMember]
-        protected List<Output> outputs;
+        protected Outputs outputs;
 
-        public ModelResult(string moduleId, string variantId, string kpiId, List<Output> outputs)
+        public ModelResult(string moduleId, string variantId, string kpiId, Outputs outputs)
         {
             this.method = "modelResult";
             this.type = "result";
