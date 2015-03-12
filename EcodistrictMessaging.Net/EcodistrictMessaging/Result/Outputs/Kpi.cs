@@ -14,13 +14,13 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected string type;
         [DataMember]
-        protected string value;
+        protected object value;
         [DataMember]
         protected string info;
         [DataMember]
         protected string unit;
 
-        public Kpi(string value, string info, string unit)
+        public Kpi(object value, string info, string unit)
         {
             this.type = "kpi";
             this.value = value;
