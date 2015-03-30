@@ -19,9 +19,19 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Atomic : Input
     {
+        /// <summary>
+        /// The initial value of the Atomic input.
+        /// </summary>
         [DataMember]
         protected object value;
 
+
+        /// <summary>
+        /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="value"/>.
+        /// </summary>
+        /// <remarks>
+        /// Is false if <see cref="value"/> is ommitted in the constructor.
+        /// </remarks>
         public bool ShouldSerializevalue()
         {
             return value != null;

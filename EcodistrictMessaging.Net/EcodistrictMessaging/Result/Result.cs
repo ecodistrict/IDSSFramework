@@ -8,6 +8,12 @@ using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
 {
+    /// <summary>
+    /// The base class of all result messages that can be sent to the dasboard.
+    /// </summary>
+    /// <remarks>
+    /// Currently only one type of result message is defined, see <see cref="ModuleResult"/>.
+    /// </remarks>
     [DataContract]
     public class Result : IMessage
     {

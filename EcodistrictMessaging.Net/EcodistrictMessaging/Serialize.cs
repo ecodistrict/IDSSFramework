@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 namespace Ecodistrict.Messaging
 {
     /// <summary> 
-    /// Static class that can be used to serialize .Net object types to json-strings .
+    /// Static class that can be used to serialize .Net object types to json-strings or json-byte-arrays .
     /// </summary> 
     public static class Serialize
     {
         static Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
 
         /// <summary>
-        /// 
+        /// Convert the <see cref="IMessage"/> to a json formated string.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="indented"></param>
-        /// <returns></returns>
+        /// <param name="obj">The message object.</param>
+        /// <param name="indented">If the string should be indented (visual only, does not affect the dashboard interpretation of the message).</param>
+        /// <returns>Json string.</returns>
         public static string ToJsonString(IMessage obj, bool indented = false)
         {
             if (indented)
@@ -35,17 +35,27 @@ namespace Ecodistrict.Messaging
         }
 
         /// <summary>
-        /// 
+        /// Convert the <see cref="IMessage"/> to a json formated byte array.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="indented"></param>
-        /// <returns></returns>
+        /// <param name="obj">The message object.</param>
+        /// <param name="indented">If the string should be indented (visual only, does not affect the dashboard interpretation of the message).</param>
+        /// <returns>Json byte array.</returns>
         public static byte[] ToJsonByteArr(IMessage obj, bool indented = false)
         {
             string json = ToJsonString(obj, indented);
             return Encoding.UTF8.GetBytes(json);
         }
 
+        /// <summary>
+        /// Convert the <see cref="IMessage"/> to a json formated byte array.
+        /// </summary>
+        /// <remarks>
+        /// Used in testing purposes, the <see cref="InputSpecification"/> is newer sent to the dashboard on its own. 
+        /// Its allways sent as a part of <see cref="SelectModuleResponse"/>.
+        /// </remarks>
+        /// <param name="obj">The message object.</param>
+        /// <param name="indented">If the string should be indented (visual only, does not affect the dashboard interpretation of the message).</param>
+        /// <returns>Json byte array.</returns>
         public static string ToJsonString(InputSpecification obj, bool indented = false)
         {
             if (indented)

@@ -46,10 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Deserialize.cs" />
+    <Compile Include="EcodistrictMessaging.cs" />
     <Compile Include="Response\Inputs\Atomic\Atomic.cs" />
     <Compile Include="Response\Inputs\Atomic\Checkbox.cs" />
-    <Compile Include="Request\GetModelsRequest.cs" />
-    <Compile Include="Response\GetModelsResponse.cs" />
+    <Compile Include="Request\GetModulesRequest.cs" />
+    <Compile Include="Response\GetModulesResponse.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="Response\Inputs\Input.cs" />
     <Compile Include="Response\Inputs\NonAtomic\InputGroup.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="Result\Outputs\Outputs.cs" />
     <Compile Include="Serialize.cs" />
     <Compile Include="MessageTypes.cs" />
-    <Compile Include="Result\ModelResult.cs" />
+    <Compile Include="Result\ModuleResult.cs" />
     <Compile Include="Response\Inputs\NonAtomic\NonAtomic.cs" />
     <Compile Include="Response\Inputs\Atomic\Number.cs" />
     <Compile Include="Response\Inputs\Options.cs" />
@@ -68,15 +69,18 @@
     <Compile Include="Response\Response.cs" />
     <Compile Include="Result\Result.cs" />
     <Compile Include="Response\Inputs\Atomic\Select.cs" />
-    <Compile Include="Request\SelectModelRequest.cs" />
-    <Compile Include="Response\SelectModelResponse.cs" />
-    <Compile Include="Request\StartModelRequest.cs" />
-    <Compile Include="Response\StartModelResponse.cs" />
+    <Compile Include="Request\SelectModuleRequest.cs" />
+    <Compile Include="Response\SelectModuleResponse.cs" />
+    <Compile Include="Request\StartModuleRequest.cs" />
+    <Compile Include="Response\StartModuleResponse.cs" />
     <Compile Include="Response\Inputs\Atomic\Text.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ClassDiagram.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

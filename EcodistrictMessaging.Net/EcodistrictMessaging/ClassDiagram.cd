@@ -3,7 +3,7 @@
   <Class Name="Ecodistrict.Messaging.Deserialize" Collapsed="true">
     <Position X="17" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACABAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAAQAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Deserialize.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -172,7 +172,7 @@
     <Position X="0.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Result\Outputs\Output.cs</FileName>
+      <FileName>Result\Outputs\Outputs.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Result" Collapsed="true">
@@ -185,7 +185,7 @@
   <Class Name="Ecodistrict.Messaging.Serialize" Collapsed="true">
     <Position X="18.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAACAAAAAAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Serialize.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -16,10 +16,21 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class GetModulesResponse : Response
     {
+        /// <summary>
+        /// Name of the Module, will be visualized in the dashboard.
+        /// </summary>
         [DataMember]
         protected string name;
+
+        /// <summary>
+        /// A description of the Module that will be visualized in the dashboard.
+        /// </summary>
         [DataMember]
         protected string description;
+
+        /// <summary>
+        /// A list of kpis that the module can supply.
+        /// </summary>
         [DataMember]
         protected List<string> kpiList = new List<string>();
 
@@ -29,7 +40,7 @@ namespace Ecodistrict.Messaging
         /// json-string that can be interpeted by the dashboard.
         /// </summary>
         /// <param name="name">Name of the Module, will be visualized in the dashboard.</param>
-        /// <param name="moduleId">Unique identifier of the Module.</param>
+        /// <param name="moduleId">Unique identifier of the Module (Web-friendly string).</param>
         /// <param name="description">A description of the Module that will be visualized in the dashboard.</param>
         /// <param name="kpiList">A list of kpis that the Module can calculate.</param>
         public GetModulesResponse(string name, string moduleId, 

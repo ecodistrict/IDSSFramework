@@ -19,6 +19,9 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class NonAtomic : Input
     {
+        /// <summary>
+        /// The collection of <see cref="Input"/>s, in this <see cref="NonAtomic"/> input.
+        /// </summary>
         [DataMember]
         protected Dictionary<string, Input> inputs = new Dictionary<string, Input>();
 

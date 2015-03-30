@@ -21,6 +21,9 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Select : Atomic
     {
+        /// <summary>
+        /// Defines the options visualized in selection box in the dashboard.
+        /// </summary>
         [DataMember]
         protected Options options;
 

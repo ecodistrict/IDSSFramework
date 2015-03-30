@@ -15,10 +15,26 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Input
     {
+        /// <summary>
+        /// Mandatory label, describing the component.
+        /// </summary>
+        /// <remarks>
+        /// The label will be visualized next to the input selector described by this combonent. 
+        /// E.g. <see cref="Number"/>, <see cref="Checkbox"/>, <see cref="List"/>, ...
+        /// </remarks>
         [DataMember]
         protected string label;
+
+        /// <summary>
+        /// What typ of component the dashboard shall visualize, e.g. "number","text",'list',...
+        /// </summary>
         [DataMember]
         protected string type;
+
+        /// <summary>
+        /// The order in which this component should be rendered in the dashboard (ascending order).
+        /// Left out or null value will be interpeted as 0 in the dashboard.
+        /// </summary>
         [DataMember]
         protected object order;
 

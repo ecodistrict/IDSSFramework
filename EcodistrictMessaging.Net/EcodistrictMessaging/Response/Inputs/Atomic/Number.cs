@@ -21,10 +21,30 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Number : Atomic
     {
+        /// <summary>
+        /// The unit of the number, e.g. "ICQU (International Cheese Quality Units)".
+        /// </summary>
+        /// <remarks>
+        /// May be omitted.
+        /// </remarks>
         [DataMember]
         protected object unit;
+
+        /// <summary>
+        /// The minimum allowed value of the number.
+        /// </summary>
+        /// <remarks>
+        /// May be omitted.
+        /// </remarks>
         [DataMember]
         protected object min;
+
+        /// <summary>
+        /// The maximum allowed value of the number.
+        /// </summary>
+        /// <remarks>
+        /// May be omitted.
+        /// </remarks>
         [DataMember]
         protected object max;
 
@@ -50,16 +70,37 @@ namespace Ecodistrict.Messaging
             this.max = max;
         }
 
+        /// <summary>
+        /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="unit"/>.
+        /// </summary>
+        /// <remarks>
+        /// Is false if <see cref="unit"/> is ommitted in the constructor.
+        /// </remarks>
+        /// <returns></returns>
         public bool ShouldSerializeunit()
         {
             return unit != null;
         }
 
+        /// <summary>
+        /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="min"/>.
+        /// </summary>
+        /// <remarks>
+        /// Is false if <see cref="min"/> is ommitted in the constructor.
+        /// </remarks>
+        /// <returns></returns>
         public bool ShouldSerializemin()
         {
             return min != null;
         }
 
+        /// <summary>
+        /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="max"/>.
+        /// </summary>
+        /// <remarks>
+        /// Is false if <see cref="max"/> is ommitted in the constructor.
+        /// </remarks>
+        /// <returns></returns>
         public bool ShouldSerializemax()
         {
             return max != null;

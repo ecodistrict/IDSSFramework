@@ -10,23 +10,15 @@ using System.Threading;
 
 namespace Ecodistrict.Messaging
 {
-    /// <summary>
-    /// The <see cref="Ecodistrict.Messaging"/> namespace contains classes for ....
-    /// <param name="xml">XML string - see Test.xsd <include file="../../ClassDiagram1.cd" path="/*"/> After file include</param>
-    /// </summary>
-    [System.Runtime.CompilerServices.CompilerGenerated]
-    class NamespaceDoc
-    {
-    }
-
     /// <summary> 
     /// Base class to all messagingtypes that can be sent to/from the dashboard.
     /// </summary> 
     /// <remarks> 
     /// Messages that are sent from the dashboard can be deseralized from a json string
-    /// to this type of object by the use of <see cref="Deseralize.JsonString"/>.  
+    /// to this type of object by the use of <see cref="Deserialize"/>.<br/>
+    /// <br/>
     /// Messages that will be sent to the dashboard must first be seralized to a json string
-    /// this can be done by <see cref="Seralize.ToJsonString"/>.
+    /// this can be done by <see cref="Serialize"/>.
     /// </remarks> 
     [DataContract]
     public class IMessage 

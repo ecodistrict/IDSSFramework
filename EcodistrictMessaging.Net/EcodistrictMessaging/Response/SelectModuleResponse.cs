@@ -16,10 +16,25 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class SelectModuleResponse : Response
     {
+        /// <summary>
+        /// The kpi id that this response refers to.
+        /// </summary>
         [DataMember]
         protected string kpiId;
+
+        /// <summary>
+        /// The variant id aquired from the dashboard in the <see cref="SelectModuleRequest"/> message.
+        /// </summary>
         [DataMember]
         protected string variantId;
+
+        /// <summary>
+        /// The input specification for the selected kpi.
+        /// </summary>
+        /// <remarks>
+        /// The input specification describes what the module need in order to
+        /// calculate a given kpi.
+        /// </remarks>
         [DataMember]
         protected InputSpecification inputSpecification;
 

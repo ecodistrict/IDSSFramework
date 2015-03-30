@@ -14,6 +14,12 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Response : IMessage
     {
+        /// <summary>
+        /// The unique identifier of the module that the dashboard can use to target calculations on a specific module.
+        /// </summary>
+        /// <remarks>
+        /// Must be a web-friendly string <see href="https://github.com/ecodistrict/IDSSFramework/wiki/Messaging-reference#web-friendly-strings"/>.
+        /// </remarks>
         [DataMember]
         protected string moduleId;
     }

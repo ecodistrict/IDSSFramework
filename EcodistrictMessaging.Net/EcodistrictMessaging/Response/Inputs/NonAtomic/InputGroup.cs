@@ -21,14 +21,16 @@ namespace Ecodistrict.Messaging
     public class InputGroup : NonAtomic    
     {
         /// <summary>
-        /// 
+        /// InputGroup constructor.
         /// </summary>
-        /// <param name="label"></param>
-        /// <param name="order"></param>
+        /// <param name="label">Mandatory label of the visualized component.</param>
+        /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).
+        /// Left out or null value will be interpeted as 0 in the dashboard.</param>
         public InputGroup(string label, object order = null)
         {
             this.type = "inputGroup";
             this.label = label;
+            this.order = order;
         }
     }
 }
