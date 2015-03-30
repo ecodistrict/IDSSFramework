@@ -13,15 +13,15 @@ namespace EcodistrictMessagingTests
     public class RequestTests
     {
         [TestMethod]
-        public void GetModelsRequestTestType()
+        public void GetModulesRequestTestType()
         {
             try
             {
                 // arrange
-                string jsonmessage = File.ReadAllText(@"../../TestData/Json/ModelRequest/GetModelsRequest.txt");
+                string jsonmessage = File.ReadAllText(@"../../TestData/Json/ModuleRequest/GetModulesRequest.txt");
                 object obj = JsonConvert.DeserializeObject(jsonmessage);
                 jsonmessage = JsonConvert.SerializeObject(obj);
-                Type expected = typeof(GetModelsRequest);
+                Type expected = typeof(GetModulesRequest);
 
                 // act
                 IMessage message = Deserialize.JsonMessage(jsonmessage);
@@ -39,15 +39,15 @@ namespace EcodistrictMessagingTests
         }
 
         [TestMethod]
-        public void SelectModelRequestTestType()
+        public void SelectModuleRequestTestType()
         {
             try
             {
                 // arrange
-                string jsonmessage = File.ReadAllText(@"../../TestData/Json/ModelRequest/SelectModelRequest.txt");
+                string jsonmessage = File.ReadAllText(@"../../TestData/Json/ModuleRequest/SelectModuleRequest.txt");
                 object obj = JsonConvert.DeserializeObject(jsonmessage);
                 jsonmessage = JsonConvert.SerializeObject(obj);
-                Type expected = typeof(SelectModelRequest);
+                Type expected = typeof(SelectModuleRequest);
 
                 // act
                 IMessage message = Deserialize.JsonMessage(jsonmessage);
@@ -64,15 +64,15 @@ namespace EcodistrictMessagingTests
         }
 
         [TestMethod]
-        public void StartModelRequestTestType()
+        public void StartModuleRequestTestType()
         {
             try
             {
                 // arrange
-                string jsonmessage = File.ReadAllText(@"../../TestData/Json/ModelRequest/StartModelRequest.txt");
+                string jsonmessage = File.ReadAllText(@"../../TestData/Json/ModuleRequest/StartModuleRequest.txt");
                 object obj = JsonConvert.DeserializeObject(jsonmessage);
                 jsonmessage = JsonConvert.SerializeObject(obj);
-                Type expected = typeof(StartModelRequest);
+                Type expected = typeof(StartModuleRequest);
 
                 // act
                 IMessage message = Deserialize.JsonMessage(jsonmessage);

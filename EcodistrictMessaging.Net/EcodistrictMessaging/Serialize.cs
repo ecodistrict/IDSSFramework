@@ -19,7 +19,7 @@ namespace Ecodistrict.Messaging
         /// <param name="obj"></param>
         /// <param name="indented"></param>
         /// <returns></returns>
-        public static string Message(IMessage obj, bool indented = false)
+        public static string ToJsonString(IMessage obj, bool indented = false)
         {
             if (indented)
                 settings.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -34,7 +34,19 @@ namespace Ecodistrict.Messaging
             
         }
 
-        public static string InputSpecification(InputSpecification obj, bool indented = false)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="indented"></param>
+        /// <returns></returns>
+        public static byte[] ToJsonByteArr(IMessage obj, bool indented = false)
+        {
+            string json = ToJsonString(obj, indented);
+            return Encoding.UTF8.GetBytes(json);
+        }
+
+        public static string ToJsonString(InputSpecification obj, bool indented = false)
         {
             if (indented)
                 settings.Formatting = Newtonsoft.Json.Formatting.Indented;

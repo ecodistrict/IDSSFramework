@@ -9,10 +9,10 @@ namespace Ecodistrict.Messaging
     {
         public enum MMethod
         {
-            GetModels,
-            SelectModel,
-            StartModel,
-            ModelResult,
+            GetModules,
+            SelectModule,
+            StartModule,
+            ModuleResult,
             NoMethod
         }
 
@@ -25,7 +25,7 @@ namespace Ecodistrict.Messaging
         }
     }
 
-    public enum ModelStatus
+    public enum ModuleStatus
     {
         Processing,
         Success

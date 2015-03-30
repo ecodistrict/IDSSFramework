@@ -11,10 +11,10 @@ namespace Ecodistrict.Messaging
 
     /// <summary>
     /// Derived from the class <see cref="Request"/> and is used as a .Net container for
-    /// deseralizing dashboard json-messages of the type "startModel" request.
+    /// deseralizing dashboard json-messages of the type "startModule" request.
     /// </summary>
     [DataContract]
-    public class StartModelRequest : Request
+    public class StartModuleRequest : Request
     {
         [DataMember]
         public string moduleId { get; private set; }

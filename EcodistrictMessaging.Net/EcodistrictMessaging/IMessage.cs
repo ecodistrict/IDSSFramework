@@ -38,14 +38,14 @@ namespace Ecodistrict.Messaging
             {
                 switch (method)
                 {
-                    case "getModels":
-                        return MessageTypes.MMethod.GetModels;
-                    case "selectModel":
-                        return MessageTypes.MMethod.SelectModel;
-                    case "startModel":
-                        return MessageTypes.MMethod.StartModel;
-                    case "modelResult":
-                        return MessageTypes.MMethod.ModelResult;
+                    case "getModules":
+                        return MessageTypes.MMethod.GetModules;
+                    case "selectModule":
+                        return MessageTypes.MMethod.SelectModule;
+                    case "startModule":
+                        return MessageTypes.MMethod.StartModule;
+                    case "ModuleResult":
+                        return MessageTypes.MMethod.ModuleResult;
                     default:
                         return MessageTypes.MMethod.NoMethod;
                 }
@@ -86,30 +86,30 @@ namespace Ecodistrict.Messaging
                 case MessageTypes.MType.Request:
                     switch(eMethod)
                     {
-                        case MessageTypes.MMethod.GetModels:
-                            return typeof(GetModelsRequest);
-                        case MessageTypes.MMethod.SelectModel:
-                            return typeof(SelectModelRequest);
-                        case MessageTypes.MMethod.StartModel:
-                            return typeof(StartModelRequest);
+                        case MessageTypes.MMethod.GetModules:
+                            return typeof(GetModulesRequest);
+                        case MessageTypes.MMethod.SelectModule:
+                            return typeof(SelectModuleRequest);
+                        case MessageTypes.MMethod.StartModule:
+                            return typeof(StartModuleRequest);
                     }
                     break;
                 case MessageTypes.MType.Response:
                     switch (eMethod)
                     {
-                        case MessageTypes.MMethod.GetModels:
-                            return typeof(GetModelsResponse);
-                        case MessageTypes.MMethod.SelectModel:
-                            return typeof(SelectModelResponse);
-                        case MessageTypes.MMethod.StartModel:
-                            return typeof(StartModelResponse);
+                        case MessageTypes.MMethod.GetModules:
+                            return typeof(GetModulesResponse);
+                        case MessageTypes.MMethod.SelectModule:
+                            return typeof(SelectModuleResponse);
+                        case MessageTypes.MMethod.StartModule:
+                            return typeof(StartModuleResponse);
                     }
                     break;
                 case MessageTypes.MType.Result:
                     switch (eMethod)
                     {
-                        case MessageTypes.MMethod.ModelResult:
-                            return typeof(ModelResult);
+                        case MessageTypes.MMethod.ModuleResult:
+                            return typeof(ModuleResult);
                     }
                     break;
             }

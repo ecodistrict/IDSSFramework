@@ -1,13 +1,13 @@
 ﻿{
-  "name": "Cheese Model",
-  "description": "A model to assess cheese quality.",
+  "name": "Cheese Module",
+  "description": "A Module to assess cheese quality.",
   "kpiList": [
     "cheese-taste-kpi",
     "cheese-price-kpi"
   ],
   
-  "moduleId": "foo-bar_cheese-model-v1-0",
+  "moduleId": "foo-bar_cheese-Module-v1-0",
   
-  "method": "getModels",
+  "method": "getModules",
   "type": "response"
 }

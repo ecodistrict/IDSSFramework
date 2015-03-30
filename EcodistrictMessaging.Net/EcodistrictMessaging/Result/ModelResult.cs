@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     [DataContract]
-    public class ModelResult : Result
+    public class ModuleResult : Result
     {
         [DataMember]
         protected string kpiId;
@@ -20,9 +20,9 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected Outputs outputs;
 
-        public ModelResult(string moduleId, string variantId, string kpiId, Outputs outputs)
+        public ModuleResult(string moduleId, string variantId, string kpiId, Outputs outputs)
         {
-            this.method = "modelResult";
+            this.method = "ModuleResult";
             this.type = "result";
             this.moduleId = moduleId;
             this.kpiId = kpiId;

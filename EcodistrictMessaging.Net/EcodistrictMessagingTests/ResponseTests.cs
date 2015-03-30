@@ -14,20 +14,20 @@ namespace EcodistrictMessagingTests
     {
 
         [TestMethod]
-        public void GetModelsResponseTest()
+        public void GetModulesResponseTest()
         {
             try
             {                
                 // arrange
                 List<string> kpiList = new List<string>{"cheese-taste-kpi","cheese-price-kpi"};
-                GetModelsResponse mResponse = new GetModelsResponse(name: "Cheese Model", moduleId: "foo-bar_cheese-model-v1-0", 
-                    description: "A model to assess cheese quality.", kpiList: kpiList);
-                var message = File.ReadAllText(@"../../TestData/Json/ModelResponse/GetModelsResponse.txt");
+                GetModulesResponse mResponse = new GetModulesResponse(name: "Cheese Module", moduleId: "foo-bar_cheese-Module-v1-0", 
+                    description: "A Module to assess cheese quality.", kpiList: kpiList);
+                var message = File.ReadAllText(@"../../TestData/Json/ModuleResponse/GetModulesResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);
                 string expected = JsonConvert.SerializeObject(obj);
 
                 // act
-                string actual = Serialize.Message(mResponse);
+                string actual = Serialize.ToJsonString(mResponse);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nNot Json-seralized correctly:\n\n" + expected + "\n\n" + actual); //TODO is unordered => makes comparisson hard.
@@ -39,7 +39,7 @@ namespace EcodistrictMessagingTests
         }
 
         [TestMethod]
-        public void SelectModelResponseTest()
+        public void SelectModuleResponseTest()
         {
             try
             {
@@ -54,14 +54,14 @@ namespace EcodistrictMessagingTests
                 opt.Add(new Option(value: "brie-cheese", label: "Brie"));
                 iSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: "brie-cheese"));  //TODO value = brie-cheese makes room for error in dashboard, shuld be connected to the options.
                 
-                SelectModelResponse mResponse = new SelectModelResponse(moduleId: "foo-bar_cheese-model-v1-0",
+                SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
                     variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
-                var message = File.ReadAllText(@"../../TestData/Json/ModelResponse/SelectModelResponse.txt");
+                var message = File.ReadAllText(@"../../TestData/Json/ModuleResponse/SelectModuleResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);
                 string expected = JsonConvert.SerializeObject(obj);
 
                 // act
-                string actual = Serialize.Message(mResponse);
+                string actual = Serialize.ToJsonString(mResponse);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nNot Json-seralized correctly:\n\n" + expected + "\n\n" + actual); //TODO is unordered => makes comparisson hard.
@@ -73,19 +73,19 @@ namespace EcodistrictMessagingTests
         }
 
         [TestMethod]
-        public void StartModelResponseTest()
+        public void StartModuleResponseTest()
         {
             try
             {
                 // arrange
-                StartModelResponse smResponse = new StartModelResponse(moduleId: "foo-bar_cheese-model-v1-0",
-                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", status: ModelStatus.Processing);
-                var message = File.ReadAllText(@"../../TestData/Json/ModelResponse/StartModelResponse.txt");
+                StartModuleResponse smResponse = new StartModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
+                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", status: ModuleStatus.Processing);
+                var message = File.ReadAllText(@"../../TestData/Json/ModuleResponse/StartModuleResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);
                 string expected = JsonConvert.SerializeObject(obj);
 
                 // act
-                string actual = Serialize.Message(smResponse);
+                string actual = Serialize.ToJsonString(smResponse);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nNot Json-seralized correctly:\n\n" + expected + "\n\n" + actual); //TODO is unordered => makes comparisson hard.

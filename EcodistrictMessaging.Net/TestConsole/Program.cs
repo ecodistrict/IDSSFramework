@@ -41,7 +41,7 @@ namespace TestConsole
         {
             try
             {
-                string smessage = "{\"method\":\"getModels\",\"type\":\"request\"}";
+                string smessage = "{\"method\":\"getModules\",\"type\":\"request\"}";
                 //IMessage message = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(smessage, typeof(IMessage));
 
                 //object message = Types.ParseJsonMessage(smessage);
@@ -68,15 +68,15 @@ namespace TestConsole
                 aList.Add("alp", new Text("Alp cheese"));
                 aList.Add("brie", new Text("Brie cheese"));
                 iSpec.Add("cheese-types", aList);
-                SelectModelResponse mResponse = new SelectModelResponse(moduleId: "foo-bar_cheese-model-v1-0",
+                SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
                     variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
-                string json = Serialize.Message(mResponse);
+                string json = Serialize.ToJsonString(mResponse);
                 
                 //Request from dashboard
-                string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModelRequest/StartModelRequest2.txt");
+                string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequest2.txt");
                 object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonmessage);
                 jsonmessage = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
-                Type expected = typeof(StartModelRequest);
+                Type expected = typeof(StartModuleRequest);
                 IMessage message = Deserialize.JsonMessage(jsonmessage);
             }
             catch (Exception ex)

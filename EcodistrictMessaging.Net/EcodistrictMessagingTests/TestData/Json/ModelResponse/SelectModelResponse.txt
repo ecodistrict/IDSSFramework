@@ -30,8 +30,8 @@
     }	
   },
   
-  "moduleId": "foo-bar_cheese-model-v1-0",
+  "moduleId": "foo-bar_cheese-Module-v1-0",
 
-  "method": "selectModel",
+  "method": "selectModule",
   "type": "response"
 }

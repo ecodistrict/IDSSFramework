@@ -10,10 +10,10 @@ namespace Ecodistrict.Messaging
 {
     /// <summary>
     /// Derived from the class <see cref="Request"/> and is used as a .Net container for
-    /// deseralizing dashboard json-messages of the type "selectModel" request.
+    /// deseralizing dashboard json-messages of the type "selectModule" request.
     /// </summary>
     [DataContract]
-    public class SelectModelRequest : Request
+    public class SelectModuleRequest : Request
     {
         [DataMember]
         public string moduleId { get; private set; }

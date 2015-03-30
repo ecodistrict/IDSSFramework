@@ -14,11 +14,11 @@
       <FileName>IMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.GetModelsRequest" Collapsed="true">
+  <Class Name="Ecodistrict.Messaging.GetModulesRequest" Collapsed="true">
     <Position X="10" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Request\GetModelsRequest.cs</FileName>
+      <FileName>Request\GetModulesRequest.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Request" Collapsed="true">
@@ -28,25 +28,25 @@
       <FileName>Request\Request.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.SelectModelRequest" Collapsed="true">
+  <Class Name="Ecodistrict.Messaging.SelectModuleRequest" Collapsed="true">
     <Position X="12.25" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
-      <FileName>Request\SelectModelRequest.cs</FileName>
+      <FileName>Request\SelectModuleRequest.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.StartModelRequest" Collapsed="true">
+  <Class Name="Ecodistrict.Messaging.StartModuleRequest" Collapsed="true">
     <Position X="14.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAgAAAAAAAAAAEAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
-      <FileName>Request\StartModelRequest.cs</FileName>
+      <FileName>Request\StartModuleRequest.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.GetModelsResponse" Collapsed="true">
+  <Class Name="Ecodistrict.Messaging.GetModulesResponse" Collapsed="true">
     <Position X="1" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAIAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Response\GetModelsResponse.cs</FileName>
+      <FileName>Response\GetModulesResponse.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Atomic" Collapsed="true">
@@ -140,25 +140,25 @@
       <FileName>Response\Response.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.SelectModelResponse" Collapsed="true">
+  <Class Name="Ecodistrict.Messaging.SelectModuleResponse" Collapsed="true">
     <Position X="3.25" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Response\SelectModelResponse.cs</FileName>
+      <FileName>Response\SelectModuleResponse.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.StartModelResponse" Collapsed="true">
+  <Class Name="Ecodistrict.Messaging.StartModuleResponse" Collapsed="true">
     <Position X="5.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Response\StartModelResponse.cs</FileName>
+      <FileName>Response\StartModuleResponse.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.ModelResult" Collapsed="true">
+  <Class Name="Ecodistrict.Messaging.ModuleResult" Collapsed="true">
     <Position X="7.75" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
-      <FileName>Result\ModelResult.cs</FileName>
+      <FileName>Result\ModuleResult.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Kpi" Collapsed="true">

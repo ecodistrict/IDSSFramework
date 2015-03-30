@@ -1,4 +1,4 @@
 ﻿{
-  "method": "getModels",
+  "method": "getModules",
   "type": "request"
 }

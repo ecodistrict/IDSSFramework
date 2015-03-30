@@ -37,7 +37,7 @@ namespace EcodistrictMessagingTests
                 string expected = JsonConvert.SerializeObject(obj);
 
                 // act
-                string actual = Serialize.InputSpecification(inputSpec);
+                string actual = Serialize.ToJsonString(inputSpec);
                 //string actual = Newtonsoft.Json.JsonConvert.SerializeObject(inputSpec);
 
                 // assert
@@ -62,7 +62,7 @@ namespace EcodistrictMessagingTests
                                    "}";
 
                 // act
-                string actual = Serialize.InputSpecification(inputSpec);
+                string actual = Serialize.ToJsonString(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nText not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -97,7 +97,7 @@ namespace EcodistrictMessagingTests
                                    "}";
 
                 // act
-                string actual = Serialize.InputSpecification(inputSpec);
+                string actual = Serialize.ToJsonString(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nSelect not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -122,7 +122,7 @@ namespace EcodistrictMessagingTests
                                      "\"shoe-size\":{\"label\":\"Shoe size\",\"type\":\"number\"}" +
                                   "}";                                                 
                 // act
-                string actual = Serialize.InputSpecification(inputSpec);
+                string actual = Serialize.ToJsonString(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nInputSpecification not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
@@ -158,7 +158,7 @@ namespace EcodistrictMessagingTests
                                   "}";
 
                 // act
-                string actual = Serialize.InputSpecification(inputSpec);
+                string actual = Serialize.ToJsonString(inputSpec);
 
                 // assert
                 Assert.AreEqual(expected, actual, false, "\nInputSpecification not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
