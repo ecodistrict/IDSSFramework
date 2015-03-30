@@ -46,7 +46,7 @@ namespace TestConsole
 
                 //object message = Types.ParseJsonMessage(smessage);
 
-                IMessage message = Deserialize.JsonMessage(smessage);
+                IMessage message = Deserialize.JsonString(smessage);
 
                 Type type = message.GetType();
 
@@ -77,7 +77,7 @@ namespace TestConsole
                 object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonmessage);
                 jsonmessage = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
                 Type expected = typeof(StartModuleRequest);
-                IMessage message = Deserialize.JsonMessage(jsonmessage);
+                IMessage message = Deserialize.JsonString(jsonmessage);
             }
             catch (Exception ex)
             {

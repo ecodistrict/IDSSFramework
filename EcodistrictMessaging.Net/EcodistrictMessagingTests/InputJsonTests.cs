@@ -149,11 +149,11 @@ namespace EcodistrictMessagingTests
                 string expected = "{" +
                                     "\"name\":{\"label\":\"Parent name\",\"type\":\"text\"}" + "," +
                                     "\"age\":{\"label\":\"Parent age\",\"type\":\"number\"}" + "," +
-                                    "\"child\":{\"label\":\"Children\",\"type\":\"list\"," +
-                                                "\"inputs\":{" +
+                                    "\"child\":{\"inputs\":{" +
                                                     "\"name\":{\"label\":\"Child name\",\"type\":\"text\"}" + "," +
                                                      "\"age\":{\"label\":\"Child age\",\"type\":\"number\"}" +
-                                                           "}" +
+                                                           "}," +
+                                                "\"label\":\"Children\",\"type\":\"list\"" +
                                           "}" +
                                   "}";
 

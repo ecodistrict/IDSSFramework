@@ -22,16 +22,11 @@ namespace Ecodistrict.Messaging
         /// types of messages that can be deserialized.
         /// </remarks> 
         /// <param name="message">Json-string formated according to the ecodistrict messaging protocol <see cref="https://github.com/ecodistrict/IDSSFramework/wiki"/></param>
-        /// <param name="indented">Indication whether the string is indented or not (the dashboard send unindented strings since json ignore whitespaces).</param>
         /// <returns></returns>
-        public static IMessage JsonMessage(string message, bool indented = false)
+        public static IMessage JsonString(string message)
         {
-            if(indented)
-                settings.Formatting = Newtonsoft.Json.Formatting.Indented;
-            else
-                settings.Formatting = Newtonsoft.Json.Formatting.None;
 
-            IMessage messageObj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage), settings);
+            IMessage messageObj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
             Type type = messageObj.GetDerivedType();
 
             IMessage obj;
@@ -41,6 +36,21 @@ namespace Ecodistrict.Messaging
                 obj = null;
 
             return obj;
+        }
+
+        /// <summary>
+        /// Is used to deserialize json-byte array to .Net message types.
+        /// </summary>
+        /// <remarks>
+        /// See <see cref="Ecodistrict.Messaging.IMessage"/> and its derived classes for what 
+        /// types of messages that can be deserialized.
+        /// </remarks> 
+        /// <param name="message">Json byte array formated according to the ecodistrict messaging protocol <see cref="https://github.com/ecodistrict/IDSSFramework/wiki"/></param>
+        /// <returns></returns>
+        public static IMessage JsonByteArr(byte[] message)
+        {
+            string json = Encoding.UTF8.GetString(message);
+            return JsonString(json);
         }
     }
 }

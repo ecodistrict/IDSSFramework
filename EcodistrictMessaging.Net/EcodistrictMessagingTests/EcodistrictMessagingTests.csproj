@@ -60,7 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseTests.cs" />
     <Compile Include="RequestTests.cs" />
-    <Content Include="TestData\Json\ModelRequest\StartModelRequest2.txt" />
+    <Content Include="TestData\Json\ModuleRequest\StartModuleRequest2.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EcodistrictMessaging\EcodistrictMessaging.csproj">
@@ -74,12 +74,12 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="TestData\Json\InputSpecification\AtomicNumber.txt" />
-    <Content Include="TestData\Json\ModelRequest\GetModelsRequest.txt" />
-    <Content Include="TestData\Json\ModelRequest\SelectModelRequest.txt" />
-    <Content Include="TestData\Json\ModelRequest\StartModelRequest.txt" />
-    <Content Include="TestData\Json\ModelResponse\GetModelsResponse.txt" />
-    <Content Include="TestData\Json\ModelResponse\StartModelResponse.txt" />
-    <Content Include="TestData\Json\ModelResponse\SelectModelResponse.txt" />
+    <Content Include="TestData\Json\ModuleRequest\GetModulesRequest.txt" />
+    <Content Include="TestData\Json\ModuleRequest\SelectModuleRequest.txt" />
+    <Content Include="TestData\Json\ModuleRequest\StartModuleRequest.txt" />
+    <Content Include="TestData\Json\ModuleResponse\GetModulesResponse.txt" />
+    <Content Include="TestData\Json\ModuleResponse\StartModuleResponse.txt" />
+    <Content Include="TestData\Json\ModuleResponse\SelectModuleResponse.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
