@@ -11,12 +11,13 @@ using System.Runtime.InteropServices;
 namespace Ecodistrict.Messaging
 {
     /// <summary>
-    /// An input class derived from the class <see cref="Atomic"/>. 
+    /// An input class derived from the class <see cref="Atomic"/>.
+    /// May be used to define the input specification <see cref="InputSpecification"/>.
     /// </summary>
     /// <remarks>
     /// May be used to define the input specification <see cref="InputSpecification"/>.
     /// 
-    /// In that case it will be visualized as a checkbox and will indicata whether the 
+    /// In that case it will be visualized as a checkbox and will indicate whether the 
     /// property defined by this object should be used or not.
     /// </remarks>
     [DataContract]

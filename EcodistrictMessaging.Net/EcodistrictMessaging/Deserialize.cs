@@ -8,14 +8,14 @@ namespace Ecodistrict.Messaging
 {
 
     /// <summary> 
-    /// Static class that can be used to deserialize json-strings or json-byte-arrays to .Net object types.
+    /// Static class that can be used to deserialize json-strings or json-byte-arrays to .Net <see cref="IMessage"/> types.
     /// </summary> 
     public static class Deserialize
     {
         static Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
 
         /// <summary>
-        /// Is used to deserialize json-strings to .Net message types.
+        /// Is used to deserialize json-strings to .Net <see cref="IMessage"/> types.
         /// </summary>
         /// <remarks>
         /// See <see cref="Ecodistrict.Messaging.IMessage"/> and its derived classes for what 
@@ -38,7 +38,7 @@ namespace Ecodistrict.Messaging
         }
 
         /// <summary>
-        /// Is used to deserialize json-byte array to .Net message types.
+        /// Is used to deserialize json-byte array to .Net <see cref="IMessage"/> types.
         /// </summary>
         /// <remarks>
         /// See <see cref="Ecodistrict.Messaging.IMessage"/> and its derived classes for what 
