@@ -47,7 +47,7 @@ namespace Ecodistrict.Messaging
         /// <param name="variantId">Used by dashboard for tracking.</param>
         /// <param name="kpiId">The kpi that the dashboard previously selected.</param>
         /// <param name="status">Status message</param>
-        public StartModuleResponse(string moduleId, string variantId, string kpiId, ModuleStatus status)
+        public StartModuleResponse(string moduleId, string variantId, string kpiId, MessageTypes.ModuleStatus status)
         {
             this.method = "startModule";
             this.type = "response";
@@ -55,9 +55,9 @@ namespace Ecodistrict.Messaging
             this.variantId = variantId;
             this.kpiId = kpiId;
 
-            if(status == ModuleStatus.Processing)
+            if (status == MessageTypes.ModuleStatus.Processing)
                 this.status = "processing";
-            else if (status == ModuleStatus.Success)
+            else if (status == MessageTypes.ModuleStatus.Success)
                 this.status = "success";
         }
     }

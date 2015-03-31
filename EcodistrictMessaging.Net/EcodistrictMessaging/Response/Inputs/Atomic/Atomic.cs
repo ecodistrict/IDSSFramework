@@ -13,14 +13,14 @@ namespace Ecodistrict.Messaging
     /// Derived from the general class <see cref="Input"/>.
     /// </summary>
     /// <remarks>
-    /// A atomic input will be derived in the dashboard into some simple object like choose a number 
+    /// An atomic input will be derived in the dashboard into some simple object, e.g. choose a number 
     /// or a checkbox indicating whether a property should be used or not.
     /// </remarks>
     [DataContract]
     public class Atomic : Input
     {
         /// <summary>
-        /// The initial value of the Atomic input.
+        /// The initial value of the <see cref="Atomic"/> input.
         /// </summary>
         [DataMember]
         protected object value;

@@ -8,6 +8,13 @@ using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
 {
+    /// <summary>
+    /// The base-class to all result massages that is attached to a specific kpi value.
+    /// </summary>
+    /// <remarks>
+    /// Sub-class to <see cref="Result"/>
+    /// </remarks>
+    /// <seealso cref="Result"/><seealso cref="Outputs"/><seealso cref="Kpi"/>
     [DataContract]
     public class ModuleResult : Result
     {

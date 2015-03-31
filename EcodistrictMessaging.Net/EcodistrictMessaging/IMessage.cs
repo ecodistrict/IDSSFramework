@@ -23,8 +23,15 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class IMessage 
     {
+        /// <summary>
+        /// String representation of the method.
+        /// </summary>
         [DataMember]
         public string method { get; protected set; }
+        
+        /// <summary>
+        /// String representation of the type.
+        /// </summary>
         [DataMember]
         public string type { get; protected set; }
 

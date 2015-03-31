@@ -20,8 +20,8 @@ namespace Ecodistrict.Messaging
     /// Recieved: <see cref="SelectModuleRequest"/>  and moduleId is my id => Respond:  <see cref="SelectModuleResponse"/> 
     /// (contains the <see cref="InputSpecification"/>)<br/>
     /// Recieved: <see cref="StartModuleRequest"/>  and moduleId is my id => Respond:  <see cref="StartModuleResponse"/> with 
-    /// <see cref="ModuleStatus"/> Processing and start calculate kpi. When finished Respond:  <see cref="StartModuleResponse"/> 
-    /// with <see cref="ModuleStatus"/> Success (if it is).<br/>
+    /// <see cref="Ecodistrict.Messaging.MessageTypes.ModuleStatus"/> Processing and start calculate kpi. When finished Respond:  <see cref="StartModuleResponse"/> 
+    /// with <see cref="Ecodistrict.Messaging.MessageTypes.ModuleStatus"/> Success (if it is).<br/>
     /// Send result with <see cref="ModuleResult"/>.<br/>
     /// <br/>
     /// This is the class diagram for the Ecodistrict.Messaging namespace.
