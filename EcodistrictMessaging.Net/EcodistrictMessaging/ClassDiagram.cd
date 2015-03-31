@@ -189,12 +189,5 @@
       <FileName>Serialize.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.Types" Collapsed="true">
-    <Position X="20.5" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Types.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
