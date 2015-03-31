@@ -34,96 +34,63 @@ namespace Ecodistrict.Messaging
         /// </summary>
         [DataMember]
         public string type { get; protected set; }
-
-        /// <summary>
-        /// Enum describing the underlying message method; based on the string property method. 
-        /// If no valid method can be found this property is set to enum "NoMethod".
-        /// </summary>
-        private MessageTypes.MessageMethod eMethod
-        {
-            get
-            {
-                switch (method)
-                {
-                    case "getModules":
-                        return MessageTypes.MessageMethod.GetModules;
-                    case "selectModule":
-                        return MessageTypes.MessageMethod.SelectModule;
-                    case "startModule":
-                        return MessageTypes.MessageMethod.StartModule;
-                    case "ModuleResult":
-                        return MessageTypes.MessageMethod.ModuleResult;
-                    default:
-                        return MessageTypes.MessageMethod.NoMethod;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Enum describing the underlying message type; based on the string property type. 
-        /// If no valid type can be found this property is set to enum "NoType".
-        /// </summary>
-        private MessageTypes.MessageType eType
-        {
-            get
-            {
-                switch (type)
-                {
-                    case "request":
-                        return MessageTypes.MessageType.Request;
-                    case "response":
-                        return MessageTypes.MessageType.Response;
-                    case "result":
-                        return MessageTypes.MessageType.Result;
-                    default:
-                        return MessageTypes.MessageType.NoType;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the underlying derived class based on method and type property.
-        /// </summary>
-        /// <returns>Derived type</returns>
-        public Type GetDerivedType()
-        {
-
-            switch(eType)
-            {
-                case MessageTypes.MessageType.Request:
-                    switch(eMethod)
-                    {
-                        case MessageTypes.MessageMethod.GetModules:
-                            return typeof(GetModulesRequest);
-                        case MessageTypes.MessageMethod.SelectModule:
-                            return typeof(SelectModuleRequest);
-                        case MessageTypes.MessageMethod.StartModule:
-                            return typeof(StartModuleRequest);
-                    }
-                    break;
-                case MessageTypes.MessageType.Response:
-                    switch (eMethod)
-                    {
-                        case MessageTypes.MessageMethod.GetModules:
-                            return typeof(GetModulesResponse);
-                        case MessageTypes.MessageMethod.SelectModule:
-                            return typeof(SelectModuleResponse);
-                        case MessageTypes.MessageMethod.StartModule:
-                            return typeof(StartModuleResponse);
-                    }
-                    break;
-                case MessageTypes.MessageType.Result:
-                    switch (eMethod)
-                    {
-                        case MessageTypes.MessageMethod.ModuleResult:
-                            return typeof(ModuleResult);
-                    }
-                    break;
-            }
-
-
-            return null;
-        }
-
     }
+    
+    public class MessageItemConverter : Newtonsoft.Json.Converters.CustomCreationConverter<IMessage>
+    {
+        public override IMessage Create(Type objectType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMessage Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
+        {
+            var type = (string)jObject.Property("type");
+            var method = (string)jObject.Property("method");
+
+            switch (method)
+            {
+                case "getModules":
+                    if(type == "request")
+                            return new GetModulesRequest();
+                    else if(type == "response")
+                            return new GetModulesResponse();
+                    break;                    
+                case "selectModule":
+                    if(type == "request")
+                            return new SelectModuleRequest();
+                    else if(type == "response")
+                            return new SelectModuleResponse();
+                    break;   
+                case "startModule":
+                    if(type == "request")
+                            return new StartModuleRequest();
+                    else if(type == "response")
+                            return new StartModuleResponse();
+                    break;   
+                case "ModuleResult":
+                    if (type == "result")
+                            return new ModuleResult();
+                    break;   
+            }
+
+            throw new ApplicationException(String.Format("The message type '{0}' or method '{1}' is not supported!", type, method));
+        }
+
+        public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, Object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            // Load JObject from stream 
+            Newtonsoft.Json.Linq.JObject jObject = Newtonsoft.Json.Linq.JObject.Load(reader);
+
+            // Create target object based on JObject 
+            var target = Create(objectType, jObject);
+
+            // Populate the object properties 
+            serializer.Populate(jObject.CreateReader(), target);
+
+            return target;
+        }
+    }
+
+
 }

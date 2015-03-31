@@ -39,6 +39,8 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected string status;
 
+        internal StartModuleResponse() { }
+
         /// <summary>
         /// Defines the response to the "startModule" request sent by the dashboard.
         /// Can be seralized to a json-string that can be interpeted by the dashboard.

@@ -26,11 +26,7 @@ namespace Ecodistrict.Messaging
             else
                 settings.Formatting = Newtonsoft.Json.Formatting.None;
 
-            Type type = obj.GetDerivedType();
-            if (type != null)
-                return Newtonsoft.Json.JsonConvert.SerializeObject(obj, obj.GetDerivedType(), settings);
-            else
-                return ""; //TODO throw error ??
+           return Newtonsoft.Json.JsonConvert.SerializeObject(obj, obj.GetType(), settings);
             
         }
 
@@ -38,11 +34,10 @@ namespace Ecodistrict.Messaging
         /// Convert the <see cref="IMessage"/> to a json formated byte array.
         /// </summary>
         /// <param name="obj">The message object.</param>
-        /// <param name="indented">If the string should be indented (visual only, does not affect the dashboard interpretation of the message).</param>
         /// <returns>Json byte array.</returns>
-        public static byte[] ToJsonByteArr(IMessage obj, bool indented = false)
+        public static byte[] ToJsonByteArr(IMessage obj)
         {
-            string json = ToJsonString(obj, indented);
+            string json = ToJsonString(obj);
             return Encoding.UTF8.GetBytes(json);
         }
 

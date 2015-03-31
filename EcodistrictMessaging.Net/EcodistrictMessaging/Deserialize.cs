@@ -25,14 +25,16 @@ namespace Ecodistrict.Messaging
         /// <returns></returns>
         public static IMessage JsonString(string message)
         {
-            IMessage messageObj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
-            Type type = messageObj.GetDerivedType();
+            //IMessage messageObj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
+            //Type type = messageObj.GetDerivedType();
 
-            IMessage obj;
-            if (type != null)
-                obj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, type, settings);
-            else
-                obj = null;
+            //IMessage obj;
+            //if (type != null)
+            //    obj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, type, settings);
+            //else
+            //    obj = null;
+
+            IMessage obj = Newtonsoft.Json.JsonConvert.DeserializeObject<IMessage>(message, new MessageItemConverter()); ;
 
             return obj;
         }

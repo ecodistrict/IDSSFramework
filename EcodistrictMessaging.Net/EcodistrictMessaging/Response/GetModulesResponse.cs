@@ -34,6 +34,8 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected List<string> kpiList = new List<string>();
 
+        internal GetModulesResponse() { }
+
         /// <summary>
         /// Defines the response to the "getModules" broadcast request sent by the dashboard.
         /// This class contains the Module information needed, and can be seralized to a 

@@ -17,15 +17,6 @@ namespace Ecodistrict.Messaging
     public class Kpi : Output
     {
         /// <summary>
-        /// An indicator to the dashboard on what type of module output that is received.
-        /// </summary>
-        /// <remarks>
-        /// Allways set to "kpi" for <see cref="Kpi"/> outputs.
-        /// </remarks>
-        [DataMember]
-        protected string type;
-
-        /// <summary>
         /// The value of the kpi.
         /// </summary>
         [DataMember]
@@ -42,6 +33,8 @@ namespace Ecodistrict.Messaging
         /// </summary>
         [DataMember]
         protected string unit;
+
+        internal Kpi() { }
         
         /// <summary>
         /// The constructor for the kpi.

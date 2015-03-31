@@ -38,6 +38,8 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected InputSpecification inputSpecification;
 
+        internal SelectModuleResponse() { }
+
         /// <summary>
         /// Defines the response to the "selectModule" request sent by the dashboard.
         /// Can be seralized to a json-string that can be interpeted by the dashboard.

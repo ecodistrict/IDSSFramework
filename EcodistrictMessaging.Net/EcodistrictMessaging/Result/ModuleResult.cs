@@ -43,7 +43,9 @@ namespace Ecodistrict.Messaging
         /// The outputs that will be send and visualised in the dashboard.
         /// </summary>
         [DataMember]
-        protected Outputs outputs;
+        protected List<Output> outputs;
+
+        internal ModuleResult() { }
 
         /// <summary>
         /// Defines the ModuleResult constructor.
