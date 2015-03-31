@@ -39,22 +39,22 @@ namespace Ecodistrict.Messaging
         /// Enum describing the underlying message method; based on the string property method. 
         /// If no valid method can be found this property is set to enum "NoMethod".
         /// </summary>
-        private MessageTypes.MMethod eMethod
+        private MessageTypes.MessageMethod eMethod
         {
             get
             {
                 switch (method)
                 {
                     case "getModules":
-                        return MessageTypes.MMethod.GetModules;
+                        return MessageTypes.MessageMethod.GetModules;
                     case "selectModule":
-                        return MessageTypes.MMethod.SelectModule;
+                        return MessageTypes.MessageMethod.SelectModule;
                     case "startModule":
-                        return MessageTypes.MMethod.StartModule;
+                        return MessageTypes.MessageMethod.StartModule;
                     case "ModuleResult":
-                        return MessageTypes.MMethod.ModuleResult;
+                        return MessageTypes.MessageMethod.ModuleResult;
                     default:
-                        return MessageTypes.MMethod.NoMethod;
+                        return MessageTypes.MessageMethod.NoMethod;
                 }
             }
         }
@@ -63,20 +63,20 @@ namespace Ecodistrict.Messaging
         /// Enum describing the underlying message type; based on the string property type. 
         /// If no valid type can be found this property is set to enum "NoType".
         /// </summary>
-        private MessageTypes.MType eType
+        private MessageTypes.MessageType eType
         {
             get
             {
                 switch (type)
                 {
                     case "request":
-                        return MessageTypes.MType.Request;
+                        return MessageTypes.MessageType.Request;
                     case "response":
-                        return MessageTypes.MType.Response;
+                        return MessageTypes.MessageType.Response;
                     case "result":
-                        return MessageTypes.MType.Result;
+                        return MessageTypes.MessageType.Result;
                     default:
-                        return MessageTypes.MType.NoType;
+                        return MessageTypes.MessageType.NoType;
                 }
             }
         }
@@ -90,32 +90,32 @@ namespace Ecodistrict.Messaging
 
             switch(eType)
             {
-                case MessageTypes.MType.Request:
+                case MessageTypes.MessageType.Request:
                     switch(eMethod)
                     {
-                        case MessageTypes.MMethod.GetModules:
+                        case MessageTypes.MessageMethod.GetModules:
                             return typeof(GetModulesRequest);
-                        case MessageTypes.MMethod.SelectModule:
+                        case MessageTypes.MessageMethod.SelectModule:
                             return typeof(SelectModuleRequest);
-                        case MessageTypes.MMethod.StartModule:
+                        case MessageTypes.MessageMethod.StartModule:
                             return typeof(StartModuleRequest);
                     }
                     break;
-                case MessageTypes.MType.Response:
+                case MessageTypes.MessageType.Response:
                     switch (eMethod)
                     {
-                        case MessageTypes.MMethod.GetModules:
+                        case MessageTypes.MessageMethod.GetModules:
                             return typeof(GetModulesResponse);
-                        case MessageTypes.MMethod.SelectModule:
+                        case MessageTypes.MessageMethod.SelectModule:
                             return typeof(SelectModuleResponse);
-                        case MessageTypes.MMethod.StartModule:
+                        case MessageTypes.MessageMethod.StartModule:
                             return typeof(StartModuleResponse);
                     }
                     break;
-                case MessageTypes.MType.Result:
+                case MessageTypes.MessageType.Result:
                     switch (eMethod)
                     {
-                        case MessageTypes.MMethod.ModuleResult:
+                        case MessageTypes.MessageMethod.ModuleResult:
                             return typeof(ModuleResult);
                     }
                     break;

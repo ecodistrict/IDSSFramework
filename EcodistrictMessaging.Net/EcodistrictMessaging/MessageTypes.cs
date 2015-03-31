@@ -17,7 +17,7 @@ namespace Ecodistrict.Messaging.MessageTypes
     /// <summary>
     /// Used to flag for different types of method commands described in a <see cref="IMessage"/> message.
     /// </summary>
-    public enum MMethod
+    public enum MessageMethod
     {
         /// <summary>
         /// Indicator whether the <see cref="IMessage"/> belongs to the group GetModules.
@@ -46,12 +46,12 @@ namespace Ecodistrict.Messaging.MessageTypes
     }
 
     /// <summary>
-    /// Used to flag for which sub-mesage-type the <see cref="IMessage"/> belongs to (<see cref="Ecodistrict.Messaging.Request"/>, 
+    /// Used to flag for which sub-message-type the <see cref="IMessage"/> belongs to (<see cref="Ecodistrict.Messaging.Request"/>, 
     /// <see cref="Ecodistrict.Messaging.Response"/> or <see cref="Ecodistrict.Messaging.Result"/>). 
     /// <seealso cref="Ecodistrict.Messaging.Request"/><seealso cref="Ecodistrict.Messaging.Response"/>
     /// <seealso cref="Ecodistrict.Messaging.Result"/>
     /// </summary>
-    public enum MType
+    public enum MessageType
     {
         /// <summary>
         /// Indicator of which subclass of <see cref="IMessage"/> message belongs to, in this case <see cref="Ecodistrict.Messaging.Request"/>.
