@@ -49,7 +49,7 @@ namespace Ecodistrict.Messaging
         /// <param name="variantId">Used by dashboard for tracking.</param>
         /// <param name="kpiId">The kpi that the dashboard previously selected.</param>
         /// <param name="status">Status message</param>
-        public StartModuleResponse(string moduleId, string variantId, string kpiId, MessageTypes.ModuleStatus status)
+        public StartModuleResponse(string moduleId, string variantId, string kpiId, ModuleStatus status)
         {
             this.method = "startModule";
             this.type = "response";
@@ -57,10 +57,27 @@ namespace Ecodistrict.Messaging
             this.variantId = variantId;
             this.kpiId = kpiId;
 
-            if (status == MessageTypes.ModuleStatus.Processing)
+            if (status == ModuleStatus.Processing)
                 this.status = "processing";
-            else if (status == MessageTypes.ModuleStatus.Success)
+            else if (status == ModuleStatus.Success)
                 this.status = "success";
         }
+    }
+
+    /// <summary>
+    /// Indicator used by <see cref="StartModuleResponse"/> in order signal the 
+    /// state of the module.
+    /// </summary>
+    public enum ModuleStatus
+    {
+        /// <summary>
+        /// The module is calculating. 
+        /// </summary>
+        Processing,
+
+        /// <summary>
+        /// The module has finished succesfully, the dashboard may expect a result soon.
+        /// </summary>
+        Success
     }
 }

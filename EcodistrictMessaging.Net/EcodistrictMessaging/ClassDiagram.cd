@@ -8,84 +8,84 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.IMessage" Collapsed="true">
-    <Position X="7.75" Y="4.5" Width="1.5" />
+    <Position X="7.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.GetModulesRequest" Collapsed="true">
-    <Position X="10" Y="7.25" Width="1.5" />
+    <Position X="9.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Request\GetModulesRequest.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Request" Collapsed="true">
-    <Position X="12.25" Y="5.75" Width="1.5" />
+    <Position X="11.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Request\Request.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.SelectModuleRequest" Collapsed="true">
-    <Position X="12.25" Y="7.25" Width="1.5" />
+    <Position X="11.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Request\SelectModuleRequest.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.StartModuleRequest" Collapsed="true">
-    <Position X="14.5" Y="7.25" Width="1.5" />
+    <Position X="14" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAgAAAAAAAAAAEAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Request\StartModuleRequest.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.GetModulesResponse" Collapsed="true">
-    <Position X="1" Y="7.25" Width="1.5" />
+    <Position X="0.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAIAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\GetModulesResponse.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Atomic" Collapsed="true">
-    <Position X="4.25" Y="1.75" Width="1.5" />
+    <Position X="5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAACAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\Inputs\Atomic\Atomic.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Checkbox" Collapsed="true">
-    <Position X="1" Y="3.25" Width="1.5" />
+    <Position X="1.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\Inputs\Atomic\Checkbox.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Number" Collapsed="true">
-    <Position X="3.25" Y="3.25" Width="1.5" />
+    <Position X="4" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAABwAAAAAAAAAAAAAAAAAAAAAAgAAAAACAA=</HashCode>
       <FileName>Response\Inputs\Atomic\Number.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Select" Collapsed="true">
-    <Position X="5.5" Y="3.25" Width="1.5" />
+    <Position X="6.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\Inputs\Atomic\Select.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Text" Collapsed="true">
-    <Position X="7.75" Y="3.25" Width="1.5" />
+    <Position X="8.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\Inputs\Atomic\Text.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Input" Collapsed="true">
-    <Position X="6.5" Y="0.5" Width="1.5" />
+    <Position X="7.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAABAAAAAAAAAAIAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\Inputs\Input.cs</FileName>
@@ -99,21 +99,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.InputGroup" Collapsed="true">
-    <Position X="10" Y="3.25" Width="1.5" />
+    <Position X="10.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\Inputs\NonAtomic\InputGroup.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.List" Collapsed="true">
-    <Position X="12.25" Y="3.25" Width="1.5" />
+    <Position X="13" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\Inputs\NonAtomic\List.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.NonAtomic" Collapsed="true">
-    <Position X="11" Y="1.75" Width="1.5" />
+    <Position X="11.75" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\Inputs\NonAtomic\NonAtomic.cs</FileName>
@@ -134,49 +134,49 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Response" Collapsed="true">
-    <Position X="3.25" Y="5.75" Width="1.5" />
+    <Position X="2.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Response\Response.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.SelectModuleResponse" Collapsed="true">
-    <Position X="3.25" Y="7.25" Width="1.5" />
+    <Position X="2.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\SelectModuleResponse.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.StartModuleResponse" Collapsed="true">
-    <Position X="5.5" Y="7.25" Width="1.5" />
+    <Position X="5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Response\StartModuleResponse.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.ModuleResult" Collapsed="true">
-    <Position X="7.75" Y="7.25" Width="1.5" />
+    <Position X="7.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Result\ModuleResult.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Kpi" Collapsed="true">
-    <Position X="0.5" Y="9.75" Width="1.5" />
+    <Position X="17" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAACAAQAAAAAAAAAA=</HashCode>
       <FileName>Result\Outputs\Kpi.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Output" Collapsed="true">
-    <Position X="0.5" Y="8.5" Width="1.5" />
+    <Position X="17" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Result\Outputs\Outputs.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Result" Collapsed="true">
-    <Position X="7.75" Y="5.75" Width="1.5" />
+    <Position X="7.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Result\Result.cs</FileName>
@@ -189,67 +189,39 @@
       <FileName>Serialize.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.NamespaceDoc" Collapsed="true">
-    <Position X="20.5" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>EcodistrictMessaging.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Ecodistrict.Messaging.MessageItemConverter" Collapsed="true">
-    <Position X="17.25" Y="4.5" Width="1.5" />
+    <Position X="19" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>IMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Outputs" Collapsed="true">
-    <Position X="2.5" Y="8.5" Width="1.5" />
+    <Position X="17" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Result\Outputs\Outputs.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.OutputItemConverter" Collapsed="true">
-    <Position X="15.25" Y="4.5" Width="1.5" />
+    <Position X="17" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Result\Outputs\Outputs.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Ecodistrict.Messaging.MessageTypes.NamespaceDoc" Collapsed="true">
-    <Position X="20.5" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MessageTypes.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Ecodistrict.Messaging.JsonItemConverter&lt;T&gt;" Collapsed="true">
-    <Position X="16.25" Y="3" Width="1.5" />
+    <Position X="18" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAQQAAAAAAAAAAAAAAAAAAEAAAAAAAAAACAA=</HashCode>
       <FileName>JsonItemConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="Ecodistrict.Messaging.MessageTypes.MessageMethod" Collapsed="true">
-    <Position X="11.5" Y="9.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAACAAAIAAAAAAAAAAACAAAAAEAAAAAAAAAAAAAACA=</HashCode>
-      <FileName>MessageTypes.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="Ecodistrict.Messaging.MessageTypes.MessageType" Collapsed="true">
-    <Position X="13.25" Y="9.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAABAABAAAAAAAAQAAAAAgAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MessageTypes.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="Ecodistrict.Messaging.MessageTypes.ModuleStatus" Collapsed="true">
-    <Position X="15" Y="9.75" Width="1.5" />
+  <Enum Name="Ecodistrict.Messaging.ModuleStatus" Collapsed="true">
+    <Position X="18.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAgAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MessageTypes.cs</FileName>
+      <FileName>Response\StartModuleResponse.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

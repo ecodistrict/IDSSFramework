@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 
 using Ecodistrict.Messaging;
-using Ecodistrict.Messaging.MessageTypes;
 
 namespace EcodistrictMessagingTests
 {
