@@ -32,19 +32,14 @@ namespace Ecodistrict.Messaging
         protected string type;
     }
 
-    public class OutputJson
-    {
-        public IEnumerable<Output> Items { get; set; }
-    }
-
-    public class OutputItemConverter : Newtonsoft.Json.Converters.CustomCreationConverter<Output>
+    public class OutputItemConverter : JsonItemConverter<Output>//Newtonsoft.Json.Converters.CustomCreationConverter<Output>
     {
         public override Output Create(Type objectType)
         {
             throw new NotImplementedException();
         }
 
-        public Output Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
+        protected override Output Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
         {
             var type = (string)jObject.Property("type");
 

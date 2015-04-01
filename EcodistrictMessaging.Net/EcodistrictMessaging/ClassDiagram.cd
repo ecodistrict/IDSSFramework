@@ -10,7 +10,7 @@
   <Class Name="Ecodistrict.Messaging.IMessage" Collapsed="true">
     <Position X="7.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAACAAAAAAAAAQAAgBAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -164,14 +164,14 @@
   <Class Name="Ecodistrict.Messaging.Kpi" Collapsed="true">
     <Position X="0.5" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAABACAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAACAAQAAAAAAAAAA=</HashCode>
       <FileName>Result\Outputs\Kpi.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ecodistrict.Messaging.Output" Collapsed="true">
     <Position X="0.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Result\Outputs\Outputs.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -189,5 +189,68 @@
       <FileName>Serialize.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Ecodistrict.Messaging.NamespaceDoc" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EcodistrictMessaging.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecodistrict.Messaging.MessageItemConverter" Collapsed="true">
+    <Position X="17.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>IMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecodistrict.Messaging.Outputs" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Result\Outputs\Outputs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecodistrict.Messaging.OutputItemConverter" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAAAAAAAAAAAAAAAAEAAAAAAAAAACAA=</HashCode>
+      <FileName>Result\Outputs\Outputs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecodistrict.Messaging.MessageTypes.NamespaceDoc" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MessageTypes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ecodistrict.Messaging.JsonItemConverter&lt;T&gt;" Collapsed="true">
+    <Position X="16.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQQAAAAAAAAAAAAAAAAAAEAAAAAAAAAACAA=</HashCode>
+      <FileName>JsonItemConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Ecodistrict.Messaging.MessageTypes.MessageMethod" Collapsed="true">
+    <Position X="2.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAIAAAAAAAAAAACAAAAAEAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>MessageTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ecodistrict.Messaging.MessageTypes.MessageType" Collapsed="true">
+    <Position X="1.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAABAAAAAAAAQAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MessageTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ecodistrict.Messaging.MessageTypes.ModuleStatus" Collapsed="true">
+    <Position X="4.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MessageTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

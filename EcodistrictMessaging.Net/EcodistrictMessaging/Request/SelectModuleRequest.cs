@@ -32,8 +32,7 @@ namespace Ecodistrict.Messaging
         /// </summary>
         [DataMember]        
         public string variantId { get; private set; }
-
-
+        
         /// <summary>
         /// An indicator on which of the module's KPIs <see cref="InputSpecification"/> that is to be returned.
         /// </summary>

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Ecodistrict.Messaging
 {
-
     /// <summary> 
     /// Static class that can be used to deserialize json-strings or json-byte-arrays to .Net <see cref="IMessage"/> types.
     /// </summary> 
@@ -25,16 +24,7 @@ namespace Ecodistrict.Messaging
         /// <returns></returns>
         public static IMessage JsonString(string message)
         {
-            //IMessage messageObj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
-            //Type type = messageObj.GetDerivedType();
-
-            //IMessage obj;
-            //if (type != null)
-            //    obj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, type, settings);
-            //else
-            //    obj = null;
-
-            IMessage obj = Newtonsoft.Json.JsonConvert.DeserializeObject<IMessage>(message, new MessageItemConverter()); ;
+            IMessage obj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
 
             return obj;
         }

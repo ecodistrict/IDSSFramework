@@ -21,6 +21,7 @@ namespace Ecodistrict.Messaging
     /// this can be done by <see cref="Serialize"/>.
     /// </remarks> 
     [DataContract]
+    [Newtonsoft.Json.JsonConverter(typeof(MessageItemConverter))]
     public class IMessage 
     {
         /// <summary>
@@ -35,15 +36,15 @@ namespace Ecodistrict.Messaging
         [DataMember]
         public string type { get; protected set; }
     }
-    
-    public class MessageItemConverter : Newtonsoft.Json.Converters.CustomCreationConverter<IMessage>
+
+    public class MessageItemConverter : JsonItemConverter<IMessage>//Newtonsoft.Json.Converters.CustomCreationConverter<IMessage>
     {
         public override IMessage Create(Type objectType)
         {
             throw new NotImplementedException();
         }
 
-        public IMessage Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
+        protected override IMessage Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
         {
             var type = (string)jObject.Property("type");
             var method = (string)jObject.Property("method");
