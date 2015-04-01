@@ -34,11 +34,6 @@ namespace Ecodistrict.Messaging
 
     public class OutputItemConverter : JsonItemConverter<Output>
     {
-        public override Output Create(Type objectType)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override Output Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
         {
             var type = (string)jObject.Property("type");

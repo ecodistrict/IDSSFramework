@@ -13,9 +13,19 @@ namespace Ecodistrict.Messaging
     /// <typeparam name="T">Targeted class to convert</typeparam>
     /// <seealso cref="MessageItemConverter"/><seealso cref="OutputItemConverter"/>
     public abstract class JsonItemConverter<T> : Newtonsoft.Json.Converters.CustomCreationConverter<T>
-    { 
+    {
         /// <summary>
-        /// Create an instance of objectType, based properties in the JSON object
+        /// Dummy creation of an instance of objectType, where no JSON object is available.
+        /// </summary>
+        /// <param name="objectType"></param>
+        /// <returns></returns>
+        public override T Create(Type objectType)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Create an instance of objectType, based properties in the JSON object.
         /// </summary>
         /// <param name="objectType">type of object expected</param>
         /// <param name="jObject">contents of JSON object that will be deserialized</param>

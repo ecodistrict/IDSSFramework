@@ -39,11 +39,12 @@ namespace Ecodistrict.Messaging
 
     public class MessageItemConverter : JsonItemConverter<IMessage>//Newtonsoft.Json.Converters.CustomCreationConverter<IMessage>
     {
-        public override IMessage Create(Type objectType)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Create an instance of objectType, based properties in the JSON object.
+        /// </summary>
+        /// <param name="objectType">type of object expected, one of the derived classes from <see cref="IMessage"/></param>
+        /// <param name="jObject">contents of JSON object that will be deserialized</param>
+        /// <returns>An empty derived <see cref="IMessage"/> object that can be filled with the json data.</returns>
         protected override IMessage Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
         {
             var type = (string)jObject.Property("type");
