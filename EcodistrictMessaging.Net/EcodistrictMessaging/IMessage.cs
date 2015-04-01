@@ -77,20 +77,6 @@ namespace Ecodistrict.Messaging
 
             throw new ApplicationException(String.Format("The message type '{0}' or method '{1}' is not supported!", type, method));
         }
-
-        public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, Object existingValue, Newtonsoft.Json.JsonSerializer serializer)
-        {
-            // Load JObject from stream 
-            Newtonsoft.Json.Linq.JObject jObject = Newtonsoft.Json.Linq.JObject.Load(reader);
-
-            // Create target object based on JObject 
-            var target = Create(objectType, jObject);
-
-            // Populate the object properties 
-            serializer.Populate(jObject.CreateReader(), target);
-
-            return target;
-        }
     }
 
 

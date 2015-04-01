@@ -32,7 +32,7 @@ namespace Ecodistrict.Messaging
         protected string type;
     }
 
-    public class OutputItemConverter : JsonItemConverter<Output>//Newtonsoft.Json.Converters.CustomCreationConverter<Output>
+    public class OutputItemConverter : JsonItemConverter<Output>
     {
         public override Output Create(Type objectType)
         {
@@ -50,31 +50,6 @@ namespace Ecodistrict.Messaging
             }
 
             throw new ApplicationException(String.Format("The output type {0} is not supported!", type));
-        }
-
-        public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, Object existingValue, Newtonsoft.Json.JsonSerializer serializer)
-        {
-            // Load JObject from stream 
-            Newtonsoft.Json.Linq.JObject jObject = Newtonsoft.Json.Linq.JObject.Load(reader);
-
-            // Create target object based on JObject 
-            var target = Create(objectType, jObject);
-
-            // Populate the object properties 
-            serializer.Populate(jObject.CreateReader(), target);
-
-            return target;
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return (objectType == typeof(Output));
-        }
-        
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            // Left as an exercise to the reader :)
-            throw new NotImplementedException();
         }
     }
 }
