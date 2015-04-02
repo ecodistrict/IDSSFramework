@@ -87,36 +87,179 @@ namespace TestConsole
             }
         }
 
+        #region Examples
+        #region Requests
+        static void GetModulesRequestExemple()
+        {
+            //json-string from dashboard
+            string message = "{\"method\": \"getModules\",\"type\": \"request\"}";
+            //Message reconstructed into a .Net object.
+            IMessage recievedMessage = Deserialize.JsonString(message);
+            //Write object type to console
+            Console.WriteLine(recievedMessage.GetType().ToString());
+            //Output: Ecodistrict.Messaging.GetModulesRequest
+        }
+
+        static void SelectModuleRequestExemple()
+        {
+            //json-string from dashboard
+            string message = "{"+
+                               "\"type\": \"request\"," +
+                               "\"method\": \"selectModule\"," +
+                               "\"moduleId\": \"foo-bar_cheese-Module-v1-0\"," +
+                               "\"variantId\": \"503f191e8fcc19729de860ea\"," +
+                               "\"kpiId\": \"cheese-taste-kpi\"" +
+                             "}";
+            //Message reconstructed into a .Net object.
+            IMessage recievedMessage = Deserialize.JsonString(message);
+            //Write object type to console
+            Console.WriteLine(recievedMessage.GetType().ToString());
+            //Output: Ecodistrict.Messaging.SelectModuleRequest
+        }
+
+        static void StartModuleRequestExemple()
+        {
+            //json-string from dashboard
+            string message = "{" +
+                               "\"type\": \"request\"," +
+                               "\"method\": \"startModule\"," +
+                               "\"moduleId\": \"foo-bar_cheese-Module-v1-0\"," +
+                               "\"variantId\": \"503f191e8fcc19729de860ea\"," +
+                               "\"kpiId\": \"cheese-taste-kpi\"," +
+                               "\"inputData\": {" +
+                                                "\"cheese-type\": \"alp-kase\"," +
+                                                "\"age\": 2.718" +
+                                              "}" +
+                            "}";
+            //Message reconstructed into a .Net object.
+            IMessage recievedMessage = Deserialize.JsonString(message);
+            //Write object type to console
+            Console.WriteLine(recievedMessage.GetType().ToString());
+            //Output: Ecodistrict.Messaging.StartModuleRequest
+        }
+        #endregion
+
+        #region Responses
+        static void GetModulesResponseExemple()
+        {
+            //List of kpis this module can calculate.
+            List<string> kpiList = new List<string> { "cheese-taste-kpi", "cheese-price-kpi" };
+
+            //Create the IMessage response.
+            GetModulesResponse mResponse = 
+                new GetModulesResponse(
+                    name: "Cheese Module", 
+                    moduleId: "foo-bar_cheese-Module-v1-0",
+                    description: "A Module to assess cheese quality.", 
+                    kpiList: kpiList);
+
+            //json-string that can be interpeted by the dashboard
+            //In this case indented in order to be easier to read (won't efect the dashboard). 
+            string message = Serialize.ToJsonString(mResponse,true); 
+
+            //Write the message to the console
+            Console.WriteLine(message);
+
+            //Output:
+            //{
+            //  "name": "Cheese Module",
+            //  "description": "A Module to assess cheese quality.",
+            //  "kpiList": [
+            //    "cheese-taste-kpi",
+            //    "cheese-price-kpi"
+            //  ],  
+            //  "moduleId": "foo-bar_cheese-Module-v1-0",  
+            //  "method": "getModules",
+            //  "type": "response"
+            //}
+        }
+
+        static void SelectModuleResponseExemple()
+        {
+            //json-string from dashboard
+            string message = "{" +
+                               "\"type\": \"request\"," +
+                               "\"method\": \"selectModule\"," +
+                               "\"moduleId\": \"foo-bar_cheese-Module-v1-0\"," +
+                               "\"variantId\": \"503f191e8fcc19729de860ea\"," +
+                               "\"kpiId\": \"cheese-taste-kpi\"" +
+                             "}";
+            //Message reconstructed into a .Net object.
+            IMessage recievedMessage = Deserialize.JsonString(message);
+            //Write object type to console
+            Console.WriteLine(recievedMessage.GetType().ToString());
+            //Output: Ecodistrict.Messaging.SelectModuleResponse
+        }
+
+        static void StartModuleResponseExemple()
+        {
+            //json-string from dashboard
+            string message = "{" +
+                               "\"type\": \"request\"," +
+                               "\"method\": \"startModule\"," +
+                               "\"moduleId\": \"foo-bar_cheese-Module-v1-0\"," +
+                               "\"variantId\": \"503f191e8fcc19729de860ea\"," +
+                               "\"kpiId\": \"cheese-taste-kpi\"," +
+                               "\"inputData\": {" +
+                                                "\"cheese-type\": \"alp-kase\"," +
+                                                "\"age\": 2.718" +
+                                              "}" +
+                            "}";
+            //Message reconstructed into a .Net object.
+            IMessage recievedMessage = Deserialize.JsonString(message);
+            //Write object type to console
+            Console.WriteLine(recievedMessage.GetType().ToString());
+            //Output: Ecodistrict.Messaging.StartModuleResponse
+        }
+        #endregion
+
+
+        #endregion
+
         static void Main(string[] args)
         {
+            try
+            {
+                GetModulesRequestExemple();
+                SelectModuleRequestExemple();
+                StartModuleRequestExemple();
+                GetModulesResponseExemple();
+                SelectModuleResponseExemple();
+                StartModuleResponseExemple();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequest.txt");
-            IMessage objd = Ecodistrict.Messaging.Deserialize.JsonString(jsonmessage);
+
+            //string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequest.txt");
+            //IMessage objd = Ecodistrict.Messaging.Deserialize.JsonString(jsonmessage);
             
-            //InputSpecificationTest();
-            //IMessageTest();
-            //Test();
+            ////InputSpecificationTest();
+            ////IMessageTest();
+            ////Test();
 
-            // arrange
-            Outputs outputs = new Outputs();
-            outputs.Add(new Kpi(1, "info", "unit"));
-            ModuleResult mResult = new ModuleResult("moduleId", "variantId", "KpiId", outputs);
-            string str1 = Serialize.ToJsonString(mResult);
+            //// arrange
+            //Outputs outputs = new Outputs();
+            //outputs.Add(new Kpi(1, "info", "unit"));
+            //ModuleResult mResult = new ModuleResult("moduleId", "variantId", "KpiId", outputs);
+            //string str1 = Serialize.ToJsonString(mResult);
 
-            // act
-            ModuleResult mResult2 = (ModuleResult)Deserialize.JsonString(str1);
-            string str2 = Serialize.ToJsonString(mResult2);
-
-
-            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
-            string strOtps = Newtonsoft.Json.JsonConvert.SerializeObject(outputs, typeof(Outputs), settings);
-            Outputs outputs2 = (Outputs)Newtonsoft.Json.JsonConvert.DeserializeObject(strOtps, typeof(Outputs), settings);
+            //// act
+            //ModuleResult mResult2 = (ModuleResult)Deserialize.JsonString(str1);
+            //string str2 = Serialize.ToJsonString(mResult2);
 
 
-            Output output = new Kpi(1, "info", "unit");
-            string strOtp = Newtonsoft.Json.JsonConvert.SerializeObject(output, typeof(Output), settings);
-            object output2 = JsonConvert.DeserializeObject<Output>(strOtp, new OutputItemConverter());
-            //Output output2 = (Kpi)JsonConvert.DeserializeObject(strOtp, typeof(Kpi), settings);
+            //Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
+            //string strOtps = Newtonsoft.Json.JsonConvert.SerializeObject(outputs, typeof(Outputs), settings);
+            //Outputs outputs2 = (Outputs)Newtonsoft.Json.JsonConvert.DeserializeObject(strOtps, typeof(Outputs), settings);
+
+
+            //Output output = new Kpi(1, "info", "unit");
+            //string strOtp = Newtonsoft.Json.JsonConvert.SerializeObject(output, typeof(Output), settings);
+            //object output2 = JsonConvert.DeserializeObject<Output>(strOtp, new OutputItemConverter());
+            ////Output output2 = (Kpi)JsonConvert.DeserializeObject(strOtp, typeof(Kpi), settings);
                        
 
         }

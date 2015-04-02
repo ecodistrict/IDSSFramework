@@ -15,6 +15,33 @@ namespace Ecodistrict.Messaging
     /// 
     /// This message must be answered with the message type <see cref="StartModuleResponse"/>.
     /// </summary>
+    /// <example>
+    /// A simple reconstruction of a dashboard json message. Normaly these are acquired through
+    /// an IMB-hub in an byte array, in that case you may use Deserialize.JsonByteArr(bArr). 
+    /// See <see cref="Deserialize"/>.
+    /// <code>
+    /// //json-string from dashboard
+    /// string message = "{" +
+    ///                   "\"type\": \"request\"," +
+    ///                   "\"method\": \"startModule\"," +
+    ///                   "\"moduleId\": \"foo-bar_cheese-Module-v1-0\"," +
+    ///                   "\"variantId\": \"503f191e8fcc19729de860ea\"," +
+    ///                   "\"kpiId\": \"cheese-taste-kpi\"," +
+    ///                   "\"inputData\": {" +
+    ///                                    "\"cheese-type\": \"alp-kase\"," +
+    ///                                    "\"age\": 2.718" +
+    ///                                  "}" +
+    ///                "}";
+    /// //Message reconstructed into a .Net object.
+    /// IMessage recievedMessage = Deserialize.JsonString(message);
+    /// //Write object type to console
+    /// Console.WriteLine(recievedMessage.GetType().ToString());
+    /// //Output: Ecodistrict.Messaging.StartModuleRequest
+    /// </code>
+    /// </example>
+    /// <seealso cref="IMessage"/>
+    /// <seealso cref="Deserialize"/>
+    /// <seealso cref="SelectModuleResponse"/>
     [DataContract]
     public class StartModuleRequest : Request
     {

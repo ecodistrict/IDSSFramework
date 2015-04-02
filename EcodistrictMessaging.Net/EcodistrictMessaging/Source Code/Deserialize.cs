@@ -18,7 +18,8 @@ namespace Ecodistrict.Messaging
         /// </summary>
         /// <remarks>
         /// See <see cref="Ecodistrict.Messaging.IMessage"/> and its derived classes for what 
-        /// types of messages that can be deserialized.
+        /// types of messages that can be deserialized. Messages that does not conform with
+        /// a correctly formated dashboard message will result in a thrown <exception cref="ApplicationException"/>.
         /// </remarks> 
         /// <param name="message">Json-string formated according to the ecodistrict messaging protocol 
         /// <see href="https://github.com/ecodistrict/IDSSFramework/wiki"/>
@@ -39,7 +40,8 @@ namespace Ecodistrict.Messaging
         /// </summary>
         /// <remarks>
         /// See <see cref="Ecodistrict.Messaging.IMessage"/> and its derived classes for what 
-        /// types of messages that can be deserialized.
+        /// types of messages that can be deserialized. Messages that does not conform with
+        /// a correctly formated dashboard message will result in a thrown <exception cref="ApplicationException"/>.
         /// </remarks> 
         /// <param name="message">
         /// Json byte array formated according to the ecodistrict messaging protocol 

@@ -12,6 +12,49 @@ namespace Ecodistrict.Messaging
     /// Derived from the class <see cref="Response"/> and is a .Net container that can be seralized 
     /// into a json-message that can be sent to the dashboard as a response to the <see cref=" GetModulesRequest"/>.
     /// </summary>
+    /// <example>
+    /// An example of a response created when the application recieved a <see cref="GetModulesRequest"/> from the 
+    /// dashboard. The response message should be sent trough a IMB-hub as a <see cref="T:byte[]"/> originated from 
+    /// a json-string. <br/>
+    /// <br/>
+    /// However, in this example we demonstrates the usage of the .Net message-type <see cref="GetModulesResponse"/>
+    /// and how it can be seralized into a valid json-string that can be interpeted by the dashboard..
+    /// <code>
+    /// //List of kpis this module can calculate.;
+    /// List&lt;string&gt; kpiList = new List&lt;string&gt; { "cheese-taste-kpi", "cheese-price-kpi" };
+    /// 
+    /// //Create the IMessage response.
+    /// GetModulesResponse mResponse = 
+    ///    new GetModulesResponse(
+    ///        name: "Cheese Module", 
+    ///        moduleId: "foo-bar_cheese-Module-v1-0",
+    ///        description: "A Module to assess cheese quality.", 
+    ///        kpiList: kpiList);
+    ///
+    /// //Seralize the IMessage into a json-string that can be interpeted by the dashboard
+    /// //In this case indented in order for it to be easier to read (won't efect the dashboard). 
+    /// string message = Serialize.ToJsonString(mResponse,true); 
+    ///
+    /// //Write the message to the console
+    /// Console.WriteLine(message);
+    ///
+    /// //Output:
+    /// //{
+    /// //  "name": "Cheese Module",
+    /// //  "description": "A Module to assess cheese quality.",
+    /// //  "kpiList": [
+    /// //    "cheese-taste-kpi",
+    /// //    "cheese-price-kpi"
+    /// //  ],  
+    /// //  "moduleId": "foo-bar_cheese-Module-v1-0",  
+    /// //  "method": "getModules",
+    /// //  "type": "response"
+    /// //}
+    /// </code>
+    /// </example>
+    /// <seealso cref="IMessage"/>
+    /// <seealso cref="Deserialize"/>
+    /// <seealso cref="SelectModuleRequest"/>
     [DataContract]
     public class GetModulesResponse : Response
     {

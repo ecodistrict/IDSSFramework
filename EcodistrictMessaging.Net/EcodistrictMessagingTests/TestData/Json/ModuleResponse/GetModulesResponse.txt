@@ -4,10 +4,8 @@
   "kpiList": [
     "cheese-taste-kpi",
     "cheese-price-kpi"
-  ],
-  
-  "moduleId": "foo-bar_cheese-Module-v1-0",
-  
+  ],  
+  "moduleId": "foo-bar_cheese-Module-v1-0",  
   "method": "getModules",
   "type": "response"
 }
