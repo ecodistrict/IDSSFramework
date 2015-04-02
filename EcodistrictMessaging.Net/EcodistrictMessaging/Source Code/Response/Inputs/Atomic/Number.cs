@@ -74,10 +74,10 @@ namespace Ecodistrict.Messaging
         /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="unit"/>.
         /// </summary>
         /// <remarks>
-        /// Is <b>false</b> if <see cref="unit"/> is omitted in the constructor.
+        /// Is <see cref="Boolean">false</see> if <see cref="unit"/> is omitted in the constructor.
         /// </remarks>
         /// <returns> 
-        /// <b>true</b> if the class property <see cref="unit"/>  should be serialized with the <see cref="Input"/> object.
+        /// <see cref="Boolean">true</see> if the class property <see cref="unit"/>  should be serialized with the <see cref="Input"/> object.
         /// </returns>
         public bool ShouldSerializeunit()
         {
@@ -88,10 +88,10 @@ namespace Ecodistrict.Messaging
         /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="min"/>.
         /// </summary>
         /// <remarks>
-        /// Is <b>false</b> if <see cref="min"/> is omitted in the constructor.
+        /// Is <see cref="Boolean">false</see> if <see cref="min"/> is omitted in the constructor.
         /// </remarks>
         /// <returns> 
-        /// <b>true</b> if the class property <see cref="min"/>  should be serialized with the <see cref="Input"/> object.
+        /// <see cref="Boolean">true</see> if the class property <see cref="min"/>  should be serialized with the <see cref="Input"/> object.
         /// </returns>
         public bool ShouldSerializemin()
         {
@@ -102,10 +102,10 @@ namespace Ecodistrict.Messaging
         /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="max"/>.
         /// </summary>
         /// <remarks>
-        /// Is <b>false</b> if <see cref="max"/> is omitted in the constructor.
+        /// Is <see cref="Boolean">false</see> if <see cref="max"/> is omitted in the constructor.
         /// </remarks>
         /// <returns> 
-        /// <b>true</b> if the class property <see cref="max"/>  should be serialized with the <see cref="Input"/> object.
+        /// <see cref="Boolean">true</see> if the class property <see cref="max"/>  should be serialized with the <see cref="Input"/> object.
         /// </returns>
         public bool ShouldSerializemax()
         {

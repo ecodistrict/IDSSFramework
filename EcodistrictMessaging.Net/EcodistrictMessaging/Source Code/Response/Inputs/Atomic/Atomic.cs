@@ -29,10 +29,10 @@ namespace Ecodistrict.Messaging
         /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="value"/>.
         /// </summary>
         /// <remarks>
-        /// Is <b>false</b> if <see cref="value"/> is omitted in the constructor.
+        /// Is <see cref="Boolean">false</see> if <see cref="value"/> is omitted in the constructor.
         /// </remarks>
         /// <returns> 
-        /// <b>true</b> if the class property <see cref="value"/>  should be serialized with the <see cref="Input"/> object.
+        /// <see cref="Boolean">true</see> if the class property <see cref="value"/>  should be serialized with the <see cref="Input"/> object.
         /// </returns>
         public bool ShouldSerializevalue()
         {

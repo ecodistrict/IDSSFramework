@@ -35,8 +35,8 @@ namespace Ecodistrict.Messaging
     /// </code>
     /// </example>
     /// <seealso cref="IMessage"/>
-    /// <seealso cref="Deserialize"/>
     /// <seealso cref="SelectModuleResponse"/>
+    /// <seealso cref="Deserialize"/>
     [DataContract]
     public class SelectModuleRequest : Request
     {        

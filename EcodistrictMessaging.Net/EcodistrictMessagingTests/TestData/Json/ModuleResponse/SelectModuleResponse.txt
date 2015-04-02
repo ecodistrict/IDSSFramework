@@ -23,15 +23,12 @@
           "label": "Brie"
         }
       ],
-
 	  "value": "brie-cheese",
       "label": "Cheese type",
       "type": "select"
     }	
-  },
-  
+  },  
   "moduleId": "foo-bar_cheese-Module-v1-0",
-
   "method": "selectModule",
   "type": "response"
 }

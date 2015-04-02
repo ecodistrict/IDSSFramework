@@ -18,7 +18,7 @@ namespace Ecodistrict.Messaging
     /// a json-string. <br/>
     /// <br/>
     /// However, in this example we demonstrates the usage of the .Net message-type <see cref="GetModulesResponse"/>
-    /// and how it can be seralized into a valid json-string that can be interpeted by the dashboard..
+    /// and how it can be seralized into a valid json-string that can be interpeted by the dashboard.
     /// <code>
     /// //List of kpis this module can calculate.;
     /// List&lt;string&gt; kpiList = new List&lt;string&gt; { "cheese-taste-kpi", "cheese-price-kpi" };
@@ -53,8 +53,8 @@ namespace Ecodistrict.Messaging
     /// </code>
     /// </example>
     /// <seealso cref="IMessage"/>
-    /// <seealso cref="Deserialize"/>
     /// <seealso cref="SelectModuleRequest"/>
+    /// <seealso cref="Serialize"/>
     [DataContract]
     public class GetModulesResponse : Response
     {
