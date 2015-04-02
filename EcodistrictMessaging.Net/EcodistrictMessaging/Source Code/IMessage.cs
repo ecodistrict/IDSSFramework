@@ -15,9 +15,9 @@ namespace Ecodistrict.Messaging
     /// </summary> 
     /// <remarks> 
     /// Messages that are sent from the dashboard can be deseralized from a json string
-    /// to this type of object by the use of <see cref="Deserialize"/>.<br/>
+    /// into one of this class derived types by the use of <see cref="Deserialize"/>.<br/>
     /// <br/>
-    /// Messages that will be sent to the dashboard must first be seralized to a json string
+    /// Messages that will be sent to the dashboard must first be seralized into a json string,
     /// this can be done by <see cref="Serialize"/>.
     /// </remarks> 
     [DataContract]
@@ -37,6 +37,10 @@ namespace Ecodistrict.Messaging
         public string type { get; protected set; }
     }
 
+    /// <summary>
+    /// A custom converter for deserializing json-strings to the equivocal class <see cref="IMessage"/> to
+    /// its derived classes, e.g. <see cref="GetModulesRequest"/> or <see cref="StartModuleResponse"/>.
+    /// </summary>
     public class MessageItemConverter : JsonItemConverter<IMessage>//Newtonsoft.Json.Converters.CustomCreationConverter<IMessage>
     {
         /// <summary>

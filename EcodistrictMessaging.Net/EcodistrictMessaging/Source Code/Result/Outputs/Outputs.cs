@@ -32,8 +32,21 @@ namespace Ecodistrict.Messaging
         protected string type;
     }
 
+    /// <summary>
+    /// A custom converter for deserializing json-strings to the equivocal class <see cref="Output"/> to
+    /// its derived classes, e.g. <see cref="Kpi"/>.
+    /// </summary>
+    /// <remarks>
+    /// Currently only one <see cref="Output"/> type is avaiable namely <see cref="Kpi"/>.
+    /// </remarks>
     public class OutputItemConverter : JsonItemConverter<Output>
     {
+        /// <summary>
+        /// Create an instance of objectType, based properties in the JSON object.
+        /// </summary>
+        /// <param name="objectType">type of object expected, one of the derived classes from <see cref="IMessage"/></param>
+        /// <param name="jObject">contents of JSON object that will be deserialized</param>
+        /// <returns>An empty derived <see cref="Output"/> object that can be filled with the json data.</returns>
         protected override Output Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
         {
             var type = (string)jObject.Property("type");

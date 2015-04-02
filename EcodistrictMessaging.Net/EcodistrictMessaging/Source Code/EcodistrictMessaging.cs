@@ -8,7 +8,7 @@ namespace Ecodistrict.Messaging
 {
     /// <summary>
     /// The <see cref="Ecodistrict.Messaging"/> namespace contains classes for messaging between the
-    /// dashboard and modules in the Ecodistr-ICT project.
+    /// dashboard and modules in the <see href="http://ecodistr-ict.eu/">Ecodistr-ICT project</see>.
     /// </summary>
     /// <remarks>
     /// The <see cref="Ecodistrict.Messaging"/> namespace contains classes for messaging between the
@@ -33,8 +33,8 @@ namespace Ecodistrict.Messaging
     /// (contains the module specific <see cref="InputSpecification"/> for the selected kpi)<br/>
     /// <br/>
     /// Recieved: <see cref="StartModuleRequest"/>  and moduleId is my id => Respond:  <see cref="StartModuleResponse"/> with 
-    /// <see cref="Ecodistrict.Messaging.MessageTypes.ModuleStatus"/> 'Processing' and start calculate the selected kpi. 
-    /// When finished Respond:  <see cref="StartModuleResponse"/> with <see cref="Ecodistrict.Messaging.MessageTypes.ModuleStatus"/> 
+    /// <see cref="ModuleStatus"/> 'Processing' and start calculate the selected kpi. 
+    /// When finished Respond:  <see cref="StartModuleResponse"/> with <see cref="ModuleStatus"/> 
     /// 'Success' (if it is). Then send result with <see cref="ModuleResult"/>.<br/>
     /// <br/>
     /// <br/>

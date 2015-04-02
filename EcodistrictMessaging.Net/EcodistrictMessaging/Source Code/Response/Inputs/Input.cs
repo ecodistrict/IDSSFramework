@@ -41,7 +41,12 @@ namespace Ecodistrict.Messaging
         /// <summary>
         /// If the class property "order" should be serialized with the Input object.
         /// </summary>
-        /// <returns>If the class property "order" should be serialized with the Input object.</returns>
+        /// <remarks>
+        /// Is <b>false</b> if <see cref="order"/> is omitted in the constructor.
+        /// </remarks>
+        /// <returns> 
+        /// <b>true</b> if the class property <see cref="order"/>  should be serialized with the <see cref="Input"/> object.
+        /// </returns>
         public bool ShouldSerializeorder()
         {
             return order != null;

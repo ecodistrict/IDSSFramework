@@ -14,14 +14,19 @@ namespace Ecodistrict.Messaging
         static Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
 
         /// <summary>
-        /// Is used to deserialize json-strings to .Net <see cref="IMessage"/> types.
+        /// Is used to deserialize a json-strings into a .Net <see cref="IMessage"/> type.
         /// </summary>
         /// <remarks>
         /// See <see cref="Ecodistrict.Messaging.IMessage"/> and its derived classes for what 
         /// types of messages that can be deserialized.
         /// </remarks> 
-        /// <param name="message">Json-string formated according to the ecodistrict messaging protocol <see href="https://github.com/ecodistrict/IDSSFramework/wiki"/></param>
-        /// <returns></returns>
+        /// <param name="message">Json-string formated according to the ecodistrict messaging protocol 
+        /// <see href="https://github.com/ecodistrict/IDSSFramework/wiki"/>
+        /// </param>
+        /// <returns>
+        /// One of <see cref="IMessage"/>'s derived classes, e.g. <see cref="GetModulesRequest"/>, 
+        /// <see cref="SelectModuleResponse"/>,...
+        /// </returns>
         public static IMessage JsonString(string message)
         {
             IMessage obj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
@@ -30,14 +35,20 @@ namespace Ecodistrict.Messaging
         }
 
         /// <summary>
-        /// Is used to deserialize json-byte array to .Net <see cref="IMessage"/> types.
+        /// Is used to deserialize a json-byte array into a .Net <see cref="IMessage"/> type.
         /// </summary>
         /// <remarks>
         /// See <see cref="Ecodistrict.Messaging.IMessage"/> and its derived classes for what 
         /// types of messages that can be deserialized.
         /// </remarks> 
-        /// <param name="message">Json byte array formated according to the ecodistrict messaging protocol <see href="https://github.com/ecodistrict/IDSSFramework/wiki"/></param>
-        /// <returns></returns>
+        /// <param name="message">
+        /// Json byte array formated according to the ecodistrict messaging protocol 
+        /// <see href="https://github.com/ecodistrict/IDSSFramework/wiki"/>
+        /// </param>
+        /// <returns>
+        /// One of <see cref="IMessage"/>'s derived classes, e.g. <see cref="GetModulesRequest"/>, 
+        /// <see cref="SelectModuleResponse"/>,...
+        /// </returns>
         public static IMessage JsonByteArr(byte[] message)
         {
             string json = Encoding.UTF8.GetString(message);

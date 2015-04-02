@@ -24,14 +24,16 @@ namespace Ecodistrict.Messaging
         /// </summary>
         [DataMember]
         protected object value;
-
-
+        
         /// <summary>
         /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="value"/>.
         /// </summary>
         /// <remarks>
-        /// Is false if <see cref="value"/> is ommitted in the constructor.
+        /// Is <b>false</b> if <see cref="value"/> is omitted in the constructor.
         /// </remarks>
+        /// <returns> 
+        /// <b>true</b> if the class property <see cref="value"/>  should be serialized with the <see cref="Input"/> object.
+        /// </returns>
         public bool ShouldSerializevalue()
         {
             return value != null;

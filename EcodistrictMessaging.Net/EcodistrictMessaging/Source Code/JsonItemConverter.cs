@@ -17,8 +17,8 @@ namespace Ecodistrict.Messaging
         /// <summary>
         /// Dummy creation of an instance of objectType, where no JSON object is available.
         /// </summary>
-        /// <param name="objectType"></param>
-        /// <returns></returns>
+        /// <param name="objectType">type of object expected</param>
+        /// <returns>NotImplementedException</returns>
         public override T Create(Type objectType)
         {
             throw new NotImplementedException();
@@ -29,7 +29,7 @@ namespace Ecodistrict.Messaging
         /// </summary>
         /// <param name="objectType">type of object expected</param>
         /// <param name="jObject">contents of JSON object that will be deserialized</param>
-        /// <returns></returns>
+        /// <returns>An empty object that can be filled with the json data.</returns>
         protected abstract T Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject);
 
         /// <summary>

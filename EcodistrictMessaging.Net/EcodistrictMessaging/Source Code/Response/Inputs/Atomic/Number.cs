@@ -74,9 +74,11 @@ namespace Ecodistrict.Messaging
         /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="unit"/>.
         /// </summary>
         /// <remarks>
-        /// Is false if <see cref="unit"/> is ommitted in the constructor.
+        /// Is <b>false</b> if <see cref="unit"/> is omitted in the constructor.
         /// </remarks>
-        /// <returns></returns>
+        /// <returns> 
+        /// <b>true</b> if the class property <see cref="unit"/>  should be serialized with the <see cref="Input"/> object.
+        /// </returns>
         public bool ShouldSerializeunit()
         {
             return unit != null;
@@ -86,9 +88,11 @@ namespace Ecodistrict.Messaging
         /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="min"/>.
         /// </summary>
         /// <remarks>
-        /// Is false if <see cref="min"/> is ommitted in the constructor.
+        /// Is <b>false</b> if <see cref="min"/> is omitted in the constructor.
         /// </remarks>
-        /// <returns></returns>
+        /// <returns> 
+        /// <b>true</b> if the class property <see cref="min"/>  should be serialized with the <see cref="Input"/> object.
+        /// </returns>
         public bool ShouldSerializemin()
         {
             return min != null;
@@ -98,9 +102,11 @@ namespace Ecodistrict.Messaging
         /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="max"/>.
         /// </summary>
         /// <remarks>
-        /// Is false if <see cref="max"/> is ommitted in the constructor.
+        /// Is <b>false</b> if <see cref="max"/> is omitted in the constructor.
         /// </remarks>
-        /// <returns></returns>
+        /// <returns> 
+        /// <b>true</b> if the class property <see cref="max"/>  should be serialized with the <see cref="Input"/> object.
+        /// </returns>
         public bool ShouldSerializemax()
         {
             return max != null;

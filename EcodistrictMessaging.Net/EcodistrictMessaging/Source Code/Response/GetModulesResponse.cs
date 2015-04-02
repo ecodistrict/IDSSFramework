@@ -10,8 +10,7 @@ namespace Ecodistrict.Messaging
 {
     /// <summary>
     /// Derived from the class <see cref="Response"/> and is a .Net container that can be seralized 
-    /// to a json-message that can be sent to the dashboard as a response to the "getModules" request
-    /// <see cref=" GetModulesRequest"/>.
+    /// into a json-message that can be sent to the dashboard as a response to the <see cref=" GetModulesRequest"/>.
     /// </summary>
     [DataContract]
     public class GetModulesResponse : Response
