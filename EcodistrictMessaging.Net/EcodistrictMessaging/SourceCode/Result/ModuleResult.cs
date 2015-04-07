@@ -145,7 +145,6 @@ namespace Ecodistrict.Messaging
             this.kpiId = kpiId;
             this.variantId = variantId;
             this.outputs = outputs;
-
         }
     }
 }
