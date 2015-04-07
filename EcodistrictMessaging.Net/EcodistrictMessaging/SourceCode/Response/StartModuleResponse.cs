@@ -135,6 +135,7 @@ namespace Ecodistrict.Messaging
         /// <param name="variantId">Used by dashboard for tracking.</param>
         /// <param name="kpiId">The kpi that the dashboard previously selected.</param>
         /// <param name="status">Status indicator</param>
+        /// <param name="info">Optional info regarding the status.</param>
         public StartModuleResponse(string moduleId, string variantId, string kpiId, ModuleStatus status, string info = null)
         {
             this.method = "startModule";
