@@ -23,6 +23,9 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Checkbox : Atomic
     {
+
+        internal Checkbox() { }
+
         /// <summary>
         /// Checkbox constructor.
         /// </summary>

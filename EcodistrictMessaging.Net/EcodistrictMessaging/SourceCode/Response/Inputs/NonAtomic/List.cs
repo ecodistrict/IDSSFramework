@@ -20,6 +20,8 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class List : NonAtomic
     {
+        internal List() { }
+
         /// <summary>
         /// List constructor.
         /// </summary>

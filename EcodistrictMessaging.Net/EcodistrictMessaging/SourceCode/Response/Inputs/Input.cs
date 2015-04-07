@@ -13,6 +13,7 @@ namespace Ecodistrict.Messaging
     /// <see cref="InputSpecification"/>.
     /// </summary>
     [DataContract]
+    [Newtonsoft.Json.JsonConverter(typeof(InputItemConverter))]
     public class Input
     {
         /// <summary>
@@ -50,6 +51,42 @@ namespace Ecodistrict.Messaging
         public bool ShouldSerializeorder()
         {
             return order != null;
+        }
+    }
+
+
+    public class InputItemConverter : JsonItemConverter<Input>//Newtonsoft.Json.Converters.CustomCreationConverter<IMessage>
+    {
+        /// <summary>
+        /// Create an instance of objectType, based properties in the JSON object.
+        /// </summary>
+        /// <param name="objectType">type of object expected, one of the derived classes from <see cref="IMessage"/></param>
+        /// <param name="jObject">contents of JSON object that will be deserialized</param>
+        /// <returns>An empty derived <see cref="Input"/> object that can be filled with the json data.</returns>
+        protected override Input Create(Type objectType, Newtonsoft.Json.Linq.JObject jObject)
+        {
+            var type = (string)jObject.Property("type");
+
+            switch (type)
+            {
+                //Atomic
+                case "checkbox":
+                    return new Checkbox();
+                case "number":
+                    return new Number();
+                case "select":
+                    return new Select();
+                case "text":
+                    return new Text();
+                //NonAtomic
+                case "inputGroup":
+                    return new InputGroup();
+                case "list":
+                    return new List();
+
+            }
+
+            throw new ApplicationException(String.Format("The input type '{0}' is not supported!", type));
         }
     }
 }

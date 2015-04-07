@@ -20,6 +20,8 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Text : Atomic
     {
+        internal Text() { }
+
         /// <summary>
         /// Text constructor.
         /// </summary>

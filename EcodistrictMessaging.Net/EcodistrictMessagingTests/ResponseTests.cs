@@ -96,5 +96,33 @@ namespace EcodistrictMessagingTests
             }
         }
 
+        [TestMethod]
+        public void StartModuleResponseReconstructionTest()
+        {
+            try
+            {
+                // arrange
+                InputSpecification inputSpec = new InputSpecification();
+                List aList = new List(label: "aList");
+                aList.Add(key: "o1", item: new Number(label: "o1 label", value: 1));
+                aList.Add(key: "o2", item: new Number(label: "o2 label", value: 2));
+                aList.Add(key: "o3", item: new Number(label: "o3 label", value: 3));
+                inputSpec.Add("list", aList);
+                SelectModuleResponse mResponse = new SelectModuleResponse("", "", "", inputSpec);
+                string expected = Serialize.ToJsonString(mResponse);
+
+                // act
+                SelectModuleResponse mResponseR = (SelectModuleResponse)Deserialize.JsonString(expected);
+                string actual = Serialize.ToJsonString(mResponseR);
+
+                // assert
+                Assert.AreEqual(expected, actual, false, "\nSelectModuleResponse not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
+
     }
 }

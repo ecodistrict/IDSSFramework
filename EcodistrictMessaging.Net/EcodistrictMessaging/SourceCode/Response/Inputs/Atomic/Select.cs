@@ -27,6 +27,8 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected Options options;
 
+        internal Select() { }
+
         /// <summary>
         /// Select constructor.
         /// </summary>

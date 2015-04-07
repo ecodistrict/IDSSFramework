@@ -20,6 +20,8 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class InputGroup : NonAtomic    
     {
+        internal InputGroup() { }
+
         /// <summary>
         /// InputGroup constructor.
         /// </summary>
