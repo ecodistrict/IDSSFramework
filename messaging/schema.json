@@ -14,7 +14,8 @@
         "type": "object",
         "properties": {
             "method": {"enum": ["getModules"]}
-        }
+        },
+        "required": ["method"]
     }
 
 }
