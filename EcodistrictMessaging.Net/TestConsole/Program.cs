@@ -367,6 +367,11 @@ namespace TestConsole
                         outputs: outputs);
                 //Send the result message...
 
+
+                string resMessage = Serialize.ToJsonString(mResult);
+                Console.WriteLine(resMessage);
+
+
             }
         }
 
