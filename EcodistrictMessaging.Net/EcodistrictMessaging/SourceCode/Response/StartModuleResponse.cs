@@ -119,6 +119,12 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected string status;
 
+        /// <summary>
+        /// Optional info regarding the status.
+        /// </summary>
+        [DataMember]
+        protected string info;
+        
         internal StartModuleResponse() { }
 
         /// <summary>
@@ -128,8 +134,9 @@ namespace Ecodistrict.Messaging
         /// <param name="moduleId">Unique identifer of the module using the messaging protokoll.</param>
         /// <param name="variantId">Used by dashboard for tracking.</param>
         /// <param name="kpiId">The kpi that the dashboard previously selected.</param>
-        /// <param name="status">Status message</param>
-        public StartModuleResponse(string moduleId, string variantId, string kpiId, ModuleStatus status)
+        /// <param name="status">Status indicator</param>
+        /// <param name="info">Optional info regarding the status.</param>
+        public StartModuleResponse(string moduleId, string variantId, string kpiId, ModuleStatus status, string info = null)
         {
             this.method = "startModule";
             this.type = "response";
@@ -137,10 +144,34 @@ namespace Ecodistrict.Messaging
             this.variantId = variantId;
             this.kpiId = kpiId;
 
-            if (status == ModuleStatus.Processing)
-                this.status = "processing";
-            else if (status == ModuleStatus.Success)
-                this.status = "success";
+            switch(status)
+            {
+                case ModuleStatus.Processing:
+                    this.status = "processing";
+                    break;
+                case ModuleStatus.Success:
+                    this.status = "success";
+                    break;
+                case ModuleStatus.Failed:
+                    this.status = "failed";
+                    break;
+            }
+            
+            this.info = info;
+        }
+
+        /// <summary>
+        /// Indicator whether <see cref="Serialize"/> should serialize the property <see cref="info"/>.
+        /// </summary>
+        /// <remarks>
+        /// Is <see cref="Boolean">false</see> if <see cref="info"/> is omitted in the constructor.
+        /// </remarks>
+        /// <returns> 
+        /// <see cref="Boolean">true</see> if the class property <see cref="info"/>  should be serialized with the object.
+        /// </returns>
+        public bool ShouldSerializeinfo()
+        {
+            return info != null;
         }
     }
 
@@ -158,6 +189,11 @@ namespace Ecodistrict.Messaging
         /// <summary>
         /// The module has finished succesfully, the dashboard may expect a result soon.
         /// </summary>
-        Success
+        Success,
+
+        /// <summary>
+        /// The module has failed the calculations.
+        /// </summary>
+        Failed,
     }
 }

@@ -87,8 +87,8 @@ namespace Ecodistrict.Messaging
         /// <param name="moduleId">Unique identifier of the Module (Web-friendly string).</param>
         /// <param name="description">A description of the Module that will be visualized in the dashboard.</param>
         /// <param name="kpiList">A list of kpis that the Module can calculate.</param>
-        public GetModulesResponse(string name, string moduleId, 
-            string description, List<string> kpiList)
+        public GetModulesResponse(string name, string moduleId, string description, 
+            List<string> kpiList)
         {
             this.method = "getModules";
             this.type = "response";
@@ -96,7 +96,6 @@ namespace Ecodistrict.Messaging
             this.description = description;
             this.moduleId = moduleId;
             this.kpiList = kpiList;
-
         }
             
 

@@ -48,6 +48,8 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected object max;
 
+        internal Number() { }
+
         /// <summary>
         /// Number constructor.
         /// </summary>

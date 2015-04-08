@@ -14,21 +14,23 @@ namespace Ecodistrict.Messaging
     /// <remarks>
     /// May be used to define the input specification <see cref="InputSpecification"/>.<br/>
     /// <br/>
-    /// In that case it will may be displayed as a subgroup containing the supplied <see cref="Atomic"/> 
-    /// and <see cref="NonAtomic"/> input.
+    /// In that case it will may be displayed as a list containing <see cref="Atomic"/> and/or <see cref="NonAtomic"/> input.
+    /// The user can choose to use one or more.
     /// </remarks>
     [DataContract]
-    public class InputGroup : NonAtomic    
+    public class List : NonAtomic
     {
+        internal List() { }
+
         /// <summary>
-        /// InputGroup constructor.
+        /// List constructor.
         /// </summary>
         /// <param name="label">Mandatory label of the visualized component.</param>
         /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).
         /// Left out or null value will be interpeted as 0 in the dashboard.</param>
-        public InputGroup(string label, object order = null)
+        public List(string label, object order = null)
         {
-            this.type = "inputGroup";
+            this.type = "list";
             this.label = label;
             this.order = order;
         }

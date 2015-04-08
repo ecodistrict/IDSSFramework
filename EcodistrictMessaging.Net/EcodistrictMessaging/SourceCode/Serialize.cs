@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Ecodistrict.Messaging
 {
     /// <summary> 
-    /// Static class that can be used to serialize .Net object types to json-strings or json-byte-arrays .
+    /// Static class that can be used to serialize .Net object types to json-strings.
     /// </summary> 
     public static class Serialize
     {
@@ -28,17 +28,6 @@ namespace Ecodistrict.Messaging
 
            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, obj.GetType(), settings);
             
-        }
-
-        /// <summary>
-        /// Convert the <see cref="IMessage"/> to a json formated byte array.
-        /// </summary>
-        /// <param name="obj">The message object.</param>
-        /// <returns>Json byte array.</returns>
-        public static byte[] ToJsonByteArr(IMessage obj)
-        {
-            string json = ToJsonString(obj);
-            return Encoding.UTF8.GetBytes(json);
         }
 
         /// <summary>

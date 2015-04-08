@@ -9,31 +9,30 @@ using System.Runtime.Serialization.Json;
 namespace Ecodistrict.Messaging
 {
     /// <summary>
-    /// An input class derived from the class <see cref="Atomic"/>. 
+    /// An input class derived from the class <see cref="NonAtomic"/>. 
     /// </summary>
     /// <remarks>
-    /// May be used to define the input specification <see cref="InputSpecification"/>.
-    /// 
-    /// In that case it will may be displayed as an input box were the user may
-    /// supply a text.
+    /// May be used to define the input specification <see cref="InputSpecification"/>.<br/>
+    /// <br/>
+    /// In that case it will may be displayed as a subgroup containing the supplied <see cref="Atomic"/> 
+    /// and <see cref="NonAtomic"/> input.
     /// </remarks>
     [DataContract]
-    public class Text : Atomic
+    public class InputGroup : NonAtomic    
     {
+        internal InputGroup() { }
+
         /// <summary>
-        /// Text constructor.
+        /// InputGroup constructor.
         /// </summary>
         /// <param name="label">Mandatory label of the visualized component.</param>
         /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).
-        /// Left out or null value will be interpeted as 0 in the dashboard. </param>
-        /// <param name="value">Default text value</param>
-        public Text(string label, int? order = null, object value = null)
+        /// Left out or null value will be interpeted as 0 in the dashboard.</param>
+        public InputGroup(string label, object order = null)
         {
-            this.type = "text";
+            this.type = "inputGroup";
             this.label = label;
             this.order = order;
-            this.value = value;
         }
     }
 }
-
