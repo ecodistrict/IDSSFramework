@@ -3,10 +3,7 @@
 
     "description": "Schema for ECODISTRICT messages.",
 
-    "definitions": {
-    	"id": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/",
-    	"getModulesRequest" : {"$ref": "getModulesRequest"}
-    },
+    "schema-base": { "$ref": : "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/"},
 
     "oneOf": [
         {"$ref": "#/definitions/getModulesRequest"},
