@@ -13,6 +13,7 @@ json = {
   "kpiId": "cheese-taste-kpi",
   "variantId": "503f191e8fcc19729de860ea",
   "inputSpecification": {
+    "aoeu": 3,
     "age": {
       "label": "Age",
       "min": 0,
