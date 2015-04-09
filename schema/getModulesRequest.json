@@ -7,7 +7,7 @@
             "pattern": "^[a-z][a-z0-9-_]*$"
         },
         
-        "moduleId": {"$ref": "#/definitions/web-friendly-string"},
+        "moduleId": {"$ref": "#/definitions/web-friendly-string"}
     },
 
     "type": "object",
