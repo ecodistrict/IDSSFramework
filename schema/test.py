@@ -7,19 +7,38 @@ import urllib.request
 schema = json.loads(open("message.json", 'rb').read().decode("utf-8"))
 
 json = {
-  "method": "moduleResult",
-  "type": "result",
+  "method": "selectModule",
+  "type": "response",
   "moduleId": "foo-bar_cheese-module-v1-0",
-  "variantId": "503f191e8fcc19729de860ea",
   "kpiId": "cheese-taste-kpi",
-  "outputs": [
-    {
-      "type": "kpi",
-      "value": 42,
-      "info": "Cheese tastiness",
-      "unit": "ICQU (International Cheese Quality Units)"
+  "variantId": "503f191e8fcc19729de860ea",
+  "inputSpecification": {
+    "age": {
+      "label": "Age",
+      "min": 0,
+      "type": "number",
+      "unit": "years"
+    },
+    "cheese-type": {
+      "label": "Cheese type",
+      "type": "select",
+      "value": "brie-cheese",
+      "options": [
+        {
+          "value": "alp-cheese",
+          "label": "Alpk\u00e4se"
+        },
+        {
+          "value": "edam-cheese",
+          "label": "Edammer"
+        },
+        {
+          "value": "brie-cheese",
+          "label": "Brie"
+        }
+      ]
     }
-  ]
+  }
 }
 
 validate(json, schema)
