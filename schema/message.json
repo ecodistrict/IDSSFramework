@@ -3,7 +3,15 @@
 
     "description": "Schema for ECODISTRICT messages.",
 
+    "definitions": {
+    	"id": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/",
+    	"getModulesRequest" : {"$ref": "getModulesRequest"}
+    },
+
     "oneOf": [
-        {"$ref": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/getModulesRequest.json"}
+        {"$ref": "#/definitions/getModulesRequest"},
+        {"$ref": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/getModulesResponse.json"},
+        {"$ref": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/selectModuleRequest.json"},
+        {"$ref": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/selectModuleResponse.json"}
     ]
 }
