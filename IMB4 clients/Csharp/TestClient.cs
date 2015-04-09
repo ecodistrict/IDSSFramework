@@ -26,20 +26,25 @@ namespace TestClient
             {
                 Console.WriteLine("connected");
 
-                Console.WriteLine("private event name: "+connection.privateEventName);
-                Console.WriteLine("monitor event name: "+connection.monitorEventName);
+                Console.WriteLine("private event name: " + connection.privateEventName);
+                Console.WriteLine("monitor event name: " + connection.monitorEventName);
 
+                // connect an event handler for a disconnect
                 connection.onDisconnect += (aConnection) =>
                     {
                         Console.WriteLine("disconnected..");
                     };
+
+                // connect an event handler for an exception in processing events and commands
                 connection.onException += (aConnection, aException) =>
                     {
-                        Console.WriteLine("## Exception: "+aException.Message);
+                        Console.WriteLine("## Exception: " + aException.Message);
                     };
-                
+
+                // subscribe to an event
                 TEventEntry eventEntry = connection.subscribe("test event");
 
+                // add an event handler for string events
                 eventEntry.onString += (aEventEntry, aString) =>
                     {
                         if (aString.CompareTo("string command") == 0)
@@ -47,20 +52,8 @@ namespace TestClient
                         else
                             Console.WriteLine("## received string " + aEventEntry.eventName + " " + aString);
                     };
-                eventEntry.onIntString += (aEventEntry, aInt, aString) =>
-                    {
-                        if (aInt==1234 && aString.CompareTo("int string payload") == 0)
-                            Console.WriteLine("OK received int string " + aEventEntry.eventName + " " + aInt.ToString() + " " + aString);
-                        else
-                            Console.WriteLine("## received int string " + aEventEntry.eventName + " " + aInt.ToString() + " " + aString);
-                    };
-                eventEntry.onChangeObject += (aEventEntry, aAction, aObjectID, aAttribute) =>
-                    {
-                        if (aAction==TEventEntry.actionChange && aObjectID==2345 && aAttribute.CompareTo("an attribute") == 0)
-                        Console.WriteLine("OK received change object " + aEventEntry.eventName + " " + aAction.ToString() + " " + aObjectID.ToString() + " " + aAttribute);
-                    else
-                        Console.WriteLine("## received change object " + aEventEntry.eventName + " " + aAction.ToString() + " " + aObjectID.ToString() + " " + aAttribute);
-                    };
+
+                // add an event handler for stream create events
                 eventEntry.onStreamCreate += (aEventEntry, aStreamName) =>
                     {
                         if (aStreamName == "a stream name")
@@ -69,6 +62,8 @@ namespace TestClient
                             Console.WriteLine("## received stream create " + aEventEntry.eventName + " " + aStreamName);
                         return File.Create("out.cscharp.dmp");
                     };
+
+                // add an event handler for stream end events
                 eventEntry.onStreamEnd += (aEventEntry, aStreamName, aStream, aCancel) =>
                 {
                     if (aStreamName == "a stream name" && !aCancel)
@@ -87,19 +82,21 @@ namespace TestClient
                     {
                         case 's':
                         case 'S':
+                            // send a basic string event
                             eventEntry.signalString("string command");
-                            eventEntry.signalIntString(1234, "int string payload");
-                              FileStream stream = File.OpenRead("test.jpg"); // todo: use path of existing file 
-                              try
-                              {
+
+                            // send a stream
+                            FileStream stream = File.OpenRead("test.jpg"); // todo: use path of existing file 
+                            try
+                            {
                                 eventEntry.signalStream("a stream name", stream);
-                              }
-                              finally
-                              {
+                            }
+                            finally
+                            {
                                 stream.Close();
-                              }
-                              eventEntry.signalChangeObject(TEventEntry.actionChange, 2345, "an attribute");
-                              Console.WriteLine("sent events..");
+                            }
+
+                            Console.WriteLine("sent events..");
                             break;
                         case '?':
                             showHelp();
