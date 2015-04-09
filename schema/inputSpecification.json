@@ -3,7 +3,6 @@
 
     "description": "Schema for ECODISTRICT input specification.",
 
-    "type": "object",
-
+    "type": "object"
     	
 }

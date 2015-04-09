@@ -10,7 +10,7 @@ json = {
   "method": "selectModule",
   "type": "response",
   "moduleId": "foo-bar_cheese-module-v1-0",
-  "kpiId": "3cheese-taste-kpi",
+  "kpiId": "cheese-taste-kpi",
   "variantId": "503f191e8fcc19729de860ea",
   "inputSpecification": {
     "age": {
