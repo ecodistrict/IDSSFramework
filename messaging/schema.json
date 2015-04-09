@@ -1,10 +1,12 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/messaging/schema.json#",
 
     "description": "Schema for ECODISTRICT messages.",
 
     "web-friendly-string": {
         "type": "string",
+        "argh": true,
         "pattern": "^[a-z][a-z0-9-_]*$"
     },
 
