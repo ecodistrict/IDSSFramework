@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+
+    "definitions": {
+        "web-friendly-string": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-_]*$"
+        },
+        
+        "moduleId": {"$ref": "#/definitions/web-friendly-string"}
+    },
+
+    "type": "object",
+    "properties": {
+            "method": {"enum": ["getModules"]},
+            "type": {"enum": ["request"]}
+    },
+    "required": ["method", "type"]
+}

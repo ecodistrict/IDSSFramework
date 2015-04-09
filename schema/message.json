@@ -3,12 +3,47 @@
 
     "description": "Schema for ECODISTRICT messages.",
 
-    "id": {"https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/"},
+    "definitions": {
+        "web-friendly-string": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-_]*$"
+        },
+        
+        "moduleId": {"$ref": "#/definitions/web-friendly-string"},
+
+        "getModulesRequest": {
+            "type": "object",
+            "properties": {
+                "method": {"enum": ["getModules"]},
+                "type": {"enum": ["request"]},
+            },
+            "required": ["method", "type"]
+        },
+
+        "getModulesResponse": {
+            "type": "object",
+            "properties": {
+                "method": {"enum": ["getModules"]},
+                "type": {"enum": ["response"]},
+                "moduleId": {"$ref": "#/definitions/moduleId"},
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "kpiList": {
+                    "type": "array",
+                    "items": {"$ref": "#/definitions/kpiId"}
+                }
+            },
+            "required": ["method", "type", "moduleId", "name", "description", "kpiList"]
+        }
+    },
 
     "oneOf": [
-        {"$ref": "getModulesRequest.json"},
-        {"$ref": "getModulesResponse.json"},
-        {"$ref": "selectModuleRequest.json"},
-        {"$ref": "selectModuleResponse.json"}
+        {"$ref": "definitions/getModulesRequest"},
+        {"$ref": "definitions/getModulesResponse"},
+        {"$ref": "definitions/selectModuleRequest"},
+        {"$ref": "definitions/selectModuleResponse"},
+        {"$ref": "definitions/startModuleRequest"},
+        {"$ref": "definitions/startModuleResponse"}
     ]
+    	
 }

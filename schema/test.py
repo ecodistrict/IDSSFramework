@@ -9,7 +9,6 @@ json = {
     "type": "request"
 }
 
-
 try:
     validate(json, schema)
 except jsonschema.exceptions.ValidationError as e:
