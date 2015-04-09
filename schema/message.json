@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+
+    "description": "Schema for ECODISTRICT messages.",
+
+    "oneOf": [
+        {"$ref": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/getModulesRequest.json"}
+    ]
+}

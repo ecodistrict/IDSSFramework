@@ -1,0 +1,30 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+
+    "description": "Schema for ECODISTRICT messages.",
+
+    "type": "object",
+
+    "properties": {
+        "oneOf": [
+            {"$ref": "#/definitions/getModulesRequest"}
+        ]
+    },
+
+    "definitions": {
+        "web-friendly-string": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-_]*$"
+        },
+        
+        "moduleId": {"$ref": "#/definitions/web-friendly-string"},
+
+        "getModulesRequest": {
+            "type": "object",
+            "properties": {
+                "method": {"enum": ["getModules"]}
+            },
+            "required": ["method"]
+        }
+    }
+}
