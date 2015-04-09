@@ -3,12 +3,12 @@
 
     "description": "Schema for ECODISTRICT messages.",
 
-    "schema-shortcut": {"$ref": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/"},
+    "id": {"https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/schema/"},
 
     "oneOf": [
-        {"$ref": "#/schema-shortcut/getModulesRequest"},
-        {"$ref": "#/schema-shortcut/getModulesResponse.json"},
-        {"$ref": "#/schema-shortcut/selectModuleRequest.json"},
-        {"$ref": "#/schema-shortcut/selectModuleResponse.json"}
+        {"$ref": "getModulesRequest.json"},
+        {"$ref": "getModulesResponse.json"},
+        {"$ref": "selectModuleRequest.json"},
+        {"$ref": "selectModuleResponse.json"}
     ]
 }
