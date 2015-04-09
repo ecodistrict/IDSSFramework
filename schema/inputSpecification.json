@@ -5,10 +5,5 @@
 
     "type": "object",
 
-    "properties": {
-        "aoeu": {"type": "number"}
-    },
-
-    "required": ["aoeu"]
     	
 }
