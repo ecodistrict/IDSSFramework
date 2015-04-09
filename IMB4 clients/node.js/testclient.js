@@ -7,18 +7,7 @@ console.log('monitor event name: ' + imbConnection.monitorEventName);
 
 var event = imbConnection.subscribe("test event");
 
-event.onChangeObject = function (aEventEntry, aAction, aObjectID, aAttribute) {
-    if (aAction == imb.actionChange & aObjectID == 2345 & aAttribute == 'an attribute')
-        console.log("OK received change object " + aEventEntry.eventName + " " + aAction + " " + aObjectID + " " + aAttribute);
-    else
-        console.log("## received change object " + aEventEntry.eventName + " " + aAction + " " + aObjectID + " " + aAttribute);
-}
-event.onIntString = function (aEventEntry, aInt, aString) {
-    if (aInt == 1234 && aString == 'int string payload')
-        console.log("OK received int string " + aEventEntry.eventName + " " + aInt + " " + aString);
-    else
-        console.log("## received int string " + aEventEntry.eventName + " " + aInt + " " + aString);
-}
+// add handlers for string events, creation of a stream and the end of a stream
 event.onString = function (aEventEntry, aString) {
     if (aString == 'string command')
         console.log("OK received string " + aEventEntry.eventName + " " + aString);
@@ -39,11 +28,11 @@ event.onStreamEnd = function (aEventEntry, aStream, aStreamName, aCancel) {
         console.log('## received stream end ' + aEventEntry.eventName + ' ' + aStreamName + ' ' + aCancel);
 }
 
-
+// send a string event
 event.signalString('string command');
-event.signalIntString(1234, 'int string payload');
+
+// send a stream
 event.signalStream('a stream name', require('fs').createReadStream('test.jpg')); // todo: use file name of existing file
-event.signalChangeObject(imb.actionChange, 2345, 'an attribute');
 
 console.log('sent events..')
 
@@ -56,9 +45,7 @@ rl.on('line', function (line) {
     switch (line.trim()) {
         case 'help':
         case '?':
-            console.log('   i: send int-string');
             console.log('   s: send string');
-            console.log('   c: send change object');
             console.log('   S: send stream');
             console.log('   quit or q: exit application');
             console.log('   help or ?: this text');
@@ -67,17 +54,9 @@ rl.on('line', function (line) {
         case 'q':
             rl.close();
             break;
-        case 'i':
-            console.log('   sending int string');
-            event.signalIntString(1234, 'int string payload');
-            break;
         case 's':
             console.log('   sending string');
             event.signalString('string command');
-            break;
-        case 'c':
-            console.log('   sending change object');
-            event.signalChangeObject(imb.actionChange, 2345, 'an attribute');
             break;
         case 'S':
             console.log('   sending Stream')
