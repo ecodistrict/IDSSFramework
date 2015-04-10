@@ -3,8 +3,19 @@ var js = new JaySchema(JaySchema.loaders.http);     // we provide the HTTP loade
                                                     // you could load from a DB instead
 
 var baseURI = "https://github.com/ecodistrict/IDSSFramework/raw/master/messaging/schema.json"
-var jsonPointer = "#/inputSpecification"
-var schema = { "$ref": baseURI + jsonPointer };
+
+function validate (instance, jsonPointer) {
+  var schema = { "$ref": baseURI + jsonPointer };
+
+  js.validate(instance, schema, function(errs) {
+    if (errs) {
+      console.error(errs);
+    } else { 
+      console.log('validation OK!');
+    }
+  });
+}
+
 
 var instance = {
   "list-of-people": {
@@ -24,10 +35,4 @@ var instance = {
   }
 };
 
-js.validate(instance, schema, function(errs) {
-  if (errs) {
-    console.error(errs);
-  } else { 
-    console.log('validation OK!');
-  }
-});
+validate(instance, "#/inputSpecification")
