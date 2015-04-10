@@ -94,11 +94,10 @@
                     "properties": {
                         "inputs": {
                             "type": "array",
-                            "items": {"$ref": "#/input"}
+                            "items": {"$ref": "#/inputSpecification"}
                         }
                     },
-                    "required": ["inputs"],
-                    "minItems": 1
+                    "required": ["inputs"]
                 }
             ]
         },
@@ -138,7 +137,11 @@
     },
 
     "inputSpecification": {
-        "type": "object"
+        "type": "object",
+        "patternProperties": {
+            "^[a-z][a-z0-9-_]*$": {"$ref": "#/input"}
+        },
+        "additionalProperties": false
     },
 
 
