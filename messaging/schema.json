@@ -92,10 +92,7 @@
                 {"$ref": "#/inputs/inputBase"},
                 {
                     "properties": {
-                        "inputs": {
-                            "type": "array",
-                            "items": {"$ref": "#/inputSpecification"}
-                        }
+                        "inputs": {"$ref": "#/inputSpecification"}
                     },
                     "required": ["inputs"]
                 }
