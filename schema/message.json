@@ -61,7 +61,7 @@
                 "moduleId": {"$ref": "#/definitions/moduleId"},
                 "variantId": {"$ref": "#/definitions/variantId"},
                 "kpiId": {"$ref": "#/definitions/kpiId"},
-                "inputSpecification": {"$ref": "inputSpecification.json"}
+                "inputSpecification": {"$ref": "#/definitions/inputSpecification"}
             },
             "required": ["method", "type", "moduleId", "variantId", "kpiId", "inputSpecification"]
         },
