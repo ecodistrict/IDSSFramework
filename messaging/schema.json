@@ -21,7 +21,7 @@
                 "order": {"type": ["number", "null"]}
             },
             "required": ["type", "label"],
-            "additionalInputs": false
+            "additionalProperties": false
         },
 
         "number": {
