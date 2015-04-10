@@ -1,6 +1,5 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "https://github.com/ecodistrict/IDSSFramework/raw/master/schema/message.json",
 
     "description": "Schema for ECODISTRICT messages.",
 
@@ -14,7 +13,7 @@
         "kpiId": {"$ref": "#/definitions/web-friendly-string"},
         "variantId": {"type": "string"},
 
-        "inputSpecification": {},
+        "inputSpecification": {"$ref": "inputSpecification.json"},
 
         "getModulesRequest": {
             "type": "object",
