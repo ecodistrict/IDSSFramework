@@ -14,7 +14,7 @@
         "kpiId": {"$ref": "#/definitions/web-friendly-string"},
         "variantId": {"type": "string"},
 
-        "inputSpecification": {"$ref": "inputSpecification.json"},
+        "inputSpecification": {},
 
         "getModulesRequest": {
             "type": "object",
