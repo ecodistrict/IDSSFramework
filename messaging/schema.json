@@ -73,7 +73,68 @@
                     "required": ["options"]
                 }
             ]
+        },
+
+        "checkbox": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "type": {"enum": ["checkbox"]},
+                        "value": {"type": ["boolean", "null"]}
+                    }
+                }
+            ]
+        },
+
+        "nonAtomic": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "inputs": {
+                            "type": "array",
+                            "items": {"$ref": "#/input"}
+                        }
+                    },
+                    "required": ["inputs"],
+                    "minItems": 1
+                }
+            ]
+        },
+
+        "list": {
+            "allOf": [
+                {"$ref": "#/inputs/nonAtomic"},
+                {
+                    "properties": {
+                        "type": {"enum": ["list"]}
+                    }
+                }
+            ]
+        },
+
+        "inputGroup": {
+            "allOf": [
+                {"$ref": "#/inputs/nonAtomic"},
+                {
+                    "properties": {
+                        "type": {"enum": ["inputGroup"]}
+                    }
+                }
+            ]
         }
+    },
+
+    "input": {
+        "oneOf": [
+            {"$ref": "#/inputs/number"},
+            {"$ref": "#/inputs/text"},
+            {"$ref": "#/inputs/select"},
+            {"$ref": "#/inputs/checkbox"},
+            {"$ref": "#/inputs/list"},
+            {"$ref": "#/inputs/inputGroup"}
+        ]
     },
 
     "inputSpecification": {
@@ -183,7 +244,7 @@
             {"$ref": "#/startModuleRequest"},
             {"$ref": "#/startModuleResponse"},
             {"$ref": "#/moduleResult"}
-        ]        
+        ]
     }
     	
 }
