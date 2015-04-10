@@ -13,8 +13,6 @@
         "kpiId": {"$ref": "#/definitions/web-friendly-string"},
         "variantId": {"type": "string"},
 
-        "inputSpecification": {"$ref": "inputSpecification.json"},
-
         "getModulesRequest": {
             "type": "object",
             "properties": {
@@ -60,7 +58,7 @@
                 "moduleId": {"$ref": "#/definitions/moduleId"},
                 "variantId": {"$ref": "#/definitions/variantId"},
                 "kpiId": {"$ref": "#/definitions/kpiId"},
-                "inputSpecification": {"$ref": "#/definitions/inputSpecification"}
+                "inputSpecification": {"$ref": "https://github.com/ecodistrict/IDSSFramework/raw/master/schema/message.json"}
             },
             "required": ["method", "type", "moduleId", "variantId", "kpiId", "inputSpecification"]
         },
