@@ -18,6 +18,8 @@ function validate (jsonPointer, instance) {
 
 validate("#/message", {"method": "getModules", "type": "request"});
 
+validate("#/getModulesRequest", {"method": "getModules", "type": "request"});
+
 validate(
   "#/inputs/number",
   {"type": "number", "min": 0, "value": 42, "label": "A number"});
