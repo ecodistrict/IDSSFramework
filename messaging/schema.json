@@ -20,7 +20,8 @@
                 "label": {"type": "string"},
                 "order": {"type": ["number", "null"]}
             },
-            "required": ["type", "label"]
+            "required": ["type", "label"],
+            "additionalInputs": false
         },
 
         "number": {
@@ -58,6 +59,7 @@
                         "type": {"enum": ["select"]},
                         "options": {
                             "type": "array",
+                            "uniqueItems": true,
                             "items": {
                                 "type": "object",
                                 "properties": {
