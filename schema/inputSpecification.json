@@ -1,9 +1,0 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "https://github.com/ecodistrict/IDSSFramework/raw/master/schema/inputSpecification.json",
-
-    "description": "Schema for ECODISTRICT input specification.",
-
-    "type": "object"
-    	
-}
