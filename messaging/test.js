@@ -4,7 +4,7 @@ var js = new JaySchema(JaySchema.loaders.http);     // we provide the HTTP loade
 
 var baseURI = "https://github.com/ecodistrict/IDSSFramework/raw/master/messaging/schema.json"
 
-function validate (instance, jsonPointer) {
+function validate (jsonPointer, instance) {
   var schema = { "$ref": baseURI + jsonPointer };
 
   js.validate(instance, schema, function(errs) {
@@ -16,23 +16,29 @@ function validate (instance, jsonPointer) {
   });
 }
 
+validate("#/message", {"method": "getModules", "type": "request"});
 
-var instance = {
-  "list-of-people": {
-    "type": "list",
-    "label": "Add people and their shoe sizes",
-    "inputs": {
-      "name": {
-        "type": "text",
-        "label": "Name"
-      },
-      "shoe-size": {
-        "type": "number",
-        "label": "Shoe size",
-        "value": 42
+validate(
+  "#/inputs/number",
+  {"type": "number", "min": 0, "value": 42, "label": "A number"});
+
+validate(
+  "#/inputSpecification",
+  {
+    "list-of-people": {
+      "type": "list",
+      "label": "Add people and their shoe sizes",
+      "inputs": {
+        "name": {
+          "type": "text",
+          "label": "Name"
+        },
+        "shoe-size": {
+          "type": "number",
+          "label": "Shoe size",
+          "value": 42
+        }
       }
     }
-  }
-};
+  });
 
-validate(instance, "#/inputSpecification")
