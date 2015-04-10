@@ -13,24 +13,26 @@
     "variantId": {"type": "string"},
 
     "inputs": {
-        "_commonProperties": [
-            {"label": {"type": "string"}},
-            {"order": {"type": ["number", "null"]}}
-        ],
-
-        "number": {
+        "inputBase": {
             "type": "object",
             "properties": {
-                "allOf": {"$ref": "#/inputs/_commonProperties"},
-                "type": {"enum": ["number"]},
-                "oneOf": [
-                    {"$ref": "#/input/definitions/_number"}
-                ]
+                "label": {"type": "string"},
+                "order": {"type": ["number", "null"]}
             },
-            "value": {"type": ["number", "null"]}
+            "required": ["type", "label"]
         },
 
-        "required": ["type", "label"]
+        "number": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "type": {"enum": ["number"]},
+                        "value": {"type": ["number", "null"]}
+                    }
+                }
+            ]
+        }
     },
 
     "inputSpecification": {
