@@ -3,7 +3,7 @@ var js = new JaySchema(JaySchema.loaders.http);     // we provide the HTTP loade
                                                     // you could load from a DB instead
 
 var baseURI = "https://github.com/ecodistrict/IDSSFramework/raw/master/messaging/schema.json"
-var instance = { "type": "select", "label": "åpa åpa", "options": [{"label": "aoeu", "value": 444}] };
+var instance = { "type": "select", "oink": "boink", "label": "åpa åpa", "options": [{"label": "aoeu", "value": ""}, {"label": "aoeu", "value": "31"}] };
 var schema = { "$ref": baseURI + "#/inputs/select" };
 
 js.validate(instance, schema, function(errs) {
