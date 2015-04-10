@@ -12,9 +12,31 @@
     "kpiId": {"$ref": "#/web-friendly-string"},
     "variantId": {"type": "string"},
 
+    ""
+
+    "input": {
+        "definitions": {
+            "_number": {
+                "value": {"type": ["number", "null"]}
+            }
+        },
+
+        "type": "object",
+        "properties": {
+            "type": {"type": "string"},
+            "label": {"type": "string"},
+            "order": {"type": ["number", "null"]},
+            "oneOf": [
+                {"$ref": "#/input/definitions/_number"}
+            ]
+        },
+        "required": ["type", "label"]
+    },
+
     "inputSpecification": {
         "type": "object"
     },
+
 
     "getModulesRequest": {
         "type": "object",
