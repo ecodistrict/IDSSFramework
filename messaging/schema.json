@@ -13,6 +13,7 @@
     "variantId": {"type": "string"},
 
     "inputs": {
+        
         "inputBase": {
             "type": "object",
             "properties": {
@@ -28,8 +29,47 @@
                 {
                     "properties": {
                         "type": {"enum": ["number"]},
-                        "value": {"type": ["number", "null"]}
+                        "value": {"type": ["number", "null"]},
+                        "min": {"type": ["number", "null"]},
+                        "max": {"type": ["number", "null"]},
+                        "unit": {"type": ["string", "null"]}
                     }
+                }
+            ]
+        },
+
+        "text": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "type": {"enum": ["text"]},
+                        "value": {"type": ["string", "null"]}
+                    }
+                }
+            ]
+        },
+
+        "select": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "type": {"enum": ["select"]},
+                        "options": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {"type": "string"},
+                                    "label": {"type": "string"}
+                                },
+                                "required": ["value", "label"]
+                            }
+                        },
+                        "value": {"type": ["string", "null"]}
+                    },
+                    "required": ["options"]
                 }
             ]
         }
