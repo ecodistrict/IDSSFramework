@@ -12,8 +12,6 @@
     "kpiId": {"$ref": "#/web-friendly-string"},
     "variantId": {"type": "string"},
 
-    ""
-
     "input": {
         "definitions": {
             "_number": {
