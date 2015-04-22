@@ -86,7 +86,7 @@ namespace TestConsole
                 Console.WriteLine(ex.Message);
             }
         }
-
+        
         #region Examples
         #region Requests
         static void GetModulesRequestExemple()
@@ -121,7 +121,7 @@ namespace TestConsole
             Console.WriteLine("");
         }
 
-        static void StartModuleRequestExemple()
+        static void StartModuleRequestExemple()  //TODO update examples for StartModuleRequest. Does not conform with dashboard.
         {
             //json-string from dashboard
             string message = "{" +
@@ -415,6 +415,22 @@ namespace TestConsole
 
         #endregion
 
+        
+        static void StartModuleRequestComplex()
+        {
+            //json-string from dashboard
+            string message = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequestComplex.txt");
+            //Message reconstructed into a .Net object.
+            IMessage recievedMessage = Deserialize.JsonString(message);
+            //Write object type to console
+            Console.WriteLine(recievedMessage.GetType().ToString());
+            //Output: Ecodistrict.Messaging.StartModuleRequest
+
+            Console.WriteLine("");
+        }
+
+                        
+
 
         static void StartModuleResponseReconstructionTest()
         {
@@ -444,42 +460,22 @@ namespace TestConsole
                 SelectModuleResponseExemple();
                 StartModuleResponseExemple();
 
-                StartModuleResponseReconstructionTest();
+                //StartModuleResponseReconstructionTest();
+
+                // arrange
+                string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequest3.txt");
+               
+                // act
+                IMessage message = Deserialize.JsonString(jsonmessage);
+                Type actual = message.GetType();
+
+
+                StartModuleRequestComplex();
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-
-
-            //string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequest.txt");
-            //IMessage objd = Ecodistrict.Messaging.Deserialize.JsonString(jsonmessage);
-            
-            ////InputSpecificationTest();
-            ////IMessageTest();
-            ////Test();
-
-            //// arrange
-            //Outputs outputs = new Outputs();
-            //outputs.Add(new Kpi(1, "info", "unit"));
-            //ModuleResult mResult = new ModuleResult("moduleId", "variantId", "KpiId", outputs);
-            //string str1 = Serialize.ToJsonString(mResult);
-
-            //// act
-            //ModuleResult mResult2 = (ModuleResult)Deserialize.JsonString(str1);
-            //string str2 = Serialize.ToJsonString(mResult2);
-
-
-            //Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
-            //string strOtps = Newtonsoft.Json.JsonConvert.SerializeObject(outputs, typeof(Outputs), settings);
-            //Outputs outputs2 = (Outputs)Newtonsoft.Json.JsonConvert.DeserializeObject(strOtps, typeof(Outputs), settings);
-
-
-            //Output output = new Kpi(1, "info", "unit");
-            //string strOtp = Newtonsoft.Json.JsonConvert.SerializeObject(output, typeof(Output), settings);
-            //object output2 = JsonConvert.DeserializeObject<Output>(strOtp, new OutputItemConverter());
-            ////Output output2 = (Kpi)JsonConvert.DeserializeObject(strOtp, typeof(Kpi), settings);
-                       
+            }        
 
         }
     }

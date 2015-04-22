@@ -83,6 +83,8 @@ namespace Ecodistrict.Messaging
                     return new InputGroup();
                 case "list":
                     return new List();
+                case "geojson":
+                    return new GeoJson();
 
             }
 

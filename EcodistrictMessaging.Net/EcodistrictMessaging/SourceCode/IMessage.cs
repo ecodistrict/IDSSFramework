@@ -74,7 +74,7 @@ namespace Ecodistrict.Messaging
                     else if(type == "response")
                             return new StartModuleResponse();
                     break;   
-                case "ModuleResult":
+                case "moduleResult":
                     if (type == "result")
                             return new ModuleResult();
                     break;   
