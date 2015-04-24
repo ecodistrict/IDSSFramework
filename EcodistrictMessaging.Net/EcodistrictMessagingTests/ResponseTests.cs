@@ -51,20 +51,21 @@ namespace EcodistrictMessagingTests
                 Options opt = new Options();
                 opt.Add(new Option(value: "alp-cheese", label: "Alpk\u00e4se"));
                 opt.Add(new Option(value: "edam-cheese", label: "Edammer"));
-                opt.Add(new Option(value: "brie-cheese", label: "Brie"));
-                iSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: "brie-cheese"));  //TODO value = brie-cheese makes room for error in dashboard, shuld be connected to the options.
+                Option brie = new Option(value: "brie-cheese", label: "Brie");
+                opt.Add(brie);
+                iSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: brie));  
                 
                 SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
                     variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
                 var message = File.ReadAllText(@"../../TestData/Json/ModuleResponse/SelectModuleResponse.txt");
-                object obj = JsonConvert.DeserializeObject(message);
-                string expected = JsonConvert.SerializeObject(obj);
+                IMessage obj = Deserialize.JsonString(message);
+                string expected = Serialize.ToJsonString(obj);
 
                 // act
                 string actual = Serialize.ToJsonString(mResponse);
 
                 // assert
-                Assert.AreEqual(expected, actual, false, "\nNot Json-seralized correctly:\n\n" + expected + "\n\n" + actual); //TODO is unordered => makes comparisson hard.
+                Assert.AreEqual(expected, actual, false, "\nNot Json-serialized correctly:\n\n" + expected + "\n\n" + actual); //TODO is unordered => makes comparisson hard.
             }
             catch (Exception ex)
             {

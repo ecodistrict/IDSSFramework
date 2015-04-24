@@ -18,6 +18,16 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Options : List<Option>
     {
+        public bool Contains(Option option)
+        {
+            foreach(Option opt in this)
+            {
+                if (opt.value == option.value)
+                    return true;
+            }
+
+            return false;
+        }
     }
 
     /// <summary>
@@ -30,7 +40,7 @@ namespace Ecodistrict.Messaging
         /// The value of the option.
         /// </summary>
         [DataMember]
-        protected string value;
+        public string value { get; protected set; }
 
         /// <summary>
         /// Description of the value.
