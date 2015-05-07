@@ -18,7 +18,7 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Options : List<Option>
     {
-        public bool Contains(Option option)
+        public new bool Contains(Option option)
         {
             foreach(Option opt in this)
             {
