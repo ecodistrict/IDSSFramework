@@ -51,5 +51,19 @@ namespace Ecodistrict.Messaging
             }
             this.options = options;
         }
+
+        public int SelectedIndex()
+        {
+            if (value != null)
+            {
+                for(int i = 0 ; i < options.Count ; ++i)
+                {
+                    if (options[i] == value)
+                        return i;
+                }
+            }
+            
+            return -1;
+        }
     }
 }

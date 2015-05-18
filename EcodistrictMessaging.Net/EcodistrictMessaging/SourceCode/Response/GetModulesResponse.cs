@@ -13,12 +13,12 @@ namespace Ecodistrict.Messaging
     /// into a json-message that can be sent to the dashboard as a response to the <see cref=" GetModulesRequest"/>.
     /// </summary>
     /// <example>
-    /// An example of a response created when the application recieved a <see cref="GetModulesRequest"/> from the 
+    /// An example of a response created when the application received a <see cref="GetModulesRequest"/> from the 
     /// dashboard. The response message should be sent trough a IMB-hub as a <see cref="T:byte[]"/> originated from 
     /// a json-string. <br/>
     /// <br/>
     /// However, in this example we demonstrates the usage of the .Net message-type <see cref="GetModulesResponse"/>
-    /// and how it can be seralized into a valid json-string that can be interpeted by the dashboard.
+    /// and how it can be serialized into a valid json-string that can be interpreted by the dashboard.
     /// <code>
     /// //List of kpis this module can calculate.;
     /// List&lt;string&gt; kpiList = new List&lt;string&gt; { "cheese-taste-kpi", "cheese-price-kpi" };
@@ -31,8 +31,8 @@ namespace Ecodistrict.Messaging
     ///        description: "A Module to assess cheese quality.", 
     ///        kpiList: kpiList);
     ///
-    /// //Seralize the IMessage into a json-string that can be interpeted by the dashboard
-    /// //In this case indented in order for it to be easier to read (won't efect the dashboard). 
+    /// //Serialize the IMessage into a json-string that can be interpreted by the dashboard
+    /// //In this case indented in order for it to be easier to read (won't effect the dashboard). 
     /// string message = Serialize.ToJsonString(mResponse,true); 
     ///
     /// //Write the message to the console
