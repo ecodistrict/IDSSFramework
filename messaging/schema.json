@@ -1,23 +1,250 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "https://raw.githubusercontent.com/ecodistrict/IDSSFramework/master/messaging/schema.json#",
 
-    "description": "Schema for ECODISTRICT messages.",
+    "description": "Schema for ECODISTRICT messaging protocol.",
 
     "web-friendly-string": {
         "type": "string",
-        "argh": true,
         "pattern": "^[a-z][a-z0-9-_]*$"
     },
-
+    
     "moduleId": {"$ref": "#/web-friendly-string"},
+    "kpiId": {"$ref": "#/web-friendly-string"},
+    "variantId": {"type": "string"},
+
+    "inputs": {
+        
+        "inputBase": {
+            "type": "object",
+            "properties": {
+                "label": {"type": "string"},
+                "order": {"type": ["number", "null"]}
+            },
+            "required": ["type", "label"]
+        },
+
+        "number": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "type": {"enum": ["number"]},
+                        "value": {"type": ["number", "null"]},
+                        "min": {"type": ["number", "null"]},
+                        "max": {"type": ["number", "null"]},
+                        "unit": {"type": ["string", "null"]}
+                    }
+                }
+            ]
+        },
+
+        "text": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "type": {"enum": ["text"]},
+                        "value": {"type": ["string", "null"]}
+                    }
+                }
+            ]
+        },
+
+        "select": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "type": {"enum": ["select"]},
+                        "options": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {"type": "string"},
+                                    "label": {"type": "string"}
+                                },
+                                "required": ["value", "label"]
+                            }
+                        },
+                        "value": {"type": ["string", "null"]}
+                    },
+                    "required": ["options"]
+                }
+            ]
+        },
+
+        "checkbox": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "type": {"enum": ["checkbox"]},
+                        "value": {"type": ["boolean", "null"]}
+                    }
+                }
+            ]
+        },
+
+        "nonAtomic": {
+            "allOf": [
+                {"$ref": "#/inputs/inputBase"},
+                {
+                    "properties": {
+                        "inputs": {"$ref": "#/inputSpecification"}
+                    },
+                    "required": ["inputs"]
+                }
+            ]
+        },
+
+        "list": {
+            "allOf": [
+                {"$ref": "#/inputs/nonAtomic"},
+                {
+                    "properties": {
+                        "type": {"enum": ["list"]}
+                    }
+                }
+            ]
+        },
+
+        "inputGroup": {
+            "allOf": [
+                {"$ref": "#/inputs/nonAtomic"},
+                {
+                    "properties": {
+                        "type": {"enum": ["inputGroup"]}
+                    }
+                }
+            ]
+        }
+    },
+
+    "input": {
+        "oneOf": [
+            {"$ref": "#/inputs/number"},
+            {"$ref": "#/inputs/text"},
+            {"$ref": "#/inputs/select"},
+            {"$ref": "#/inputs/checkbox"},
+            {"$ref": "#/inputs/list"},
+            {"$ref": "#/inputs/inputGroup"}
+        ]
+    },
+
+    "inputSpecification": {
+        "type": "object",
+        "patternProperties": {
+            "^[a-z][a-z0-9-_]*$": {"$ref": "#/input"}
+        },
+        "additionalProperties": false
+    },
+
 
     "getModulesRequest": {
         "type": "object",
         "properties": {
-            "method": {"enum": ["getModules"]}
+            "method": {"enum": ["getModules"]},
+            "type": {"enum": ["request"]}
         },
-        "required": ["method"]
-    }
+        "required": ["method", "type"]
+    },
 
+    "getModulesResponse": {
+        "type": "object",
+        "properties": {
+            "method": {"enum": ["getModules"]},
+            "type": {"enum": ["response"]},
+            "moduleId": {"$ref": "#/moduleId"},
+            "name": {"type": "string"},
+            "description": {"type": "string"},
+            "kpiList": {
+                "type": "array",
+                "items": {"$ref": "#/kpiId"}
+            }
+        },
+        "required": ["method", "type", "moduleId", "name", "description", "kpiList"]
+    },
+
+    "selectModuleRequest": {
+        "type": "object",
+        "properties": {
+            "method": {"enum": ["selectModule"]},
+            "type": {"enum": ["request"]},
+            "moduleId": {"$ref": "#/moduleId"},
+            "variantId": {"$ref": "#/variantId"},
+            "kpiId": {"$ref": "#/kpiId"}
+        },
+        "required": ["method", "type", "moduleId", "variantId", "kpiId"]
+    },
+
+    "selectModuleResponse": {
+        "type": "object",
+        "properties": {
+            "method": {"enum": ["selectModule"]},
+            "type": {"enum": ["response"]},
+            "moduleId": {"$ref": "#/moduleId"},
+            "variantId": {"$ref": "#/variantId"},
+            "kpiId": {"$ref": "#/kpiId"},
+            "inputSpecification": {"$ref": "#/inputSpecification"}
+        },
+        "required": ["method", "type", "moduleId", "variantId", "kpiId", "inputSpecification"]
+    },
+
+    "startModuleRequest": {
+        "type": "object",
+        "properties": {
+            "method": {"enum": ["startModule"]},
+            "type": {"enum": ["request"]},
+            "moduleId": {"$ref": "#/moduleId"},
+            "variantId": {"$ref": "#/variantId"},
+            "kpiId": {"$ref": "#/kpiId"},
+            "inputData": {"type": "object"}
+        },
+        "required": ["method", "type", "moduleId", "variantId", "kpiId", "inputData"]
+    },
+
+    "startModuleResponse": {
+        "type": "object",
+        "properties": {
+            "method": {"enum": ["startModule"]},
+            "type": {"enum": ["response"]},
+            "moduleId": {"$ref": "#/moduleId"},
+            "variantId": {"$ref": "#/variantId"},
+            "kpiId": {"$ref": "#/kpiId"},
+            "status": {"enum": ["processing", "success", "failed"]},
+            "info": {"type": "string"}
+        },
+        "required": ["method", "type", "moduleId", "variantId", "kpiId", "status"]
+    },
+
+    "moduleResult": {
+        "type": "object",
+        "properties": {
+            "method": {"enum": ["moduleResult"]},
+            "type": {"enum": ["result"]},
+            "moduleId": {"$ref": "#/moduleId"},
+            "variantId": {"$ref": "#/variantId"},
+            "kpiId": {"$ref": "#/kpiId"},
+            "outputs": {
+                "type": "array",
+                "items": {"type": "object"}
+            }
+        },
+        "required": ["method", "type", "moduleId", "variantId", "kpiId", "outputs"]
+    },
+
+    "message": {
+        "oneOf": [
+            {"$ref": "#/getModulesRequest"},
+            {"$ref": "#/getModulesResponse"},
+            {"$ref": "#/selectModuleRequest"},
+            {"$ref": "#/selectModuleResponse"},
+            {"$ref": "#/startModuleRequest"},
+            {"$ref": "#/startModuleResponse"},
+            {"$ref": "#/moduleResult"}
+        ]
+    }
+    	
 }

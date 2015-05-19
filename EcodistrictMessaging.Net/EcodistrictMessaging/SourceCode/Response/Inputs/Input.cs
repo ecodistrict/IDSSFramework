@@ -54,8 +54,11 @@ namespace Ecodistrict.Messaging
         }
     }
 
-
-    public class InputItemConverter : JsonItemConverter<Input>//Newtonsoft.Json.Converters.CustomCreationConverter<IMessage>
+    /// <summary>
+    /// A custom converter for de-serializing json-strings to the equivocal class <see cref="Input"/> to
+    /// its derived classes, e.g. <see cref="Number"/> or <see cref="Checkbox"/>.
+    /// </summary>
+    public class InputItemConverter : JsonItemConverter<Input>
     {
         /// <summary>
         /// Create an instance of objectType, based properties in the JSON object.
@@ -83,6 +86,8 @@ namespace Ecodistrict.Messaging
                     return new InputGroup();
                 case "list":
                     return new List();
+                case "geojson":
+                    return new GeoJson();
 
             }
 

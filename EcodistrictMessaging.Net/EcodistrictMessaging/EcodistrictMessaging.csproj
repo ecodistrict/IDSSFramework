@@ -54,6 +54,7 @@
     <Compile Include="SourceCode\Response\GetModulesResponse.cs" />
     <Compile Include="SourceCode\IMessage.cs" />
     <Compile Include="SourceCode\Response\Inputs\Input.cs" />
+    <Compile Include="SourceCode\Response\Inputs\NonAtomic\GeoJson.cs" />
     <Compile Include="SourceCode\Response\Inputs\NonAtomic\InputGroup.cs" />
     <Compile Include="SourceCode\Response\Inputs\InputSpecification.cs" />
     <Compile Include="SourceCode\Response\Inputs\NonAtomic\List.cs" />

@@ -1,0 +1,21 @@
+﻿{
+	"type":"request",
+	"method":"startModule",
+	"moduleId":"foo-bar_cheese-module-v1-0",
+	"variantId":"503f191e8fcc19729de860ea",
+	"kpiId":"cheese-taste-kpi",
+	"inputs": {
+		"cheese-type":{
+			"template":"directives/inputs/select.tpl.html",
+			"key":"cheese-type",
+			"type":"select",
+			"label":"Cheese type","value":"alp-cheese",
+			"options":[
+				{"label":"Alpkäse","value":"alp-cheese"},
+				{"label":"Edammer","value":"edam-cheese"},
+				{"label":"Brie","value":"brie-cheese"}
+			]
+		},
+		"age":{"value":10,"template":"directives/inputs/number.tpl.html","key":"age","type":"number","label":"Age","min":0,"unit":"years"}
+	}
+}

@@ -30,9 +30,14 @@ namespace Ecodistrict.Messaging
         /// </returns>
         public static IMessage JsonString(string message)
         {
-            IMessage obj = (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
-
-            return obj;
+            try
+            {
+                return (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
+            }
+            catch
+            {
+                return null;
+            }
         }
 
     }

@@ -83,14 +83,15 @@ namespace EcodistrictMessagingTests
                 Options opt = new Options();
                 opt.Add(new Option(value: "alp-cheese", label: "Alpku00e4se"));
                 opt.Add(new Option(value: "edam-cheese", label: "Edammer"));
-                opt.Add(new Option(value: "brie-cheese", label: "Brie"));
-                inputSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: "brie-cheese"));  //TODO value = brie-cheese makes room for error in dashboard, shuld be connected to the options.
+                Option brie = new Option(value: "brie-cheese", label: "Brie");
+                opt.Add(brie);
+                inputSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: brie));  //TODO value = brie-cheese makes room for error in dashboard, shuld be connected to the options.
                 string expected = "{" +
                                         "\"cheese-type\":{" +
                                                          "\"options\":[" +
-                                                           "{\"value\":\"alp-cheese\",\"label\":\"Alpku00e4se\"}" + "," +
-                                                           "{\"value\":\"edam-cheese\",\"label\":\"Edammer\"}" + "," +
-                                                           "{\"value\":\"brie-cheese\",\"label\":\"Brie\"}" +
+                                                           "{\"label\":\"Alpku00e4se\",\"value\":\"alp-cheese\"}" + "," +
+                                                           "{\"label\":\"Edammer\",\"value\":\"edam-cheese\"}" + "," +
+                                                           "{\"label\":\"Brie\",\"value\":\"brie-cheese\"}" +
                                                                      "]" + "," +
                                                          "\"value\":\"brie-cheese\",\"label\":\"Cheese type\",\"type\":\"select\"" +
                                                         "}" +

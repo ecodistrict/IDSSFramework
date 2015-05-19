@@ -61,6 +61,7 @@
     <Compile Include="ResponseTests.cs" />
     <Compile Include="RequestTests.cs" />
     <Compile Include="ResultTests.cs" />
+    <Content Include="TestData\Json\ModuleRequest\StartModuleRequest3.txt" />
     <Content Include="TestData\Json\ModuleRequest\StartModuleRequest2.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +79,7 @@
     <Content Include="TestData\Json\ModuleRequest\GetModulesRequest.txt" />
     <Content Include="TestData\Json\ModuleRequest\SelectModuleRequest.txt" />
     <Content Include="TestData\Json\ModuleRequest\StartModuleRequest.txt" />
+    <Content Include="TestData\Json\ModuleRequest\StartModuleRequestComplex.txt" />
     <Content Include="TestData\Json\ModuleRequest\WronglyFormatedRequest.txt" />
     <Content Include="TestData\Json\ModuleResponse\GetModulesResponse.txt" />
     <Content Include="TestData\Json\ModuleResponse\StartModuleResponse.txt" />

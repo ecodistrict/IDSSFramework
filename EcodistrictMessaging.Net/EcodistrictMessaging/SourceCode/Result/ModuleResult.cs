@@ -139,7 +139,7 @@ namespace Ecodistrict.Messaging
         /// <param name="outputs">The outputs that will be send and visualised in the dashboard.</param>
         public ModuleResult(string moduleId, string variantId, string kpiId, Outputs outputs)
         {
-            this.method = "ModuleResult";
+            this.method = "moduleResult";
             this.type = "result";
             this.moduleId = moduleId;
             this.kpiId = kpiId;

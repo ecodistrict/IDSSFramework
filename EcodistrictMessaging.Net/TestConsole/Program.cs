@@ -86,7 +86,7 @@ namespace TestConsole
                 Console.WriteLine(ex.Message);
             }
         }
-
+        
         #region Examples
         #region Requests
         static void GetModulesRequestExemple()
@@ -121,7 +121,7 @@ namespace TestConsole
             Console.WriteLine("");
         }
 
-        static void StartModuleRequestExemple()
+        static void StartModuleRequestExemple()  //TODO update examples for StartModuleRequest. Does not conform with dashboard.
         {
             //json-string from dashboard
             string message = "{" +
@@ -217,14 +217,15 @@ namespace TestConsole
                     Options opt = new Options();
                     opt.Add(new Option(value: "alp-cheese", label: "Alpk\u00e4se")); //Note the web-friendly string
                     opt.Add(new Option(value: "edam-cheese", label: "Edammer"));
-                    opt.Add(new Option(value: "brie-cheese", label: "Brie"));
+                    Option brie = new Option(value: "brie-cheese", label: "Brie");
+                    opt.Add(brie);
 
                     //And one of the above options of cheese-types. 
                     //(The preselected value, "brie-cheese", is optional)
                     Select selectCheseType = new Select(
                         label: "Cheese type",
                         options: opt,
-                        value: "brie-cheese");
+                        value: brie);
 
                     //Add these components to the input specification.
                     //(Note the choosed keys, its the keys that will be attached to the
@@ -367,6 +368,11 @@ namespace TestConsole
                         outputs: outputs);
                 //Send the result message...
 
+
+                string resMessage = Serialize.ToJsonString(mResult);
+                Console.WriteLine(resMessage);
+
+
             }
         }
 
@@ -386,14 +392,15 @@ namespace TestConsole
             Options opt = new Options();
             opt.Add(new Option(value: "alp-cheese", label: "Alpk\u00e4se")); //Note the web-friendly string
             opt.Add(new Option(value: "edam-cheese", label: "Edammer"));
-            opt.Add(new Option(value: "brie-cheese", label: "Brie"));
+            Option brie = new Option(value: "brie-cheese", label: "Brie");
+            opt.Add(brie);
 
             //And one of the above options of cheese-types. 
             //(The preselected value, "brie-cheese", is optional)
             Select selectCheseType = new Select(
                 label: "Cheese type",
                 options: opt,
-                value: "brie-cheese");
+                value: brie);
 
             //Add these components to the input specification.
             //(Note the choosed keys, its the keys that will be attached to the
@@ -409,6 +416,22 @@ namespace TestConsole
         }
 
         #endregion
+
+        
+        static void StartModuleRequestComplex()
+        {
+            //json-string from dashboard
+            string message = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequestComplex.txt");
+            //Message reconstructed into a .Net object.
+            IMessage recievedMessage = Deserialize.JsonString(message);
+            //Write object type to console
+            Console.WriteLine(recievedMessage.GetType().ToString());
+            //Output: Ecodistrict.Messaging.StartModuleRequest
+
+            Console.WriteLine("");
+        }
+
+                        
 
 
         static void StartModuleResponseReconstructionTest()
@@ -439,42 +462,43 @@ namespace TestConsole
                 SelectModuleResponseExemple();
                 StartModuleResponseExemple();
 
-                StartModuleResponseReconstructionTest();
+
+                InputSpecification iSpec = new InputSpecification();
+
+                iSpec.Add("age", new Number(label: "Age", min: 0, unit: "years"));
+
+                Options opt = new Options();
+                opt.Add(new Option(value: "alp-cheese", label: "Alpk\u00e4se"));
+                opt.Add(new Option(value: "edam-cheese", label: "Edammer"));
+                Option brie = new Option(value: "brie-cheese", label: "Brie");
+                opt.Add(brie);
+                iSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: brie));
+
+                SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
+                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
+                var message = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleResponse/SelectModuleResponse.txt");
+                IMessage obj = Deserialize.JsonString(message);
+                string expected = Serialize.ToJsonString(obj);
+
+                // act
+                string actual = Serialize.ToJsonString(mResponse);
+
+                //StartModuleResponseReconstructionTest();
+
+                // arrange
+                //string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequest3.txt");
+               
+                //// act
+                //IMessage message = Deserialize.JsonString(jsonmessage);
+                //Type actual = message.GetType();
+
+
+                StartModuleRequestComplex();
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-
-
-            //string jsonmessage = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequest.txt");
-            //IMessage objd = Ecodistrict.Messaging.Deserialize.JsonString(jsonmessage);
-            
-            ////InputSpecificationTest();
-            ////IMessageTest();
-            ////Test();
-
-            //// arrange
-            //Outputs outputs = new Outputs();
-            //outputs.Add(new Kpi(1, "info", "unit"));
-            //ModuleResult mResult = new ModuleResult("moduleId", "variantId", "KpiId", outputs);
-            //string str1 = Serialize.ToJsonString(mResult);
-
-            //// act
-            //ModuleResult mResult2 = (ModuleResult)Deserialize.JsonString(str1);
-            //string str2 = Serialize.ToJsonString(mResult2);
-
-
-            //Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
-            //string strOtps = Newtonsoft.Json.JsonConvert.SerializeObject(outputs, typeof(Outputs), settings);
-            //Outputs outputs2 = (Outputs)Newtonsoft.Json.JsonConvert.DeserializeObject(strOtps, typeof(Outputs), settings);
-
-
-            //Output output = new Kpi(1, "info", "unit");
-            //string strOtp = Newtonsoft.Json.JsonConvert.SerializeObject(output, typeof(Output), settings);
-            //object output2 = JsonConvert.DeserializeObject<Output>(strOtp, new OutputItemConverter());
-            ////Output output2 = (Kpi)JsonConvert.DeserializeObject(strOtp, typeof(Kpi), settings);
-                       
+            }        
 
         }
     }

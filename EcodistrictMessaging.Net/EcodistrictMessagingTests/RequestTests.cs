@@ -87,5 +87,30 @@ namespace EcodistrictMessagingTests
                 Assert.Fail(ex.Message);
             }
         }
+
+        [TestMethod]
+        public void StartModuleRequestComplexTestType()
+        {
+            try
+            {
+                // arrange
+                string jsonmessage = File.ReadAllText(@"../../TestData/Json/ModuleRequest/StartModuleRequestComplex.txt");
+                object obj = JsonConvert.DeserializeObject(jsonmessage);
+                jsonmessage = JsonConvert.SerializeObject(obj);
+                Type expected = typeof(StartModuleRequest);
+
+                // act
+                IMessage message = Deserialize.JsonString(jsonmessage);
+                Type actual = message.GetType();
+
+                // assert                
+                Assert.IsTrue(expected == actual, "Expected: " + expected.ToString() + "\n" +
+                    "Actual: " + actual.ToString());
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
     }
 }

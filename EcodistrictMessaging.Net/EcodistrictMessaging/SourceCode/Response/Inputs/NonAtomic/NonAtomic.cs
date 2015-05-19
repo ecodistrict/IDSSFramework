@@ -37,6 +37,11 @@ namespace Ecodistrict.Messaging
         {
             inputs.Add(key, item);
         }
+
+        public Dictionary<string, Input> GetInputs()
+        {
+            return inputs;
+        }
         
     }
 }

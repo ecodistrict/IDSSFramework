@@ -71,6 +71,6 @@ namespace Ecodistrict.Messaging
         /// The data the module need to calculate the selected kpi.
         /// </summary>
         [DataMember]
-        public Dictionary<string, object> inputData { get; private set; } 
+        public Dictionary<string, Input> inputs { get; private set; } 
     }
 }
