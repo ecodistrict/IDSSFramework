@@ -1,16 +1,23 @@
-unit imb.minimum;
+unit imb4;
+
+// todo: check thread safety
+// todo: checkUniqueClientID in create or on reading unique client id?
+
+// todo: WriteLn to console in TTLSConnection implementation
 
 interface
 
 uses
   System.Classes,
   imb.SocksLib, // winsock 2 and ipv6 support
+  IdSSLOpenSSL, IdTCPClient, IdComponent, IdGlobal, // indy for TLS connection
   System.SysUtils,
   System.Generics.Collections;
 
 const
   imbDefaultRemoteHost = 'vps17642.public.cloudvps.com';
-  imbDefaultRemotePort = 4004;
+  imbDefaultRemoteSocketPort = 4004;
+  imbDefaultRemoteTLSPort = 4443;
 
   imbDefaultPrefix = 'ecodistrict';
 
@@ -260,7 +267,7 @@ type
   constructor Create(
     const aModelName: string; aModelID: Integer=0;
     const aPrefix: string=imbDefaultPrefix;
-    const aRemoteHost: string=imbDefaultRemoteHost; aRemotePort: Integer=imbDefaultRemotePort);
+    const aRemoteHost: string=imbDefaultRemoteHost; aRemotePort: Integer=imbDefaultRemoteSocketPort);
   destructor Destroy; override;
   private
     fRemoteHost: string;
@@ -273,6 +280,33 @@ type
   public
     function writePacket(aPacket: TByteBuffer; aCloseOnError: Boolean=True): Boolean; override;
   end;
+
+  TTLSConnection = class(TConnection)
+  constructor Create(
+    const aCertFile, aKeyFile, aKeyFilePassword, aRootCertFile: string;
+    const aModelName: string; aModelID: Integer=0;
+    const aPrefix: string=imbDefaultPrefix;
+    const aRemoteHost: string=imbDefaultRemoteHost; aRemotePort: Integer=imbDefaultRemoteTLSPort);
+  destructor Destroy; override;
+  private
+    fReaderThread: TThread;
+    fIdTCPClient1: TIdTCPClient;
+    fIdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
+    fKeyFilePassword: string;
+    function getConnected: Boolean; override;
+    procedure setConnected(aValue: Boolean); override;
+    function readBytes(var aBuffer; aNumberOfBytes: Integer): Integer; override;
+  public
+    function writePacket(aPacket: TByteBuffer; aCloseOnError: Boolean=True): Boolean; override;
+  private
+    // handlers io handler
+    procedure HandleGetPassword(var aPassword: String);
+    procedure HandleStatusInfo(const aMsg: String);
+    function HandleVerifyPeer(aCertificate: TIdX509; aOk: Boolean; aDepth, aError: Integer): Boolean;
+    // handlers tcp client
+    procedure HandleDisconnected(Sender: TObject);
+    procedure HandleStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
+end;
 
 
 implementation
@@ -762,7 +796,7 @@ begin
             fStreamCache.Remove(streamID);
           end;
         end;
-      (icehStreamID shl 3) or wtVarInt:
+      (icehStreamID shl 3) or wtLengthDelimited:
         begin
           streamID := aBuffer.bb_read_guid(aCursor);
         end
@@ -1363,5 +1397,169 @@ begin
 end;
 
 
+
+{ TTLSConnection }
+
+constructor TTLSConnection.Create(const aCertFile, aKeyFile, aKeyFilePassword, aRootCertFile, aModelName: string; aModelID: Integer; const aPrefix,
+  aRemoteHost: string; aRemotePort: Integer);
+begin
+  inherited Create(aModelName, aModelID, aPrefix);
+  fReaderThread := nil;
+  fKeyFilePassword := aKeyFilePassword;
+  // io handler
+  fIdSSLIOHandlerSocketOpenSSL1 := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  // setup
+  //fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.CipherList := 'ECDHE-ECDSA-AES256-GCM-SHA384';
+  //fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.CipherList := 'AES256-GCM-SHA384';
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.CertFile := aCertFile;
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.KeyFile := aKeyFile;
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.Method := sslvTLSv1_2;
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.Mode := sslmBoth;
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.RootCertFile := aRootCertFile;
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.SSLVersions := [sslvTLSv1_2];
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.VerifyDepth := 2;
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.VerifyDirs := '.';
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.VerifyMode := [sslvrfPeer, sslvrfFailIfNoPeerCert];
+  // handlers
+  fIdSSLIOHandlerSocketOpenSSL1.OnGetPassword := HandleGetPassword;
+  fIdSSLIOHandlerSocketOpenSSL1.OnStatusInfo := HandleStatusInfo;
+  fIdSSLIOHandlerSocketOpenSSL1.OnVerifyPeer := HandleVerifyPeer;
+  // tcp client
+  fIdTCPClient1 := TIdTCPClient.Create(nil);
+  // setup
+  fIdTCPClient1.Host := aRemoteHost;
+  fIdTCPClient1.Port := aRemotePort;
+  // handlers
+//  fIdTCPClient1.OnConnected := HandleConnected;
+  fIdTCPClient1.OnDisconnected := HandleDisconnected;
+  fIdTCPClient1.OnStatus := HandleStatus;
+  // link handler to tcp client
+  fIdTCPClient1.IOhandler := fIdSSLIOHandlerSocketOpenSSL1;
+  // try to connect
+  connected := True;
+  if not connected
+  then raise Exception.Create('Could not connect to '+aRemoteHost+':'+aRemotePort.toString);
+end;
+
+destructor TTLSConnection.Destroy;
+begin
+  connected := False;
+  FreeAndNil(fReaderThread);
+  inherited;
+  FreeAndNil(fIdTCPClient1);
+  FreeAndNil(fIdSSLIOHandlerSocketOpenSSL1);
+end;
+
+function TTLSConnection.getConnected: Boolean;
+begin
+  Result := fIdTCPClient1.Connected;
+end;
+
+procedure TTLSConnection.HandleDisconnected(Sender: TObject);
+begin
+  Close(False);
+end;
+
+procedure TTLSConnection.HandleGetPassword(var aPassword: String);
+begin
+  aPassword := fKeyFilePassword;
+end;
+
+procedure TTLSConnection.HandleStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
+begin
+  // todo:
+  WriteLn('HandleStatus: '+Ord(aStatus).ToString()+': '+astatustext);
+end;
+
+procedure TTLSConnection.HandleStatusInfo(const aMsg: String);
+begin
+  // todo:
+  WriteLn('HandleStatusInfo: '+aMsg);
+end;
+
+function TTLSConnection.HandleVerifyPeer(aCertificate: TIdX509; aOk: Boolean; aDepth, aError: Integer): Boolean;
+begin
+  // todo:
+  if aOK
+  then WriteLn('IO handler VerifyPeer ('+aDepth.ToString()+') '+aerror.ToString())
+  else WriteLn('## IO handler VerifyPeer ('+aDepth.ToString()+') '+aerror.ToString());
+  if Assigned(aCertificate) then
+  begin
+    WriteLn('      Valid: '+DateTimeToStr(aCertificate.notBefore)+' - '+DateTimeToStr(aCertificate.notAfter));
+    if Assigned(aCertificate.Issuer)
+    then WriteLn('      Issuer: '+aCertificate.Issuer.oneline);
+    if Assigned(aCertificate.Subject)
+    then WriteLn('      Subject: '+aCertificate.Subject.oneline);
+  end;
+  Result := aOk;
+end;
+
+function TTLSConnection.readBytes(var aBuffer; aNumberOfBytes: Integer): Integer;
+var
+  localBuffer: TIdBytes;
+begin
+  try
+    // todo: SetLength(localBuffer, 0);  ?? seems not to be needed
+    fIdTCPClient1.IOHandler.ReadBytes(localBuffer, aNumberOfBytes);
+    Result := Length(localBuffer);
+    Move(localBuffer[0], aBuffer, Result);
+  except
+    Close(False);
+    Result := 0;
+  end;
+end;
+
+procedure TTLSConnection.setConnected(aValue: Boolean);
+begin
+  if aValue then
+  begin
+    if not connected then
+    begin
+      fIdTCPClient1.Connect;
+      if connected then
+      begin
+        // start reader thread
+        fReaderThread.Free;
+        fReaderThread := TThread.CreateAnonymousThread(readPackets);
+        fReaderThread.FreeOnTerminate := False;
+        fReaderThread.NameThreadForDebugging('imb event reader');
+        fReaderThread.Start;
+        // send connect info
+        signalConnectInfo(fModelName, fModelID);
+        // wait for unique client id as a signal that we are connected
+        waitForConnected;
+      end;
+    end;
+  end
+  else
+  begin
+    if connected then
+    begin
+      fReaderThread.Terminate;
+      fIdTCPClient1.Disconnect;
+    end;
+  end;
+end;
+
+function TTLSConnection.writePacket(aPacket: TByteBuffer; aCloseOnError: Boolean): Boolean;
+var
+  localBuffer: TIdBytes;
+  numberOfBytes: Integer;
+begin
+  TMonitor.Enter(Self);
+  try
+    if Connected then
+    begin
+      numberOfBytes := length(aPacket);
+      SetLength(localBuffer, numberOfBytes);
+      Move(aPacket.refFirstByte^, localBuffer[0], numberOfBytes);
+      fIdTCPClient1.IOHandler.Write(localBuffer);
+      Result := True;
+    end
+    else Result := False;
+  finally
+    TMonitor.Exit(Self);
+  end;
+end;
 
 end.

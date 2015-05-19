@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
+using System.Net.Security;
 using System.Text;
 using System.Threading;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Authentication;
 
 namespace IMB
 {
@@ -436,7 +439,7 @@ namespace IMB
             TStreamCacheEntry sce; // streamCacheEntry
             while (aBuffer.remaining>0)
             {
-                UInt64 fieldInfo = aBuffer.bb_read_uint64();
+                UInt32 fieldInfo = aBuffer.bb_read_uint32();
                 switch (fieldInfo)
                 {
                     // int string
@@ -499,7 +502,7 @@ namespace IMB
                             fStreamCache.Remove(streamID);
                         }
                         break;
-                    case (icehStreamID << 3) | TByteBuffer.wtVarInt:
+                    case (icehStreamID << 3) | TByteBuffer.wtLengthDelimited:
                         streamID = aBuffer.bb_read_guid();
                         break;
                     default:
@@ -684,7 +687,7 @@ namespace IMB
         public event TOnString onString = null;
         public delegate void TOnIntString(TEventEntry aEventEntry, int aInt, string aString);
         public event TOnIntString onIntString = null;
-        public delegate void TOnTag(TEventEntry aEventEntry, UInt64 aFieldInfo, TByteBuffer aPayload);
+        public delegate void TOnTag(TEventEntry aEventEntry, UInt32 aFieldInfo, TByteBuffer aPayload);
         public event TOnTag onTag = null;
         public delegate Stream TOnStreamCreate(TEventEntry aEventEntry, string aName);
         public event TOnStreamCreate onStreamCreate = null;
@@ -697,7 +700,8 @@ namespace IMB
     public abstract class TConnection
     {
         public const string imbDefaultRemoteHost = "vps17642.public.cloudvps.com";
-        public const int imbDefaultRemotePort = 4004;
+        public const int imbDefaultSocketRemotePort = 4004;
+        public const int imbDefaultTLSRemotePort = 4443;
 
         public const string imbDefaultPrefix = "ecodistrict";
 
@@ -1020,9 +1024,10 @@ namespace IMB
     class TSocketConnection : TConnection
     {
         public TSocketConnection(
-            string aModelName, int aModelID=0,
-            string aPrefix=imbDefaultPrefix,
-            string aRemoteHost=imbDefaultRemoteHost, int aRemotePort=imbDefaultRemotePort) : base (aModelName, aModelID, aPrefix)
+            string aModelName, int aModelID = 0,
+            string aPrefix = imbDefaultPrefix,
+            string aRemoteHost = imbDefaultRemoteHost, int aRemotePort = imbDefaultSocketRemotePort)
+            : base(aModelName, aModelID, aPrefix)
         {
             fRemoteHost = aRemoteHost;
             fRemotePort = aRemotePort;
@@ -1046,7 +1051,7 @@ namespace IMB
             {
                 if (!connected)
                 {
-                    
+
                     fClient = new TcpClient(fRemoteHost, fRemotePort);
                     fNetStream = fClient.GetStream();
                     fReaderThread = new Thread(readPackets);
@@ -1078,7 +1083,7 @@ namespace IMB
                 int bytesReceived;
                 do
                 {
-                    bytesReceived = fNetStream.Read(aBuffer, aOffset, aLimit-aOffset);
+                    bytesReceived = fNetStream.Read(aBuffer, aOffset, aLimit - aOffset);
                     aOffset += bytesReceived;
                     totBytesReceived += bytesReceived;
                 }
@@ -1092,6 +1097,128 @@ namespace IMB
         public override void writePacket(byte[] aPacket /*, bool aCallCloseOnError = true*/)
         {
             fNetStream.Write(aPacket, 0, aPacket.Length);
+        }
+    }
+
+    class TTLSConnection : TConnection
+    {
+        public TTLSConnection(
+            string aCertFile, string aCertFilePassword, string aRootCertFile,
+            string aModelName, int aModelID = 0,
+            string aPrefix = imbDefaultPrefix,
+            string aRemoteHost = imbDefaultRemoteHost, int aRemotePort = imbDefaultTLSRemotePort)
+            : base(aModelName, aModelID, aPrefix)
+        {
+            fRemoteHost = aRemoteHost;
+            fRemotePort = aRemotePort;
+
+
+            fCertificates.Add(new X509Certificate2(aCertFile, aCertFilePassword));
+            fCertificates.Add(X509Certificate.CreateFromCertFile(aRootCertFile));
+
+            connected = true;
+        }
+
+        protected string fRemoteHost;
+        protected int fRemotePort;
+        protected Thread fReaderThread = null;
+        protected TcpClient fClient = null;
+        protected SslStream fTLSStream = null;
+        private X509CertificateCollection fCertificates = new X509CertificateCollection();
+
+        protected override bool getConnected()
+        {
+            return fClient != null;
+        }
+
+        protected bool CheckRemoteCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            switch (sslPolicyErrors)
+            {
+                case SslPolicyErrors.RemoteCertificateNameMismatch:
+                    Console.WriteLine("## Server name mismatch");
+                    return false;
+                case SslPolicyErrors.RemoteCertificateNotAvailable:
+                    Console.WriteLine("## Server's certificate not available");
+                    return false;
+                case SslPolicyErrors.RemoteCertificateChainErrors:
+                    Console.WriteLine("## Server's certificate validation failed");
+                    return false;
+            }        //Perform others checks using the "certificate" and "chain" objects ... 
+            // ... 
+            // ... 
+            Console.WriteLine("Server's authentication succeeded ...\n");
+            return true;
+        }
+
+        protected X509Certificate SelectClientCertificate(object sender, string targetHost, X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers)
+        {
+            return localCertificates[0]; // return the first certificate
+        }
+
+        protected override void setConnected(bool aValue)
+        {
+            if (aValue)
+            {
+                if (!connected)
+                {
+
+                    
+                    fClient = new TcpClient(fRemoteHost, fRemotePort);
+                    
+                    // TLS part
+                    fTLSStream = new SslStream(
+                        fClient.GetStream(), 
+                        false, 
+                        new RemoteCertificateValidationCallback(CheckRemoteCertificate), 
+                        new LocalCertificateSelectionCallback(SelectClientCertificate), 
+                        EncryptionPolicy.RequireEncryption);
+                    fTLSStream.AuthenticateAsClient(fRemoteHost, fCertificates, SslProtocols.Tls12, false); // true);  //checkCertificateRevocation
+                    
+                    // start normal reader thread
+                    fReaderThread = new Thread(readPackets);
+                    fReaderThread.Name = "IMB reader";
+                    fReaderThread.Start();
+                    // send connect info
+                    signalConnectInfo(fModelName, fModelID);
+                    // wait for unique client id as a signal that we are connected
+                    waitForConnected();
+                }
+            }
+            else
+            {
+                if (connected)
+                {
+                    fClient.Close();
+                    fClient = null; // new TcpClient(); // cannot use old connection so create new one to make later call to OpenLow possible
+                    fTLSStream.Close();
+                    fTLSStream = null;
+                }
+            }
+        }
+
+        protected override int readBytes(byte[] aBuffer, int aOffset, int aLimit)
+        {
+            if (connected)
+            {
+                int totBytesReceived = 0;
+                int bytesReceived;
+                do
+                {
+                    bytesReceived = fTLSStream.Read(aBuffer, aOffset, aLimit - aOffset);
+                    aOffset += bytesReceived;
+                    totBytesReceived += bytesReceived;
+                }
+                while (aLimit - aOffset > 0 && bytesReceived > 0);
+                return totBytesReceived;
+            }
+            else
+                return -1;
+        }
+
+        public override void writePacket(byte[] aPacket /*, bool aCallCloseOnError = true*/)
+        {
+            fTLSStream.Write(aPacket, 0, aPacket.Length);
         }
     }
 }

@@ -5,7 +5,7 @@ program TestClientMinimum;
 {$R *.res}
 
 uses
-  imb.minimum,
+  imb4,
   System.Classes,
   System.SysUtils;
 
