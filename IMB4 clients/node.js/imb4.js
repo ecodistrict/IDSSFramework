@@ -18,7 +18,7 @@ var fs = require('fs');
 const imbMagic = 0xFE;
 
 const imbDefaultPrefix = "ecodistrict";
-const imbDefaultHostname = "localhost";
+const imbDefaultHostname = "vps17642.public.cloudvps.com";
 const imbDefaultSocketPort = 4004;
 const imbDefaultTLSPort = 4443;
 
