@@ -11,6 +11,10 @@ var uuid = require('uuid'); // for creating guids/uuids
 // guids/uuids are used as byte arrays of length 16
 var empty_guid = new Buffer(Array(16));
 
+// secure TLS connection
+var tls = require('tls');
+var fs = require('fs');
+
 const imbMagic = 0xFE;
 
 const imbDefaultPrefix = "ecodistrict";
@@ -318,9 +322,15 @@ function signalStream(aSocket, aEventID, aStreamName, aStream) {
 
 // **************** the imb connection ********************
 
-exports.TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPrefix, aReconnectable) {
-    var fSocket = require("net").Socket();
+var util = require("util");
+var EventEmitter = require("events").EventEmitter;
 
+TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPrefix, aReconnectable, aOnUniqueClientID, aCertFile, aKeyFile, aKeyFilePassword, aRootCertFile) {
+    var fSelf = this; // todo: work-a-round?
+    
+    // link event emitter
+    EventEmitter.call(this);
+    
     var fEventNames = [];
     var fEventTranslations = [];
     var fEventEntries = [];
@@ -328,19 +338,32 @@ exports.TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerNam
     var fPrefix = aPrefix;
     var fEventNameFilter = "";
     
+    var fSocket = require("net").Socket();
+
     // connect
     fSocket.connect(aRemotePort, aRemoteHost);
-    // link handlers
+    
+    // secure connection
+    /*
+    if (aCertFile != "") {
+        var options = {
+            // These are necessary only if using the client certificate authentication
+            key: fs.readFileSync(aKeyFile), // pem
+            cert: fs.readFileSync(aCertFile), // pem
+            
+            // This is necessary only if the server uses the self-signed certificate
+            ca: [fs.readFileSync(aRootCertFile)] // pem
+        };
+
+    }
+    */
+
+    // link handlers on socket
     fSocket.on("data", onReadCommand);
-    fSocket.on("end", onDisconnect);
+    fSocket.on("end", handleDisconnect);
+    
     // send client info
     signalClientInfo(fSocket, aOwnerID, aOwnerName, aReconnectable, "", empty_guid);
-    
-    // link events
-    //var EventEmitter = require("events").EventEmitter;
-    //EventEmitter.call(this);
-    
-    // todo: link connection handlers like disconnect, ..
     
     function handleEvent(aEventID, aPayload) {
         var eventEntry = fEventEntries[aEventID];
@@ -412,7 +435,7 @@ exports.TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerNam
                         }
                     }
                     break;
-                case (icehStreamID << 3) | wtVarInt:
+                case (icehStreamID << 3) | wtLengthDelimited:
                     aPayload.Read(streamID);
                     break;
                 default:
@@ -496,6 +519,7 @@ exports.TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerNam
                     break;
                 case (icehUniqueClientID << 3) | wtLengthDelimited:
                     fUniqueClientID = bb_read_guid(aPayload);
+                    fSelf.emit("onUniquClientID", fSelf.fUniqueClientID, fHubID);
                     break;
                 case (icehRemark << 3) | wtLengthDelimited:
                     var headerLine = aPayload.readVString();
@@ -581,8 +605,8 @@ exports.TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerNam
         // todo: handle end of session received from hub
     }
     
-    function onDisconnect() {
-        // todo: handle disconnect
+    function handleDisconnect() {
+        fSelf.emit("onDisconnect", fSelf);
     }
 
     function eventEntry(aEventID, aEventName) {
@@ -598,14 +622,12 @@ exports.TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerNam
         this.streamDefinitions = null;
         
         // event handlers
+        // todo: rewrite to emitter?
         this.onChangeObject = null;
         this.onIntString = null;
         this.onString = null;
         this.onStreamCreate = null;
         this.onStreamEnd = null;
-        
-        //var EventEmitter = require("events").EventEmitter;
-        //EventEmitter.call(this);
         
         this.autoPublish = function () {
             if (!this.published) {
@@ -705,6 +727,9 @@ exports.TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerNam
     };
 };
 
+util.inherits(TIMBConnection, EventEmitter);
+
+exports.TIMBConnection = TIMBConnection;
 
 // exports for consts
 exports.actionNew = actionNew;
