@@ -392,17 +392,20 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
                     break;
                 case (icehChangeObject << 3) | wtVarInt:
                     var objectID = aPayload.readVarint32ZigZag();
-                    eventEntry.onChangeObject(eventEntry, action, objectID, attributeName);
+                    if (eventEntry.onChangeObject != null)
+                        eventEntry.onChangeObject(eventEntry, action, objectID, attributeName);
                     break;
                 // string event
                 case (icehString << 3) | wtLengthDelimited:
                     stringPayload = aPayload.readVString();
-                    eventEntry.onString(eventEntry, stringPayload);
+                    if (eventEntry.onString != null)
+                        eventEntry.onString(eventEntry, stringPayload);
                     break;
                 // int-string event
                 case (icehIntString << 3) | wtVarInt:
                     intPayload = aPayload.readVarint32ZigZag();
-                    eventEntry.onIntString(eventEntry, intPayload, stringPayload);
+                    if (eventEntry.onIntString != null)
+                        eventEntry.onIntString(eventEntry, intPayload, stringPayload);
                     break;
                 case (icehIntStringPayload << 3) | wtLengthDelimited:
                     stringPayload = aPayload.readVString();
