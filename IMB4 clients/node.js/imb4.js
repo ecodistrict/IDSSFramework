@@ -18,7 +18,7 @@ var fs = require('fs');
 const imbMagic = 0xFE;
 
 const imbDefaultPrefix = "ecodistrict";
-const imbDefaultHostname = "vps17642.public.cloudvps.com";
+const imbDefaultHostname = "localhost";
 const imbDefaultSocketPort = 4004;
 const imbDefaultTLSPort = 4443;
 
@@ -355,7 +355,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
             checkServerIdentity: function (servername, cert) { return undefined; } 
         };
 
-        var fSocket = tls.connect(aRemotePort, options, function () {
+        var fSocket = tls.connect(aRemotePort, aRemoteHost, options, function () {
             console.log('client connected', fSocket.authorized ? 'authorized' : 'unauthorized');
             //process.stdin.pipe(socket);
             //process.stdin.resume();
