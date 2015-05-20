@@ -1,6 +1,7 @@
 ﻿var imb = require('./imb4');
 
-var imbConnection = new imb.TIMBConnection(imb.imbDefaultHostname, imb.imbDefaultPort, 10, "node.js client", imb.imbDefaultPrefix, false);
+var imbConnection = new imb.TIMBConnection(imb.imbDefaultHostname, imb.imbDefaultTLSPort, 10, "node.js client", imb.imbDefaultPrefix, false, 
+    "client-eco-district.pfx", "&8dh48klosaxu90OKH", "root-ca-imb.crt");
 
 imbConnection.on("onUniqueClientID", function (aUniqueClientID, aHubID) {
     console.log('private event name: ' + imbConnection.privateEventName);

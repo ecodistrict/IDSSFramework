@@ -19,7 +19,8 @@ const imbMagic = 0xFE;
 
 const imbDefaultPrefix = "ecodistrict";
 const imbDefaultHostname = "vps17642.public.cloudvps.com";
-const imbDefaultPort = 4004;
+const imbDefaultSocketPort = 4004;
+const imbDefaultTLSPort = 4443;
 
 const imbMinimumPacketSize = 16;
 const imbMaximumPayloadSize = 10 * 1024 * 1024;
@@ -325,7 +326,7 @@ function signalStream(aSocket, aEventID, aStreamName, aStream) {
 var util = require("util");
 var EventEmitter = require("events").EventEmitter;
 
-TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPrefix, aReconnectable, aOnUniqueClientID, aCertFile, aKeyFile, aKeyFilePassword, aRootCertFile) {
+TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPrefix, aReconnectable, aPfxFile, aPassphrase, aRootCertFile) {
     var fSelf = this; // todo: work-a-round?
     
     // link event emitter
@@ -338,25 +339,28 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
     var fPrefix = aPrefix;
     var fEventNameFilter = "";
     
-    var fSocket = require("net").Socket();
-
     // connect
-    fSocket.connect(aRemotePort, aRemoteHost);
-    
-    // secure connection
-    /*
-    if (aCertFile != "") {
+    if (aPfxFile == "") {
+        // standard socket TCP connection
+        var fSocket = require("net").Socket();
+        fSocket.connect(aRemotePort, aRemoteHost);
+    }
+    else {
+        // secure TLS connection
         var options = {
-            // These are necessary only if using the client certificate authentication
-            key: fs.readFileSync(aKeyFile), // pem
-            cert: fs.readFileSync(aCertFile), // pem
-            
-            // This is necessary only if the server uses the self-signed certificate
-            ca: [fs.readFileSync(aRootCertFile)] // pem
+            pfx: fs.readFileSync(aPfxFile),
+            passphrase: aPassphrase,
+            ca: [fs.readFileSync(aRootCertFile)], // only pem supproted?
+
+            checkServerIdentity: function (servername, cert) { return undefined; } 
         };
 
+        var fSocket = tls.connect(aRemotePort, options, function () {
+            console.log('client connected', fSocket.authorized ? 'authorized' : 'unauthorized');
+            //process.stdin.pipe(socket);
+            //process.stdin.resume();
+        });
     }
-    */
 
     // link handlers on socket
     fSocket.on("data", onReadCommand);
@@ -436,7 +440,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
                     }
                     break;
                 case (icehStreamID << 3) | wtLengthDelimited:
-                    aPayload.Read(streamID);
+                    streamID = bb_read_guid(aPayload);
                     break;
                 default:
                     // skip based on wire type
@@ -741,4 +745,5 @@ exports.imbEventFilterPostFix = imbEventFilterPostFix;
 
 exports.imbDefaultPrefix = imbDefaultPrefix;
 exports.imbDefaultHostname = imbDefaultHostname;
-exports.imbDefaultPort = imbDefaultPort;
+exports.imbDefaultSocketPort = imbDefaultSocketPort;
+exports.imbDefaultTLSPort = imbDefaultTLSPort;
