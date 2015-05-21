@@ -699,11 +699,11 @@ namespace IMB
 
     public abstract class TConnection
     {
-        public const string imbDefaultRemoteHost = "vps17642.public.cloudvps.com";
+        public const string imbDefaultRemoteHost = "vps17642.public.cloudvps.com"; // "localhost"; 
         public const int imbDefaultSocketRemotePort = 4004;
         public const int imbDefaultTLSRemotePort = 4443;
 
-        public const string imbDefaultPrefix = "ecodistrict";
+        public const string imbDefaultPrefix = "ecodistrict"; // "nl.imb";
 
         public const byte imbMagic = 0xFE;
 
@@ -1142,11 +1142,28 @@ namespace IMB
                     Console.WriteLine("## Server's certificate not available");
                     return false;
                 case SslPolicyErrors.RemoteCertificateChainErrors:
-                    Console.WriteLine("## Server's certificate validation failed");
-                    return false;
-            }        //Perform others checks using the "certificate" and "chain" objects ... 
-            // ... 
-            // ... 
+                    
+                    try
+                    {
+                        if (chain.ChainStatus[0].Status == System.Security.Cryptography.X509Certificates.X509ChainStatusFlags.UntrustedRoot)
+                        {
+                            // todo: check if remote root certificate is same as local root certificate?
+                            // this did not happen without the host entry in the remote certificate?
+                            Console.WriteLine(">> Server's certificate validation has untrusted root -> pass");
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("## Server's certificate validation failed");
+                            return false;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("## Server's certificate validation failed with exception "+e.Message);
+                        return false; 
+                    }
+            }
             Console.WriteLine("Server's authentication succeeded ...\n");
             return true;
         }
