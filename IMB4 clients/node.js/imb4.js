@@ -351,14 +351,11 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
             pfx: fs.readFileSync(aPfxFile),
             passphrase: aPassphrase,
             ca: [fs.readFileSync(aRootCertFile)], // only pem supproted?
-
-            checkServerIdentity: function (servername, cert) { return undefined; } 
+            //checkServerIdentity: function (servername, cert) { return undefined; } 
         };
 
         var fSocket = tls.connect(aRemotePort, aRemoteHost, options, function () {
             console.log('client connected', fSocket.authorized ? 'authorized' : 'unauthorized');
-            //process.stdin.pipe(socket);
-            //process.stdin.resume();
         });
     }
 
