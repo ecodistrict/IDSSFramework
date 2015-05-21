@@ -462,7 +462,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
                     if (remoteEventID < fEventTranslations.length)
                         localEventID = fEventTranslations[remoteEventID];
                     else
-                        localEventID = imbInvalideventID;
+                        localEventID = imbInvalidEventID;
                     // todo: HandleSubAndPub(icehSubscribe, localEventID, eventName);
                     break;
                 case (icehPublish << 3) | wtVarInt:
@@ -470,7 +470,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
                     if (remoteEventID < fEventTranslations.length)
                         localEventID = fEventTranslations[remoteEventID];
                     else
-                        localEventID = imbInvalideventID;
+                        localEventID = imbInvalidEventID;
                     // todo: HandleSubAndPub(icehPublish, localEventID, eventName);
                     break;
                 case (icehUnsubscribe << 3) | wtVarInt:
@@ -479,7 +479,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
                     if (remoteEventID < fEventTranslations.length)
                         localEventID = fEventTranslations[remoteEventID];
                     else
-                        localEventID = imbInvalideventID;
+                        localEventID = imbInvalidEventID;
                     // todo: HandleSubAndPub(icehUnsubscribe, localEventID, eventName);
                     break;
                 case (icehUnpublish << 3) | wtVarInt:
@@ -488,7 +488,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
                     if (remoteEventID < fEventTranslations.length)
                         localEventID = fEventTranslations[remoteEventID];
                     else
-                        localEventID = imbInvalideventID;
+                        localEventID = imbInvalidEventID;
                     // todo: HandleSubAndPub(icehUnpublish, localEventID, eventName);
                     break;
                 case (icehEventName << 3) | wtLengthDelimited:
