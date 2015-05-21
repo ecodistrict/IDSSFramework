@@ -1,25 +1,34 @@
 unit imb4;
 
-// todo: check thread safety
-// todo: checkUniqueClientID in create or on reading unique client id?
-
-// todo: WriteLn to console in TTLSConnection implementation
+// todo: if TLS connections is not explicitly freeed nil pointer exception is thrown in a handler.. (reported by Han Zhou)
 
 interface
 
+{$DEFINE imbSocketSupport}
+{$DEFINE imbTLSSupport}
+{$DEFINE imbSharedMemSupport}
+
 uses
-  System.Classes,
+  {$IFDEF imbSocketSupport}
   imb.SocksLib, // winsock 2 and ipv6 support
-  IdSSLOpenSSL, IdTCPClient, IdComponent, IdGlobal, // indy for TLS connection
-  System.SysUtils,
-  System.Generics.Collections;
+  {$ENDIF}
+
+  {$IFDEF imbTLSSupport}
+  IdSSLOpenSSL, IdTCPClient, IdComponent, IdGlobal, // indy for secure connection
+  {$ENDIF}
+
+  {$IFDEF imbSharedMemSupport}
+  imb.SharedMemLib, // shared memory connection
+  {$ENDIF}
+
+  System.Classes, System.SysUtils, System.Generics.Collections;
 
 const
-  imbDefaultRemoteHost = 'vps17642.public.cloudvps.com';
+  imbDefaultRemoteHost = 'vps17642.public.cloudvps.com'; // 'localhost';
   imbDefaultRemoteSocketPort = 4004;
   imbDefaultRemoteTLSPort = 4443;
 
-  imbDefaultPrefix = 'ecodistrict';
+  imbDefaultPrefix = 'ecodistrict'; // 'nl.imb';
 
   imbMagic = $FE;
 
@@ -77,12 +86,11 @@ const
 
 
 type
-  TEventID = UInt32;                   // event id type for use everywhere except in event packet
-  TEventIDFixed = Word;                // event id type for use in event packet (fixed length so hub can rewrite efficiently)
+  TEventID = UInt32;     // event id type for use everywhere except in event packet
+  TEventIDFixed = Word;  // event id type for use in event packet (fixed length so hub can rewrite efficiently)
 
 const
   imbInvalidEventID = High(TEventID);
-
 
 type
   TByteBuffer = RawByteString;
@@ -129,9 +137,18 @@ type
     class function bb_tag_bytes(aTag: UInt32; const aValue; aValueSize: Integer): TByteBuffer; static;
   end;
 
-type
   TConnection = class; // forward
   TEventEntry = class; // forward
+
+  TBatchBuffer = record
+    procedure Prepare(aBatchSize: Integer; aEventEntry: TEventEntry);
+    procedure Add(const aEntry: TByteBuffer);
+    procedure Commit();
+  private
+    fBatch: TByteBuffer;
+    fBatchSize: Integer;
+    fEventEntry: TEventEntry; // ref
+  end;
 
   TOnChangeObject = reference to procedure(aEventEntry: TEventEntry; aAction, aObjectID: Integer; const aAttribute: string);
   TOnString = reference to procedure(aEventEntry: TEventEntry; const aString: string);
@@ -206,7 +223,7 @@ type
     property OnSubAndPub: TList<TOnSubAndPub> read fOnSubAndPub;
   public
     // signal event
-    procedure signalChangeObject(aAction, aObjectID: Integer; const aAttribute: string=''); // object name is short published event name
+    procedure signalChangeObject(aAction, aObjectID: Integer; const aAttribute: string='');
     procedure signalString(const aString: string);
     procedure signalIntString(aInt: Integer; const aString: string);
     procedure signalStream(const aName: string; aStream: TStream);
@@ -226,6 +243,7 @@ type
     function writePacket(aPacket: TByteBuffer; aCallCloseOnError: Boolean=True): Boolean; virtual; abstract;
   // generic connection
   private
+    fReaderThread: TThread;
     fModelName: string;
     fModelID: Integer;
     fPrefix: string;
@@ -263,24 +281,25 @@ type
     procedure unPublish(aEventEntry: TEventEntry);
   end;
 
+  {$IFDEF imbSocketSupport}
   TSocketConnection = class(TConnection)
   constructor Create(
     const aModelName: string; aModelID: Integer=0;
     const aPrefix: string=imbDefaultPrefix;
     const aRemoteHost: string=imbDefaultRemoteHost; aRemotePort: Integer=imbDefaultRemoteSocketPort);
-  destructor Destroy; override;
   private
     fRemoteHost: string;
     fRemotePort: Integer;
     fSocket: TSocket;
-    fReaderThread: TThread;
     function getConnected: Boolean; override;
     procedure setConnected(aValue: Boolean); override;
     function readBytes(var aBuffer; aNumberOfBytes: Integer): Integer; override;
   public
     function writePacket(aPacket: TByteBuffer; aCloseOnError: Boolean=True): Boolean; override;
   end;
+  {$ENDIF}
 
+  {$IFDEF imbTLSSupport}
   TTLSConnection = class(TConnection)
   constructor Create(
     const aCertFile, aKeyFile, aKeyFilePassword, aRootCertFile: string;
@@ -289,7 +308,6 @@ type
     const aRemoteHost: string=imbDefaultRemoteHost; aRemotePort: Integer=imbDefaultRemoteTLSPort);
   destructor Destroy; override;
   private
-    fReaderThread: TThread;
     fIdTCPClient1: TIdTCPClient;
     fIdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
     fKeyFilePassword: string;
@@ -306,7 +324,25 @@ type
     // handlers tcp client
     procedure HandleDisconnected(Sender: TObject);
     procedure HandleStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
-end;
+  end;
+  {$ENDIF}
+
+  {$IFDEF imbSharedMemSupport}
+  TSharedMemConnection = class(TConnection)
+  constructor Create(
+    const aModelName: string; aModelID: Integer=0;
+    const aPrefix: string=imbDefaultPrefix;
+    const aServerChannelName: string=smServerChannelName);
+  private
+    fServerChannelName: string;
+    fSMFile: TSMFile;
+    function getConnected: Boolean; override;
+    procedure setConnected(aValue: Boolean); override;
+    function readBytes(var aBuffer; aNumberOfBytes: Integer): Integer; override;
+  public
+    function writePacket(aPacket: TByteBuffer; aCloseOnError: Boolean=True): Boolean; override;
+  end;
+  {$ENDIF}
 
 
 implementation
@@ -633,6 +669,36 @@ destructor TStreamCacheEntry.Destroy;
 begin
   FreeAndNil(fStream);
   inherited;
+end;
+
+{ TBatchedBuffer }
+
+procedure TBatchBuffer.Add(const aEntry: TByteBuffer);
+begin
+  if length(aEntry)+length(fBatch)>fBatchSize
+  then Commit;
+  fBatch := fBatch+aEntry;
+end;
+
+procedure TBatchBuffer.Commit();
+begin
+  if length(fBatch)>0 then
+  begin
+    fEventEntry.publish();
+    fEventEntry.connection.writePacket(
+      AnsiChar(imbMagic)+
+      TByteBuffer.bb_int64(Length(fBatch)+2)+
+      TByteBuffer.bb_uint16(fEventEntry.EventID)+
+      fBatch);
+    fBatch := '';
+  end;
+end;
+
+procedure TBatchBuffer.Prepare(aBatchSize: Integer; aEventEntry: TEventEntry);
+begin
+  fBatch := '';
+  fBatchSize := aBatchSize;
+  fEventEntry := aEventEntry;
 end;
 
 { TEventEntry }
@@ -996,6 +1062,7 @@ end;
 constructor TConnection.Create(const aModelName: string; aModelID: Integer; const aPrefix: string);
 begin
   inherited Create;
+  fReaderThread := nil;
   fModelName := aModelName;
   fModelID := aModelID;
   fPrefix := aPrefix;
@@ -1010,6 +1077,7 @@ end;
 destructor TConnection.Destroy;
 begin
   connected := False;
+  FreeAndNil(fReaderThread);
   FreeAndNil(fLocalEventEntries);
   FreeAndNil(fRemoteEventEntries);
   inherited;
@@ -1175,7 +1243,7 @@ begin
         size := packet.bb_read_int64(cursor);
         limit := cursor+Abs(size);
         // make sure all packet data is read
-        if limit>imbMinimumPacketSize then // comparison is dependent on TBuffer being 1-based
+        if limit>imbMinimumPacketSize then
         begin
           extraBytes := limit-imbMinimumPacketSize;
           if length(packet)<imbMinimumPacketSize+extraBytes
@@ -1286,6 +1354,8 @@ begin
   end;
 end;
 
+{$IFDEF imbSocketSupport}
+
 { TSocketConnection }
 
 constructor TSocketConnection.Create(const aModelName: string; aModelID: Integer; const aPrefix: string;
@@ -1293,20 +1363,12 @@ constructor TSocketConnection.Create(const aModelName: string; aModelID: Integer
 begin
   inherited Create(aModelName, aModelID, aPrefix);
   fSocket := INVALID_SOCKET;
-  fReaderThread := nil;
   fRemoteHost := aRemoteHost;
   fRemotePort := aRemotePort;
   // try to connect
   connected := True;
   if not connected
   then raise Exception.Create('Could not connect to '+aRemoteHost+':'+aRemotePort.toString);
-end;
-
-destructor TSocketConnection.Destroy;
-begin
-  connected := False;
-  FreeAndNil(fReaderThread);
-  inherited;
 end;
 
 function TSocketConnection.getConnected: Boolean;
@@ -1396,7 +1458,9 @@ begin
   end;
 end;
 
+{$ENDIF}
 
+{$IFDEF imbTLSSupport}
 
 { TTLSConnection }
 
@@ -1404,7 +1468,6 @@ constructor TTLSConnection.Create(const aCertFile, aKeyFile, aKeyFilePassword, a
   aRemoteHost: string; aRemotePort: Integer);
 begin
   inherited Create(aModelName, aModelID, aPrefix);
-  fReaderThread := nil;
   fKeyFilePassword := aKeyFilePassword;
   // io handler
   fIdSSLIOHandlerSocketOpenSSL1 := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
@@ -1443,8 +1506,6 @@ end;
 
 destructor TTLSConnection.Destroy;
 begin
-  connected := False;
-  FreeAndNil(fReaderThread);
   inherited;
   FreeAndNil(fIdTCPClient1);
   FreeAndNil(fIdSSLIOHandlerSocketOpenSSL1);
@@ -1467,19 +1528,21 @@ end;
 
 procedure TTLSConnection.HandleStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
 begin
-  // todo:
+  {$IFDEF CONSOLE}
   WriteLn('HandleStatus: '+Ord(aStatus).ToString()+': '+astatustext);
+  {$ENDIF}
 end;
 
 procedure TTLSConnection.HandleStatusInfo(const aMsg: String);
 begin
-  // todo:
+  {$IFDEF CONSOLE}
   WriteLn('HandleStatusInfo: '+aMsg);
+  {$ENDIF}
 end;
 
 function TTLSConnection.HandleVerifyPeer(aCertificate: TIdX509; aOk: Boolean; aDepth, aError: Integer): Boolean;
 begin
-  // todo:
+  {$IFDEF CONSOLE}
   if aOK
   then WriteLn('IO handler VerifyPeer ('+aDepth.ToString()+') '+aerror.ToString())
   else WriteLn('## IO handler VerifyPeer ('+aDepth.ToString()+') '+aerror.ToString());
@@ -1491,6 +1554,7 @@ begin
     if Assigned(aCertificate.Subject)
     then WriteLn('      Subject: '+aCertificate.Subject.oneline);
   end;
+  {$ENDIF}
   Result := aOk;
 end;
 
@@ -1499,7 +1563,7 @@ var
   localBuffer: TIdBytes;
 begin
   try
-    // todo: SetLength(localBuffer, 0);  ?? seems not to be needed
+    // SetLength(localBuffer, 0); not needed
     fIdTCPClient1.IOHandler.ReadBytes(localBuffer, aNumberOfBytes);
     Result := Length(localBuffer);
     Move(localBuffer[0], aBuffer, Result);
@@ -1561,5 +1625,88 @@ begin
     TMonitor.Exit(Self);
   end;
 end;
+
+{$ENDIF}
+
+{$IFDEF imbSharedMemSupport}
+
+{ TSharedMemConnection }
+
+constructor TSharedMemConnection.Create(const aModelName: string; aModelID: Integer; const aPrefix, aServerChannelName: string);
+begin
+  inherited Create(aModelName, aModelID, aPrefix);
+  fSMFile := TSMFile.Empty.Empty;
+  fServerChannelName := aServerChannelName;
+  // try to connect
+  connected := True;
+  if not connected
+  then raise Exception.Create('Could not connect to '+aServerChannelName);
+end;
+
+function TSharedMemConnection.getConnected: Boolean;
+begin
+  Result := fSMFile.Connected;
+end;
+
+function TSharedMemConnection.readBytes(var aBuffer; aNumberOfBytes: Integer): Integer;
+begin
+  Result := fSMFile.Channel[smfDefaultClientReadChannel].Read(aBuffer, aNumberOfBytes);
+end;
+
+procedure TSharedMemConnection.setConnected(aValue: Boolean);
+begin
+  if aValue then
+  begin
+    if not connected then
+    begin
+      fSMFile := ConnectToSharedMemConnection(fServerChannelName);
+      if connected then
+      begin
+        fReaderThread.Free;
+        fReaderThread := TThread.CreateAnonymousThread(readPackets);
+        fReaderThread.FreeOnTerminate := False;
+        fReaderThread.NameThreadForDebugging('imb event reader');
+        fReaderThread.Start;
+        // send connect info
+        signalConnectInfo(fModelName, fModelID);
+        // wait for unique client id as a signal that we are connected
+        waitForConnected;
+      end;
+    end;
+  end
+  else
+  begin
+    if connected then
+    begin
+      fReaderThread.Terminate;
+      fSMFile.Close(True);
+      fSMFile := TSMFile.Empty;
+    end;
+  end;
+end;
+
+function TSharedMemConnection.writePacket(aPacket: TByteBuffer; aCloseOnError: Boolean): Boolean;
+begin
+  Result := False;
+  if connected then
+  begin
+    // minimum packet length is imbMinimumPacketSize bytes
+    if length(aPacket)<imbMinimumPacketSize
+    then Setlength(aPacket, imbMinimumPacketSize);
+    TMonitor.Enter(Self);
+    try
+      if fSMFile.Channel[smfDefaultClientWriteChannel].Write(aPacket[1], Length(aPacket))<0 then
+      begin
+        if aCloseOnError
+        then close(false);
+      end
+      else Result := True;
+    finally
+      TMonitor.Exit(Self);
+    end;
+  end;
+end;
+
+{$ENDIF}
 
 end.

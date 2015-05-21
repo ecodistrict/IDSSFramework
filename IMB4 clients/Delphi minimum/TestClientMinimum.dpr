@@ -37,7 +37,9 @@ var
   stream: TStream;
 begin
   try
-    connection := TSocketConnection.Create('delphi minimum client');
+    connection := TSecureConnection.Create(
+      'client-eco-district.crt', 'client-eco-district.key', '&8dh48klosaxu90OKH', 'root-ca-imb.crt',
+      'delphi minimum client');
     try
       WriteLn('connected');
 

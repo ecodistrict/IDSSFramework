@@ -21,7 +21,7 @@ namespace TestClient
 
         static void Main(string[] args)
         {
-            TConnection connection = new TSocketConnection("C# test model", 7);
+            TConnection connection = new TTLSConnection("client-eco-district.pfx", "&8dh48klosaxu90OKH", "root-ca-imb.crt", "C# test model");
             try
             {
                 Console.WriteLine("connected");
