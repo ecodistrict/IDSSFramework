@@ -14,6 +14,9 @@ namespace Ecodistrict.Messaging
         [DataMember]
         string geometryObject = "polygon";
 
+        [DataMember]
+        public GeoValue value;
+
         internal GeoJson() { }
 
         public GeoJson(string label, object order = null)
@@ -23,5 +26,28 @@ namespace Ecodistrict.Messaging
             this.order = order;
         }
 
+    }
+
+    [DataContract]
+    public class GeoValue 
+    {
+        [DataMember]
+        public Features features;
+    }
+
+    [DataContract]
+    public class Features : List<Feature>
+    {
+
+    }
+
+    [DataContract]
+    public class Feature
+    {
+        [DataMember]
+        String type = "Feature";
+
+        [DataMember]
+        public Dictionary<String, object> properties;
     }
 }

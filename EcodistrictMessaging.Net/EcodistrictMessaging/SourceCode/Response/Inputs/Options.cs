@@ -28,6 +28,20 @@ namespace Ecodistrict.Messaging
 
             return false;
         }
+
+        public int GetIndex(String value)
+        {
+            if (value != null)
+            {
+                for (int i = 0; i < this.Count; ++i)
+                {
+                    if (this[i].value == value)
+                        return i;
+                }
+            }
+
+            return -1;
+        }
     }
 
     /// <summary>
@@ -58,5 +72,16 @@ namespace Ecodistrict.Messaging
             this.value = value;
             this.label = label;
         }
+
+        //public static bool operator ==(Option a, Option b)
+        //{
+        //    if(a!=null)
+        //    return a.value == b.value;
+        //}
+
+        //public static bool operator !=(Option a, Option b)
+        //{
+        //    return !(a.value == b.value);
+        //}
     }
 }
