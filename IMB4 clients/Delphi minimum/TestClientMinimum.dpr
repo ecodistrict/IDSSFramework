@@ -37,7 +37,7 @@ var
   stream: TStream;
 begin
   try
-    connection := TSecureConnection.Create(
+    connection := TTLSConnection.Create(
       'client-eco-district.crt', 'client-eco-district.key', '&8dh48klosaxu90OKH', 'root-ca-imb.crt',
       'delphi minimum client');
     try
