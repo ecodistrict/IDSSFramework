@@ -34,8 +34,8 @@ namespace Ecodistrict.Messaging
     /// <br/>
     /// Received: <see cref="StartModuleRequest"/>  and moduleId is my id => Respond:  <see cref="StartModuleResponse"/> with 
     /// <see cref="ModuleStatus"/> 'Processing' and start calculate the selected kpi. 
-    /// When finished Respond:  <see cref="StartModuleResponse"/> with <see cref="ModuleStatus"/> 
-    /// 'Success' (if it is, otherwise 'Failure'). Then send result with <see cref="ModuleResult"/>.<br/>
+    /// When finished Respond:  <see cref="ModuleResult"/> if it succeeds else Respond:  <see cref="StartModuleResponse"/> with 
+    /// <see cref="ModuleStatus"/> 'Failed'
     /// <br/>
     /// <br/>
     /// This is the class diagram for the <see cref="Ecodistrict.Messaging"/> namespace:
