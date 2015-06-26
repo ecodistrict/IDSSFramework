@@ -116,35 +116,40 @@ namespace Ecodistrict.Messaging
         protected string moduleId;
 
         /// <summary>
-        /// The variant id aquired from the dashboard in the <see cref="StartModuleRequest"/> message.
+        /// The variant id acquired from the dashboard in the <see cref="StartModuleRequest"/> message.
         /// </summary>
         [DataMember]
         protected string variantId;
 
         /// <summary>
-        /// The outputs that will be send and visualised in the dashboard.
+        /// The outputs that will be send and visualized in the dashboard.
         /// </summary>
         [DataMember]
         protected List<Output> outputs;
 
-        internal ModuleResult() { }
+        [DataMember]
+        protected string status;
 
+        internal ModuleResult() { }
+        
         /// <summary>
         /// Defines the ModuleResult constructor.
-        /// Can be seralized to a json-string that can be interpeted by the dashboard.
+        /// Can be serialized to a json-string that can be interpreted by the dashboard.
         /// </summary>
         /// <param name="moduleId">The unique identifier of the module.</param>
         /// <param name="variantId">The variant id aquired from the dashboard in the <see cref="StartModuleRequest"/> message.</param>
         /// <param name="kpiId">The kpi id that this result refers to.</param>
         /// <param name="outputs">The outputs that will be send and visualised in the dashboard.</param>
-        public ModuleResult(string moduleId, string variantId, string kpiId, Outputs outputs)
+        public ModuleResult(string moduleId, string variantId, string userId, string kpiId, Outputs outputs)
         {
             this.method = "moduleResult";
             this.type = "result";
             this.moduleId = moduleId;
             this.kpiId = kpiId;
             this.variantId = variantId;
+            this.userId = userId;
             this.outputs = outputs;
+            this.status = "success";
         }
     }
 }

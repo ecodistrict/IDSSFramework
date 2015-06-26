@@ -38,5 +38,10 @@ namespace Ecodistrict.Messaging
         {
             return value != null;
         }
+
+        public object GetValue()
+        {
+            return value;
+        }
     }
 }

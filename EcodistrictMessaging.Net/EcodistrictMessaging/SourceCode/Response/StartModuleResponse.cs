@@ -113,6 +113,9 @@ namespace Ecodistrict.Messaging
         [DataMember]
         protected string variantId;
 
+        [DataMember]
+        protected string userId;
+
         /// <summary>
         /// The progress of the calculation of the kpi.
         /// </summary>
@@ -136,12 +139,13 @@ namespace Ecodistrict.Messaging
         /// <param name="kpiId">The kpi that the dashboard previously selected.</param>
         /// <param name="status">Status indicator</param>
         /// <param name="info">Optional info regarding the status.</param>
-        public StartModuleResponse(string moduleId, string variantId, string kpiId, ModuleStatus status, string info = null)
+        public StartModuleResponse(string moduleId, string variantId, string userId, string kpiId, ModuleStatus status, string info = null)
         {
             this.method = "startModule";
             this.type = "response";
             this.moduleId = moduleId;
             this.variantId = variantId;
+            this.userId = userId;
             this.kpiId = kpiId;
 
             switch(status)

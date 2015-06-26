@@ -60,6 +60,9 @@ namespace Ecodistrict.Messaging
         /// </summary>
         [DataMember]
         public string variantId { get; private set; }
+        
+        [DataMember]
+        public string userId { get; private set; }
 
         /// <summary>
         /// An indicator on which of the module's kpis that is to be calculated.
