@@ -4,8 +4,8 @@ var imbConnection = new imb.TIMBConnection(imb.imbDefaultHostname, imb.imbDefaul
     "client-eco-district.pfx", "&8dh48klosaxu90OKH", "root-ca-imb.crt");
 
 imbConnection.on("onUniqueClientID", function (aUniqueClientID, aHubID) {
-    console.log('private event name: ' + imbConnection.privateEventName);
-    console.log('monitor event name: ' + imbConnection.monitorEventName);
+    console.log('private event name: ' + imbConnection.privateEventName());
+    console.log('monitor event name: ' + imbConnection.monitorEventName());
 });
 
 imbConnection.on("onDisconnect", function (obj) {

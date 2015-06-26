@@ -699,11 +699,12 @@ namespace IMB
 
     public abstract class TConnection
     {
+		// ecodistrict defaults
         public const string imbDefaultRemoteHost = "vps17642.public.cloudvps.com"; // "localhost"; 
-        public const int imbDefaultSocketRemotePort = 4004;
-        public const int imbDefaultTLSRemotePort = 4443;
-
         public const string imbDefaultPrefix = "ecodistrict"; // "nl.imb";
+        
+		public const int imbDefaultSocketRemotePort = 4004;
+        public const int imbDefaultTLSRemotePort = 4443;
 
         public const byte imbMagic = 0xFE;
 
@@ -881,7 +882,11 @@ namespace IMB
                 if (onDisconnect!=null)
                     onDisconnect(this);
                 if (aSendCloseCmd)
-                    writeCommand(TByteBuffer.bb_tag_bool(icehClose, false));
+                    try
+                    {
+                        writeCommand(TByteBuffer.bb_tag_bool(icehClose, false));
+                    }
+                    catch { } //  catch and ignore all
                 connected = false;
             }
         }
@@ -1067,6 +1072,8 @@ namespace IMB
             {
                 if (connected)
                 {
+                    writeCommand(TByteBuffer.bb_tag_bool(icehClose, false));
+
                     fClient.Close();
                     fClient = null; // new TcpClient(); // cannot use old connection so create new one to make later call to OpenLow possible
                     fNetStream.Close();
@@ -1097,6 +1104,12 @@ namespace IMB
         public override void writePacket(byte[] aPacket /*, bool aCallCloseOnError = true*/)
         {
             fNetStream.Write(aPacket, 0, aPacket.Length);
+            if (imbMinimumPacketSize>aPacket.Length)
+            {
+                // send filler bytes
+                var fillerBytes = new byte[imbMinimumPacketSize - aPacket.Length];
+                fNetStream.Write(fillerBytes, 0, fillerBytes.Length);
+            }
         }
     }
 
@@ -1179,33 +1192,41 @@ namespace IMB
             {
                 if (!connected)
                 {
+                    try
+                    {
+                        fClient = new TcpClient(fRemoteHost, fRemotePort);
+                        fClient.LingerState.LingerTime = 1;
+                        fClient.LingerState.Enabled = true;
+                    }
+                    catch
+                    { } //  catch and ignore all exceptions, just do not connect
+                    if (fClient != null)
+                    {
+                        // TLS part
+                        fTLSStream = new SslStream(
+                            fClient.GetStream(),
+                            false,
+                            new RemoteCertificateValidationCallback(CheckRemoteCertificate),
+                            new LocalCertificateSelectionCallback(SelectClientCertificate),
+                            EncryptionPolicy.RequireEncryption);
+                        fTLSStream.AuthenticateAsClient(fRemoteHost, fCertificates, SslProtocols.Tls12, false); // true);  //checkCertificateRevocation
 
-                    
-                    fClient = new TcpClient(fRemoteHost, fRemotePort);
-                    
-                    // TLS part
-                    fTLSStream = new SslStream(
-                        fClient.GetStream(), 
-                        false, 
-                        new RemoteCertificateValidationCallback(CheckRemoteCertificate), 
-                        new LocalCertificateSelectionCallback(SelectClientCertificate), 
-                        EncryptionPolicy.RequireEncryption);
-                    fTLSStream.AuthenticateAsClient(fRemoteHost, fCertificates, SslProtocols.Tls12, false); // true);  //checkCertificateRevocation
-                    
-                    // start normal reader thread
-                    fReaderThread = new Thread(readPackets);
-                    fReaderThread.Name = "IMB reader";
-                    fReaderThread.Start();
-                    // send connect info
-                    signalConnectInfo(fModelName, fModelID);
-                    // wait for unique client id as a signal that we are connected
-                    waitForConnected();
+                        // start normal reader thread
+                        fReaderThread = new Thread(readPackets);
+                        fReaderThread.Name = "IMB reader";
+                        fReaderThread.Start();
+                        // send connect info
+                        signalConnectInfo(fModelName, fModelID);
+                        // wait for unique client id as a signal that we are connected
+                        waitForConnected();
+                    }
                 }
             }
             else
             {
                 if (connected)
                 {
+                    
                     fClient.Close();
                     fClient = null; // new TcpClient(); // cannot use old connection so create new one to make later call to OpenLow possible
                     fTLSStream.Close();
@@ -1236,6 +1257,12 @@ namespace IMB
         public override void writePacket(byte[] aPacket /*, bool aCallCloseOnError = true*/)
         {
             fTLSStream.Write(aPacket, 0, aPacket.Length);
+            if (imbMinimumPacketSize > aPacket.Length)
+            {
+                // send filler bytes
+                var fillerBytes = new byte[imbMinimumPacketSize - aPacket.Length];
+                fTLSStream.Write(fillerBytes, 0, fillerBytes.Length);
+            }
         }
     }
 }

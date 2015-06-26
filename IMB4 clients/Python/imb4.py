@@ -3,6 +3,12 @@ import threading
 import time
 import struct  # conversion of values to bytes and visa-versa
 import uuid  # guid support
+import ssl
+import os
+
+# ecodistrict defaults
+DEFAULT_REMOTE_HOST = 'vps17642.public.cloudvps.com'  # 'localhost'
+DEFAULT_PREFIX = 'ecodistrict'  # 'nl.imb'
 
 BYTEORDER = 'little'
 MAGIC_BYTE = 0xFE
@@ -14,9 +20,8 @@ SOCK_SELECT_TIMEOUT = 1  # seconds
 
 INVALID_EVENT_ID = 0xFFFFFFFF
 
-DEFAULT_REMOTE_HOST = 'vps17642.public.cloudvps.com'
-DEFAULT_REMOTE_PORT = 4004
-DEFAULT_PREFIX = 'ecodistrict'
+DEFAULT_REMOTE_SOCKET_PORT = 4004
+DEFAULT_REMOTE_TLS_PORT = 4443
 
 MSG_WAITALL = 8
 # socket.MSG_WAITALL, seems not available in windows python socket lib but is supported on windows above xp
@@ -106,10 +111,10 @@ def bb_uint(value):
     :return: proto buf
     """
     buffer = bytearray()
-    while value > 127:
-        buffer.append((value & 0xFF) | 0x80)
+    while value >= 128:
+        buffer.append((value & 0x7F) | 0x80)
         value >>= 7
-    buffer.append(value & 0xFF)
+    buffer.append(value & 0x7F)
     return buffer
 
 
@@ -648,8 +653,6 @@ class ByteBuffer:
         return self.read_uint()
 
 
-
-
 class TEventEntry:
     """Represents an event in the IMB framework
 
@@ -906,7 +909,7 @@ class TEventEntry:
 
 
 class TConnection:
-    def __init__(self, host, port, model_name, model_id, prefix=DEFAULT_PREFIX, reconnectable=False):
+    def __init__(self, host, port, secure, model_name, model_id, prefix=DEFAULT_PREFIX, reconnectable=False):
         # init fields
         self._event_entries = []
         self._event_remote_to_local = {}
@@ -919,12 +922,22 @@ class TConnection:
         self._model_name = model_name
         self._model_id = model_id
         self._connected = False
-        # handlers
         self._on_disconnect = None
+        # handlers
         self._on_sub_and_pub = None
 
         # setup the socket
-        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if (secure):
+            _working_folder = os.getcwd()
+            self._socket = ssl.wrap_socket(
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM),
+                keyfile=_working_folder+'\\client1.key',
+                certfile=_working_folder+'\\client1.crt',
+                cert_reqs=ssl.CERT_REQUIRED,
+                ssl_version=ssl.PROTOCOL_TLSv1_2,
+                ca_certs=_working_folder+'\\root-ca-imb.crt')
+        else:
+            self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.connect((host, port))
         self._connected = True
 
@@ -1336,7 +1349,7 @@ class TConnection:
         ...     print('received event', command, command_payload)  # show received command
         ...     event_entry.signal_int_string_event(9, 'payload for command 9')  # response
 
-        >>> connection = TConnection(DEFAULT_REMOTE_HOST, DEFAULT_REMOTE_PORT, 'model name', 1, DEFAULT_PREFIX)
+        >>> connection = TConnection(DEFAULT_REMOTE_HOST, DEFAULT_REMOTE_SOCKET_PORT, 'model name', 1, DEFAULT_PREFIX)
         >>> event_entry = connection.subscribe('my_event', on_int_string_event=handle_event)
         >>> event_entry.signal_event(bb_tag_string(100, 'a string payload'))
         """

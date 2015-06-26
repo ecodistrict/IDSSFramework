@@ -11,11 +11,12 @@
 #include <map>
 #include <cstdint>
 
-const std::string imbDefaultRemoteHost = "vps17642.public.cloudvps.com"; // "localhost";
+// ecodistrict defaults
+const std::string imbDefaultRemoteHost = "vps17642.public.cloudvps.com"; // "localhost"
+const std::string imbDefaultPrefix = "ecodistrict"; // "nl.imb";
+
 const int imbDefaultSocketRemotePort = 4004;
 const int imbDefaultTLSRemotePort = 4443;
-
-const std::string imbDefaultPrefix = "ecodistrict"; // "nl.imb";
 
 // protobuf wire types
 const int wtVarInt = 0;                        // int32, int64, uint32, uint64_t, sint32, sint64, bool, enum

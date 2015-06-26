@@ -368,7 +368,7 @@ var
   InitialAvailableForWrite: Integer;
   res: DWORD;
 begin
-  if Assigned(Header) then
+  if Assigned(@Self) and Assigned(Header) then
   begin
     Result := aBufferSize; //assume everyting goes well
     if (aBufferSize>0) then

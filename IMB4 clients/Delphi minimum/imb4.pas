@@ -14,6 +14,7 @@ uses
   {$ENDIF}
 
   {$IFDEF imbTLSSupport}
+  IdSSLOpenSSLHeaders, // for flush ?
   IdSSLOpenSSL, IdTCPClient, IdComponent, IdGlobal, // indy for secure connection
   {$ENDIF}
 
@@ -24,11 +25,12 @@ uses
   System.Classes, System.SysUtils, System.Generics.Collections;
 
 const
+  // ecodistrict defaults
   imbDefaultRemoteHost = 'vps17642.public.cloudvps.com'; // 'localhost';
+  imbDefaultPrefix = 'ecodistrict'; // 'nl.imb';
+
   imbDefaultRemoteSocketPort = 4004;
   imbDefaultRemoteTLSPort = 4443;
-
-  imbDefaultPrefix = 'ecodistrict'; // 'nl.imb';
 
   imbMagic = $FE;
 
@@ -42,6 +44,7 @@ const
   icsClient = 2;
 
   // command tags
+  icehRemark = 1;                      // <string>
   icehSubscribe = 2;                   // <uint32: varint>
   icehPublish = 3;                     // <uint32: varint>
   icehUnsubscribe = 4;                 // <uint32: varint>
@@ -244,6 +247,9 @@ type
   // generic connection
   private
     fReaderThread: TThread;
+  public
+    property ReaderThread: TThread read fReaderThread;
+  private
     fModelName: string;
     fModelID: Integer;
     fPrefix: string;
@@ -279,6 +285,8 @@ type
     function publish(const aEventName: string; aUsePrefix: Boolean=True): TEventEntry;
     procedure unSubscribe(aEventEntry: TEventEntry);
     procedure unPublish(aEventEntry: TEventEntry);
+
+    procedure signalHeartBeat(const aRemark: string='');
   end;
 
   {$IFDEF imbSocketSupport}
@@ -316,6 +324,7 @@ type
     function readBytes(var aBuffer; aNumberOfBytes: Integer): Integer; override;
   public
     function writePacket(aPacket: TByteBuffer; aCloseOnError: Boolean=True): Boolean; override;
+    function DataAvailable: Boolean;
   private
     // handlers io handler
     procedure HandleGetPassword(var aPassword: String);
@@ -1085,15 +1094,15 @@ end;
 
 function TConnection.getMonitorEventName: string;
 begin
-  if fUniqueClientID<>TGUID.Empty
-  then Result := 'Clients.'+GUIDToStringCompact(fUniqueClientID)+'.Private'
+  if fHubID<>TGUID.Empty
+  then Result := 'Hubs.'+GUIDToStringCompact(fHubID)+'.Monitor'
   else Result := '';
 end;
 
 function TConnection.getPrivateEventName: string;
 begin
-  if fHubID<>TGUID.Empty
-  then Result := 'Hubs.'+GUIDToStringCompact(fHubID)+'.Monitor'
+  if fUniqueClientID<>TGUID.Empty
+  then Result := 'Clients.'+GUIDToStringCompact(fUniqueClientID)+'.Private'
   else Result := '';
 end;
 
@@ -1280,6 +1289,8 @@ begin
       begin
         if Assigned(fOnException)
         then fOnException(self, E);
+        close(False);
+        Exit;
       end;
     end;
   end;
@@ -1297,6 +1308,20 @@ begin
 //    bb_tag_string(icehEventNameFilter, '')+
     TByteBuffer.bb_tag_guid(icehUniqueClientID, fUniqueClientID); // trigger
   writePacket(AnsiChar(imbMagic)+TByteBuffer.bb_int64(-Length(payload))+payload);
+end;
+
+procedure TConnection.signalHeartBeat(const aRemark: string);
+// a heart beat is an empty command or an icehRemark (if aRemark<>'')
+var
+  payload: TByteBuffer;
+begin
+  if aRemark=''
+  then writePacket(AnsiChar(imbMagic)+TByteBuffer.bb_int64(0))
+  else
+  begin
+    payload := TByteBuffer.bb_tag_string(icehRemark, aRemark);
+    writePacket(AnsiChar(imbMagic)+TByteBuffer.bb_int64(-Length(payload))+payload);
+  end;
 end;
 
 function TConnection.subscribe(const aEventName: string; aUsePrefix: Boolean): TEventEntry;
@@ -1408,7 +1433,7 @@ begin
             fReaderThread.Free;
             fReaderThread := TThread.CreateAnonymousThread(readPackets);
             fReaderThread.FreeOnTerminate := False;
-            fReaderThread.NameThreadForDebugging('imb event reader');
+            fReaderThread.NameThreadForDebugging('imb event reader', fReaderThread.ThreadID);
             fReaderThread.Start;
             // send connect info
             signalConnectInfo(fModelName, fModelID);
@@ -1477,7 +1502,7 @@ begin
   fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.CertFile := aCertFile;
   fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.KeyFile := aKeyFile;
   fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.Method := sslvTLSv1_2;
-  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.Mode := sslmBoth;
+  fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.Mode := sslmClient;// sslmBoth;
   fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.RootCertFile := aRootCertFile;
   fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.SSLVersions := [sslvTLSv1_2];
   fIdSSLIOHandlerSocketOpenSSL1.SSLOptions.VerifyDepth := 2;
@@ -1504,8 +1529,15 @@ begin
   then raise Exception.Create('Could not connect to '+aRemoteHost+':'+aRemotePort.toString);
 end;
 
+function TTLSConnection.DataAvailable: Boolean;
+begin
+  Result := fIdSSLIOHandlerSocketOpenSSL1.Readable(5);
+end;
+
 destructor TTLSConnection.Destroy;
 begin
+  fIdTCPClient1.Socket.Binding.CloseSocket;
+  FreeAndNil(fReaderThread);
   inherited;
   FreeAndNil(fIdTCPClient1);
   FreeAndNil(fIdSSLIOHandlerSocketOpenSSL1);
@@ -1562,15 +1594,12 @@ function TTLSConnection.readBytes(var aBuffer; aNumberOfBytes: Integer): Integer
 var
   localBuffer: TIdBytes;
 begin
-  try
-    // SetLength(localBuffer, 0); not needed
-    fIdTCPClient1.IOHandler.ReadBytes(localBuffer, aNumberOfBytes);
-    Result := Length(localBuffer);
-    Move(localBuffer[0], aBuffer, Result);
-  except
-    Close(False);
-    Result := 0;
-  end;
+  // SetLength(localBuffer, 0); not needed
+  fIdTCPClient1.IOHandler.ReadBytes(localBuffer, aNumberOfBytes);
+  //fIdTCPClient1.IOHandler.InputBuffer
+  //fIdSSLIOHandlerSocketOpenSSL1.ReadBytes();
+  Result := Length(localBuffer);
+  Move(localBuffer[0], aBuffer, Result);
 end;
 
 procedure TTLSConnection.setConnected(aValue: Boolean);
@@ -1586,7 +1615,7 @@ begin
         fReaderThread.Free;
         fReaderThread := TThread.CreateAnonymousThread(readPackets);
         fReaderThread.FreeOnTerminate := False;
-        fReaderThread.NameThreadForDebugging('imb event reader');
+        fReaderThread.NameThreadForDebugging('imb event reader', fReaderThread.ThreadID);
         fReaderThread.Start;
         // send connect info
         signalConnectInfo(fModelName, fModelID);
@@ -1610,12 +1639,19 @@ var
   localBuffer: TIdBytes;
   numberOfBytes: Integer;
 begin
+  numberOfBytes := length(aPacket);
   TMonitor.Enter(Self);
   try
     if Connected then
     begin
-      numberOfBytes := length(aPacket);
-      SetLength(localBuffer, numberOfBytes);
+      // minimum packet length is imbMinimumPacketSize bytes
+      if numberOfBytes>=imbMinimumPacketSize
+      then SetLength(localBuffer, numberOfBytes)
+      else
+      begin
+        SetLength(localBuffer, imbMinimumPacketSize);
+        FillChar(localBuffer[0], imbMinimumPacketSize, 0);
+      end;
       Move(aPacket.refFirstByte^, localBuffer[0], numberOfBytes);
       fIdTCPClient1.IOHandler.Write(localBuffer);
       Result := True;
@@ -1665,7 +1701,7 @@ begin
         fReaderThread.Free;
         fReaderThread := TThread.CreateAnonymousThread(readPackets);
         fReaderThread.FreeOnTerminate := False;
-        fReaderThread.NameThreadForDebugging('imb event reader');
+        fReaderThread.NameThreadForDebugging('imb event reader', fReaderThread.ThreadID);
         fReaderThread.Start;
         // send connect info
         signalConnectInfo(fModelName, fModelID);
