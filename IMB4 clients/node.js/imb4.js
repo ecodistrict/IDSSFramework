@@ -363,6 +363,8 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
     // link event emitter
     EventEmitter.call(this);
     
+	console.log('starting IMB connection to ', aRemoteHost, ':', aRemotePort);
+	
     var fEventNames = [];
     var fEventTranslations = [];
     var fEventEntries = [];
@@ -395,6 +397,8 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
     // link handlers on socket
     fSocket.on("data", onReadCommand);
     fSocket.on("end", handleDisconnect);
+	fSocket.on("close", handleCloseEvent);
+	fSocket.on("error", handleErrorEvent);
     
     // send client info
     signalClientInfo(fSocket, aOwnerID, aOwnerName, aReconnectable, "", empty_guid);
@@ -645,6 +649,16 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
     function handleDisconnect() {
         fSelf.emit("onDisconnect", fSelf);
     }
+	
+	function handleCloseEvent(had_error) {
+		if (had_error) {
+			console.log("IMB connection: close event with error");
+		}
+	}
+	
+	function handleErrorEvent(error) {
+		console.log("IMB connection: error, "+error.message);
+	}
 
     function eventEntry(aEventID, aEventName) {
         
