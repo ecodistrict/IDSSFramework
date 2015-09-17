@@ -58,6 +58,7 @@
     <Compile Include="SourceCode\Response\Inputs\NonAtomic\InputGroup.cs" />
     <Compile Include="SourceCode\Response\Inputs\InputSpecification.cs" />
     <Compile Include="SourceCode\Response\Inputs\NonAtomic\List.cs" />
+    <Compile Include="SourceCode\Result\Outputs\GeoJson.cs" />
     <Compile Include="SourceCode\Result\Outputs\Kpi.cs" />
     <Compile Include="SourceCode\Result\Outputs\Outputs.cs" />
     <Compile Include="SourceCode\Serialize.cs" />

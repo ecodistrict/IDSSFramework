@@ -125,7 +125,7 @@ namespace Ecodistrict.Messaging
         /// The outputs that will be send and visualized in the dashboard.
         /// </summary>
         [DataMember]
-        protected List<Output> outputs;
+        protected List<Ecodistrict.Messaging.Output.Output> outputs;
 
         [DataMember]
         protected string status;
@@ -140,7 +140,7 @@ namespace Ecodistrict.Messaging
         /// <param name="variantId">The variant id aquired from the dashboard in the <see cref="StartModuleRequest"/> message.</param>
         /// <param name="kpiId">The kpi id that this result refers to.</param>
         /// <param name="outputs">The outputs that will be send and visualised in the dashboard.</param>
-        public ModuleResult(string moduleId, string variantId, string userId, string kpiId, Outputs outputs)
+        public ModuleResult(string moduleId, string variantId, string userId, string kpiId, Output.Outputs outputs)
         {
             this.method = "moduleResult";
             this.type = "result";

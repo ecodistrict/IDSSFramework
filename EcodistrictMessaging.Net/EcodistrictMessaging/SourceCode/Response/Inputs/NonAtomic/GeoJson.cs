@@ -49,5 +49,18 @@ namespace Ecodistrict.Messaging
 
         [DataMember]
         public Dictionary<String, object> properties;
+
+        [DataMember]
+        public Geometry geometry;
+    }
+
+    [DataContract]
+    public class Geometry
+    {
+        [DataMember]
+        public String type;
+        
+        [DataMember]
+        public List<List<List<double>>> coordinates;
     }
 }

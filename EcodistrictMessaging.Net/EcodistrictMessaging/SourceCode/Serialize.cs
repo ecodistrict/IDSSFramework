@@ -35,7 +35,7 @@ namespace Ecodistrict.Messaging
         /// </summary>
         /// <remarks>
         /// Used in testing purposes, the <see cref="InputSpecification"/> is newer sent to the dashboard on its own. 
-        /// Its allways sent as a part of <see cref="SelectModuleResponse"/>.
+        /// Its always sent as a part of <see cref="SelectModuleResponse"/>.
         /// </remarks>
         /// <param name="obj">The message object.</param>
         /// <param name="indented">If the string should be indented (visual only, does not affect the dashboard interpretation of the message).</param>
@@ -51,5 +51,6 @@ namespace Ecodistrict.Messaging
             
 
         }
+   
     }
 }
