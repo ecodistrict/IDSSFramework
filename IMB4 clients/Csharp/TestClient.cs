@@ -12,16 +12,18 @@ namespace TestClient
     {
         static void showHelp()
         {
-            Console.WriteLine("Options");
+            Console.WriteLine(": Options");
             Console.WriteLine("   ? for help");
             Console.WriteLine("   Q or escape to quit");
             Console.WriteLine("   S to send test events");
+			Console.WriteLine("   h enable heartbeat");
+			Console.WriteLine("   H disable heartbeat");
             Console.WriteLine();
         }
 
         static void Main(string[] args)
         {
-            TConnection connection = new TTLSConnection("client-eco-district.pfx", "&8dh48klosaxu90OKH", "root-ca-imb.crt", "C# test model");
+            TConnection connection = new TTLSConnection("client-eco-district.pfx", "&8dh48klosaxu90OKH", "root-ca-imb.crt", true, "C# test model");
             try
             {
                 Console.WriteLine("connected");
@@ -83,7 +85,7 @@ namespace TestClient
                         case 's':
                         case 'S':
                             // send a basic string event
-                            eventEntry.signalString("string command");
+                            eventEntry.signalString(": string command");
 
                             // send a stream
                             FileStream stream = File.OpenRead("test.jpg"); // todo: use path of existing file 
@@ -96,9 +98,17 @@ namespace TestClient
                                 stream.Close();
                             }
 
-                            Console.WriteLine("sent events..");
+                            Console.WriteLine(": sent events..");
                             break;
-                        case '?':
+                        case 'h':
+							connection.setHeartBeat(1000); // enable heartbeat every second
+							Console.WriteLine(": heartbeat enabled..");
+							break;
+						case 'H':
+							connection.setHeartBeat(0); // disable heartbeat (<=0)
+							Console.WriteLine(": heartbeat disabled..");
+							break;
+						case '?':
                             showHelp();
                             break;
                     }

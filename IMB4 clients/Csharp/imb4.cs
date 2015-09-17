@@ -699,7 +699,7 @@ namespace IMB
 
     public abstract class TConnection
     {
-        public const string imbDefaultRemoteHost = "vps17642.public.cloudvps.com"; // "localhost"; 
+        public const string imbDefaultRemoteHost = "vps17642.public.cloudvps.com"; // "localhost";  "localhost"; // 
         public const int imbDefaultSocketRemotePort = 4004;
         public const int imbDefaultTLSRemotePort = 4443;
 
@@ -715,6 +715,7 @@ namespace IMB
         public const int icsClient = 2;
 
         // command tags
+        public const int icehRemark = 1;                      // <string>
         public const int icehSubscribe = 2;                   // <uint32: varint>
         public const int icehPublish = 3;                     // <uint32: varint>
         public const int icehUnsubscribe = 4;                 // <uint32: varint>
@@ -881,7 +882,11 @@ namespace IMB
                 if (onDisconnect!=null)
                     onDisconnect(this);
                 if (aSendCloseCmd)
-                    writeCommand(TByteBuffer.bb_tag_bool(icehClose, false));
+                    try
+                    {
+                        writeCommand(TByteBuffer.bb_tag_bool(icehClose, false));
+                    }
+                    catch { } //  catch and ignore all
                 connected = false;
             }
         }
@@ -895,6 +900,46 @@ namespace IMB
                 // bb_tag_bool(icehReconnectable, False),
                 // bb_tag_string(icehEventNameFilter, ''),
                 TByteBuffer.bb_tag_guid(icehUniqueClientID, fUniqueClientID)); // trigger
+        }
+
+        public void signalHeartbeat(string aRemark = "")
+        {
+            if (aRemark == "")
+                writePacket(new byte[2] {TConnection.imbMagic, 0 });
+            else
+                writeCommand(TByteBuffer.bb_tag_string(icehRemark, aRemark));
+        }
+
+        protected Thread fHeartbeatThread = null;
+        protected int fHeartbeatInterval = 0;
+
+        protected void sendHeartbeats() // heartbeat thread loop
+        {
+            while (connected)
+            {
+                signalHeartbeat();
+                if (connected)
+                    Thread.Sleep(fHeartbeatInterval);
+            }
+        }
+
+        public void setHeartBeat(int aIntervalms)
+        {
+            if (aIntervalms>0)
+            {
+                fHeartbeatInterval = aIntervalms;
+                fHeartbeatThread = new Thread(sendHeartbeats);
+                fHeartbeatThread.Name = "IMB heartbeat";
+                fHeartbeatThread.Start();
+            }
+            else
+            {
+                if (fHeartbeatThread!=null)
+                {
+                    fHeartbeatThread.Abort();
+                    fHeartbeatThread = null;
+                }
+            }
         }
 
         protected void readPackets() // event reader thread loop
@@ -1067,6 +1112,8 @@ namespace IMB
             {
                 if (connected)
                 {
+                    writeCommand(TByteBuffer.bb_tag_bool(icehClose, false));
+
                     fClient.Close();
                     fClient = null; // new TcpClient(); // cannot use old connection so create new one to make later call to OpenLow possible
                     fNetStream.Close();
@@ -1096,14 +1143,24 @@ namespace IMB
 
         public override void writePacket(byte[] aPacket /*, bool aCallCloseOnError = true*/)
         {
-            fNetStream.Write(aPacket, 0, aPacket.Length);
+            lock (fNetStream)
+            {
+                fNetStream.Write(aPacket, 0, aPacket.Length);
+                if (imbMinimumPacketSize > aPacket.Length)
+                {
+                    // send filler bytes
+                    var fillerBytes = new byte[imbMinimumPacketSize - aPacket.Length];
+                    fNetStream.Write(fillerBytes, 0, fillerBytes.Length);
+                }
+            }
         }
     }
 
     class TTLSConnection : TConnection
     {
         public TTLSConnection(
-            string aCertFile, string aCertFilePassword, string aRootCertFile,
+            string aCertFile, string aCertFilePassword, string aRootCertFile, 
+            bool aStrictCertificateCheck, 
             string aModelName, int aModelID = 0,
             string aPrefix = imbDefaultPrefix,
             string aRemoteHost = imbDefaultRemoteHost, int aRemotePort = imbDefaultTLSRemotePort)
@@ -1112,9 +1169,15 @@ namespace IMB
             fRemoteHost = aRemoteHost;
             fRemotePort = aRemotePort;
 
+            fStrictCertificateCheck = aStrictCertificateCheck;
 
-            fCertificates.Add(new X509Certificate2(aCertFile, aCertFilePassword));
-            fCertificates.Add(X509Certificate.CreateFromCertFile(aRootCertFile));
+            X509Certificate clientCertificate = new X509Certificate2(aCertFile, aCertFilePassword);
+            fCertificates.Add(clientCertificate);
+            if (!aStrictCertificateCheck)
+            {
+                X509Certificate rootCertificate = X509Certificate.CreateFromCertFile(aRootCertFile);
+                fCertificates.Add(rootCertificate);
+            }
 
             connected = true;
         }
@@ -1124,6 +1187,7 @@ namespace IMB
         protected Thread fReaderThread = null;
         protected TcpClient fClient = null;
         protected SslStream fTLSStream = null;
+        bool fStrictCertificateCheck;
         private X509CertificateCollection fCertificates = new X509CertificateCollection();
 
         protected override bool getConnected()
@@ -1149,8 +1213,17 @@ namespace IMB
                         {
                             // todo: check if remote root certificate is same as local root certificate?
                             // this did not happen without the host entry in the remote certificate?
-                            Console.WriteLine(">> Server's certificate validation has untrusted root -> pass");
-                            return true;
+                            if (fStrictCertificateCheck)
+                            {
+                                Console.WriteLine(">> Server's certificate validation has untrusted root -> failed");
+                                return false;
+                            }
+                            else
+                            {
+                                Console.WriteLine(">> Server's certificate validation has untrusted root -> pass");
+                                Console.WriteLine(">> Add root certificate to trusted certificates?");
+                                return true;
+                            }
                         }
                         else
                         {
@@ -1179,33 +1252,52 @@ namespace IMB
             {
                 if (!connected)
                 {
+                    try
+                    {
+                        fClient = new TcpClient(fRemoteHost, fRemotePort);
+                        fClient.LingerState.LingerTime = 1;
+                        fClient.LingerState.Enabled = true;
+                    }
+                    catch
+                    { } //  catch and ignore all exceptions, just do not connect
+                    if (fClient != null)
+                    {
+                        // TLS part
+                        fTLSStream = new SslStream(
+                            fClient.GetStream(),
+                            false,
+                            new RemoteCertificateValidationCallback(CheckRemoteCertificate),
+                            new LocalCertificateSelectionCallback(SelectClientCertificate),
+                            EncryptionPolicy.RequireEncryption);
+                        try
+                        {
+                            fTLSStream.AuthenticateAsClient(fRemoteHost, fCertificates, SslProtocols.Tls12, false); // true);  //checkCertificateRevocation
 
-                    
-                    fClient = new TcpClient(fRemoteHost, fRemotePort);
-                    
-                    // TLS part
-                    fTLSStream = new SslStream(
-                        fClient.GetStream(), 
-                        false, 
-                        new RemoteCertificateValidationCallback(CheckRemoteCertificate), 
-                        new LocalCertificateSelectionCallback(SelectClientCertificate), 
-                        EncryptionPolicy.RequireEncryption);
-                    fTLSStream.AuthenticateAsClient(fRemoteHost, fCertificates, SslProtocols.Tls12, false); // true);  //checkCertificateRevocation
-                    
-                    // start normal reader thread
-                    fReaderThread = new Thread(readPackets);
-                    fReaderThread.Name = "IMB reader";
-                    fReaderThread.Start();
-                    // send connect info
-                    signalConnectInfo(fModelName, fModelID);
-                    // wait for unique client id as a signal that we are connected
-                    waitForConnected();
+                            // start normal reader thread
+                            fReaderThread = new Thread(readPackets);
+                            fReaderThread.Name = "IMB reader";
+                            fReaderThread.Start();
+                            // send connect info
+                            signalConnectInfo(fModelName, fModelID);
+                            // wait for unique client id as a signal that we are connected
+                            waitForConnected();
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine("## IMB TLS authentication exception " + e.Message);
+                            fClient.Close();
+                            fClient = null; // new TcpClient(); // cannot use old connection so create new one to make later call to OpenLow possible
+                            fTLSStream.Close();
+                            fTLSStream = null;
+                        }
+                    }
                 }
             }
             else
             {
                 if (connected)
                 {
+                    
                     fClient.Close();
                     fClient = null; // new TcpClient(); // cannot use old connection so create new one to make later call to OpenLow possible
                     fTLSStream.Close();
@@ -1233,9 +1325,18 @@ namespace IMB
                 return -1;
         }
 
-        public override void writePacket(byte[] aPacket /*, bool aCallCloseOnError = true*/)
+        public override void writePacket(byte[] aPacket)
         {
-            fTLSStream.Write(aPacket, 0, aPacket.Length);
+            lock (fTLSStream)
+            {
+                fTLSStream.Write(aPacket, 0, aPacket.Length);
+                if (imbMinimumPacketSize > aPacket.Length)
+                {
+                    // send filler bytes
+                    var fillerBytes = new byte[imbMinimumPacketSize - aPacket.Length];
+                    fTLSStream.Write(fillerBytes, 0, fillerBytes.Length);
+                }
+            }
         }
     }
 }
