@@ -8,7 +8,7 @@ using System.Runtime.Serialization.Json;
 
 using Newtonsoft.Json;
 
-namespace Ecodistrict.Messaging
+namespace Ecodistrict.Messaging.Output
 {
     /// <summary>
     /// A list of <see cref="Output"/>s. Used by <see cref="ModuleResult"/>.
@@ -55,6 +55,8 @@ namespace Ecodistrict.Messaging
             {
                 case "kpi":
                     return new Kpi();
+                case "geojson":
+                    return new GeoJson();
             }
 
             throw new ApplicationException(String.Format("The output type {0} is not supported!", type));
