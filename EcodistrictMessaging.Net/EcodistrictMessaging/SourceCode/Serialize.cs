@@ -47,8 +47,19 @@ namespace Ecodistrict.Messaging
             else
                 settings.Formatting = Newtonsoft.Json.Formatting.None;
 
+            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, obj.GetType(), settings);  
+        }
+
+
+        public static string ToJsonString(object obj, bool indented = false)
+        {
+            if (indented)
+                settings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            else
+                settings.Formatting = Newtonsoft.Json.Formatting.None;
+
             return Newtonsoft.Json.JsonConvert.SerializeObject(obj, obj.GetType(), settings);
-            
+
 
         }
    

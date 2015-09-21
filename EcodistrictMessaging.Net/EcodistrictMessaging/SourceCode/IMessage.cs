@@ -70,7 +70,12 @@ namespace Ecodistrict.Messaging
                     break;   
                 case "startModule":
                     if(type == "request")
-                            return new StartModuleRequest();
+                            {
+                                if (objectType == typeof(Request))  //Makes it possible to only get header-information (i.e. not deserialize the data)
+                                    return new Request();
+                                else
+                                    return new StartModuleRequest();
+                            }
                     else if(type == "response")
                             return new StartModuleResponse();
                     break;   

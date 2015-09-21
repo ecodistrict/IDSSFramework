@@ -32,6 +32,9 @@ namespace Ecodistrict.Messaging
     public class GeoValue 
     {
         [DataMember]
+        public String type = "FeatureCollection";
+
+        [DataMember]
         public Features features;
     }
 
