@@ -64,6 +64,6 @@ namespace Ecodistrict.Messaging
         public String type;
         
         [DataMember]
-        public List<List<List<double>>> coordinates;
+        public dynamic coordinates;
     }
 }

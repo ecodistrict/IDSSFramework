@@ -52,16 +52,30 @@ namespace Ecodistrict.Messaging
         /// <returns>The object value.</returns>
         public override object ReadJson(Newtonsoft.Json.JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
         {
-            // Load JObject from stream
-            Newtonsoft.Json.Linq.JObject jObject = Newtonsoft.Json.Linq.JObject.Load(reader);
+            try
+            {
+	            // Load JObject from stream
+	            Newtonsoft.Json.Linq.JObject jObject = Newtonsoft.Json.Linq.JObject.Load(reader);
+	
+	            // Create target object based on JObject
+	            T target = Create(objectType, jObject);
+	
+	            // Populate the object properties
+	            serializer.Populate(jObject.CreateReader(), target);
+	
+	            return target;
+            }
+            catch(Newtonsoft.Json.JsonSerializationException ex)
+            {
+                //TODO how to get this information up.              
+            }
+            catch (Exception ex)
+            {
+                //TODO how to get this information up.
+            }
 
-            // Create target object based on JObject
-            T target = Create(objectType, jObject);
-
-            // Populate the object properties
-            serializer.Populate(jObject.CreateReader(), target);
-
-            return target;
+            //Else ignore parameter
+            return null;
         }
 
         /// <summary>
@@ -74,5 +88,6 @@ namespace Ecodistrict.Messaging
         {
             throw new NotImplementedException();
         }
+
     }
 }

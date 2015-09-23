@@ -30,8 +30,22 @@ namespace Ecodistrict.Messaging
         /// </returns>
         public static T JsonString(string message)
         {
-           return (T)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(T));
-        }
+           try
+           {
+               T obj = (T)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(T));
 
+               if (obj != null)
+                   return obj;
+               else
+                   throw new Exception("Could not deserialize object", new Exception(message));
+           }
+           catch (System.Exception ex)
+           {
+               throw ex;
+           }
+        }        
     }
+
+    public delegate void EventDelegate(object sender, EventArgs e);
+
 }
