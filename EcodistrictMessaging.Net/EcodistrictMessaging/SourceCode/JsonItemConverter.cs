@@ -11,7 +11,7 @@ namespace Ecodistrict.Messaging
     /// for equivocal classes. E.g. <see cref="IMessage"/> with it's custom converter <see cref="MessageItemConverter"/>.  
     /// </summary>
     /// <typeparam name="T">Targeted class to convert</typeparam>
-    /// <seealso cref="MessageItemConverter"/><seealso cref="OutputItemConverter"/>
+    /// <seealso cref="MessageItemConverter"/><seealso cref="Ecodistrict.Messaging.Output.OutputItemConverter"/>
     public abstract class JsonItemConverter<T> : Newtonsoft.Json.Converters.CustomCreationConverter<T>
     {
         /// <summary>

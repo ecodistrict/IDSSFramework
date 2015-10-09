@@ -39,6 +39,10 @@ namespace Ecodistrict.Messaging
             return value != null;
         }
 
+        /// <summary>
+        /// Returns the value of this <see cref="Atomic"/> <see cref="Input"/> type.
+        /// </summary>
+        /// <returns></returns>
         public object GetValue()
         {
             return value;

@@ -52,6 +52,10 @@ namespace Ecodistrict.Messaging
             this.options = options;
         }
 
+        /// <summary>
+        /// Return the index of the selected option.
+        /// </summary>
+        /// <returns>-1 if none selected</returns>
         public int SelectedIndex()
         {
             if (value != null)

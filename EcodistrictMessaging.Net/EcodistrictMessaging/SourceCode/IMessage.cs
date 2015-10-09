@@ -11,13 +11,13 @@ using System.Threading;
 namespace Ecodistrict.Messaging
 {
     /// <summary> 
-    /// Base class to all messagingtypes that can be sent to/from the dashboard.
+    /// Base class to all messaging types that can be sent to/from the dashboard.
     /// </summary> 
     /// <remarks> 
     /// Messages that are sent from the dashboard can be deseralized from a json string
-    /// into one of this class derived types by the use of <see cref="Deserialize"/>.<br/>
+    /// into one of this class derived types by the use of <see cref="Deserialize{T}"/>.<br/>
     /// <br/>
-    /// Messages that will be sent to the dashboard must first be seralized into a json string,
+    /// Messages that will be sent to the dashboard must first be serialized into a json-string,
     /// this can be done by <see cref="Serialize"/>.
     /// </remarks> 
     [DataContract]
@@ -30,6 +30,33 @@ namespace Ecodistrict.Messaging
         [DataMember]
         public string method { get; protected set; }
         
+        /// <summary>
+        /// String representation of the type.
+        /// </summary>
+        [DataMember]
+        public string type { get; protected set; }
+    }
+
+    /// <summary> 
+    /// Base class to all messaging types that can be sent to/from the dashboard.
+    /// </summary>
+    /// <remarks> 
+    /// Messages that are sent from the dashboard can be deseralized from a json string
+    /// into one of this class derived types by the use of <see cref="Deserialize{T}"/>.<br/>
+    /// 	<br/>
+    /// Messages that will be sent to the dashboard must first be serialized into a json-string,
+    /// this can be done by <see cref="Serialize"/>.
+    /// </remarks>
+    [DataContract]
+    [Newtonsoft.Json.JsonConverter(typeof(MessageItemConverter))]
+    public class CopyOfIMessage
+    {
+        /// <summary>
+        /// String representation of the method.
+        /// </summary>
+        [DataMember]
+        public string method { get; protected set; }
+
         /// <summary>
         /// String representation of the type.
         /// </summary>

@@ -48,7 +48,7 @@ namespace TestConsole
 
                 //object message = Types.ParseJsonMessage(smessage);
 
-                IMessage message = Deserialize.JsonString(smessage);
+                IMessage message = Deserialize<IMessage>.JsonString(smessage);
 
                 Type type = message.GetType();
 
@@ -79,7 +79,7 @@ namespace TestConsole
                 object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonmessage);
                 jsonmessage = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
                 Type expected = typeof(StartModuleRequest);
-                IMessage message = Deserialize.JsonString(jsonmessage);
+                IMessage message = Deserialize <IMessage>.JsonString(jsonmessage);
             }
             catch (Exception ex)
             {
@@ -94,7 +94,7 @@ namespace TestConsole
             //json-string from dashboard
             string message = "{\"method\": \"getModules\",\"type\": \"request\"}";
             //Message reconstructed into a .Net object.
-            IMessage recievedMessage = Deserialize.JsonString(message);
+            IMessage recievedMessage = Deserialize<IMessage>.JsonString(message);
             //Write object type to console
             Console.WriteLine(recievedMessage.GetType().ToString());
             //Output: Ecodistrict.Messaging.GetModulesRequest
@@ -113,7 +113,7 @@ namespace TestConsole
                                "\"kpiId\": \"cheese-taste-kpi\"" +
                              "}";
             //Message reconstructed into a .Net object.
-            IMessage recievedMessage = Deserialize.JsonString(message);
+            IMessage recievedMessage = Deserialize<SelectModuleResponse>.JsonString(message);
             //Write object type to console
             Console.WriteLine(recievedMessage.GetType().ToString());
             //Output: Ecodistrict.Messaging.SelectModuleRequest
@@ -136,7 +136,7 @@ namespace TestConsole
                                               "}" +
                             "}";
             //Message reconstructed into a .Net object.
-            IMessage recievedMessage = Deserialize.JsonString(message);
+            IMessage recievedMessage = Deserialize<IMessage>.JsonString(message);
             //Write object type to console
             Console.WriteLine(recievedMessage.GetType().ToString());
             //Output: Ecodistrict.Messaging.StartModuleRequest
@@ -196,7 +196,7 @@ namespace TestConsole
                                "\"kpiId\": \"cheese-taste-kpi\"" +
                              "}";
             //Message reconstructed into a .Net object.
-            SelectModuleRequest recievedMessage = (SelectModuleRequest)Deserialize.JsonString(message);
+            SelectModuleRequest recievedMessage = Deserialize<SelectModuleRequest>.JsonString(message);
 
             //Is this message meant for me?
             if (recievedMessage.moduleId == moduleId)
@@ -318,38 +318,31 @@ namespace TestConsole
                                               "}" +
                             "}";
             //Message reconstructed into a .Net object.
-            StartModuleRequest recievedMessage = (StartModuleRequest)Deserialize.JsonString(message);
+            StartModuleRequest recievedMessage = Deserialize<StartModuleRequest>.JsonString(message);
 
             //Is this message meant for me?
             if (recievedMessage.moduleId == moduleId)
             {
                 //For the selected kpi, create a input specification describing what data 
                 //the module need in order to calculate the selected kpi.
-                Outputs outputs = new Outputs();
+                Ecodistrict.Messaging.Output.Outputs outputs = new Ecodistrict.Messaging.Output.Outputs();
                 if (recievedMessage.kpiId == "cheese-taste-kpi")
                 {
                     //Inform the dashboard that you have started calculating
                     StartModuleResponse mResponse = new StartModuleResponse(
                         moduleId: recievedMessage.moduleId,
                         variantId: recievedMessage.variantId,
+                        userId: recievedMessage.userId,
                         kpiId: recievedMessage.kpiId,
                         status: ModuleStatus.Processing);
                     //Send the response message...
 
                     //Do your calculations...
 
-                    //Inform the dashboard that you have finnished the calculations
-                    mResponse = new StartModuleResponse(
-                        moduleId: recievedMessage.moduleId,
-                        variantId: recievedMessage.variantId,
-                        kpiId: recievedMessage.kpiId,
-                        status: ModuleStatus.Success);
-                    //Send the response message...
-
 
                     //Add the result in outputs
                     //E.g.
-                    Output otp = new Kpi(
+                    Ecodistrict.Messaging.Output.Output otp = new Ecodistrict.Messaging.Output.Kpi(
                         value: 99, 
                         info:"Cheese tastiness", 
                         unit:"ICQU (International Cheese Quality Units)");
@@ -364,6 +357,7 @@ namespace TestConsole
                 ModuleResult mResult = new ModuleResult(
                         moduleId: recievedMessage.moduleId,
                         variantId: recievedMessage.variantId,
+                        userId: recievedMessage.userId,
                         kpiId: recievedMessage.kpiId,
                         outputs: outputs);
                 //Send the result message...
@@ -423,7 +417,7 @@ namespace TestConsole
             //json-string from dashboard
             string message = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleRequest/StartModuleRequestComplex.txt");
             //Message reconstructed into a .Net object.
-            IMessage recievedMessage = Deserialize.JsonString(message);
+            IMessage recievedMessage = Deserialize<IMessage>.JsonString(message);
             //Write object type to console
             Console.WriteLine(recievedMessage.GetType().ToString());
             //Output: Ecodistrict.Messaging.StartModuleRequest
@@ -447,7 +441,7 @@ namespace TestConsole
             string expected = Serialize.ToJsonString(mResponse);
 
             // act
-            SelectModuleResponse mResponseR = (SelectModuleResponse)Deserialize.JsonString(expected);
+            SelectModuleResponse mResponseR = Deserialize<SelectModuleResponse>.JsonString(expected);
             string actual = Serialize.ToJsonString(mResponseR);
         }
 
@@ -477,7 +471,7 @@ namespace TestConsole
                 SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
                     variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
                 var message = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleResponse/SelectModuleResponse.txt");
-                IMessage obj = Deserialize.JsonString(message);
+                IMessage obj = Deserialize<SelectModuleResponse>.JsonString(message);
                 string expected = Serialize.ToJsonString(obj);
 
                 // act

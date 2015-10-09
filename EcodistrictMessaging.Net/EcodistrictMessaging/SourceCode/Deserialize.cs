@@ -46,6 +46,5 @@ namespace Ecodistrict.Messaging
         }        
     }
 
-    public delegate void EventDelegate(object sender, EventArgs e);
 
 }

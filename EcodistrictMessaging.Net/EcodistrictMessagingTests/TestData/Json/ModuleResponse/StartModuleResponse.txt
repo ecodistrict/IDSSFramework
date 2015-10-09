@@ -1,6 +1,7 @@
 ﻿{
   "kpiId": "cheese-taste-kpi",
   "variantId": "503f191e8fcc19729de860ea",
+  "userId": "userId",
   "status": "processing",    
   "moduleId": "foo-bar_cheese-Module-v1-0",
   "method": "startModule",

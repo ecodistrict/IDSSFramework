@@ -18,6 +18,11 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class Options : List<Option>
     {
+        /// <summary>
+        /// Check if the options contains this specific option.
+        /// </summary>
+        /// <param name="option">Compared option</param>
+        /// <returns></returns>
         public new bool Contains(Option option)
         {
             foreach(Option opt in this)
@@ -29,6 +34,11 @@ namespace Ecodistrict.Messaging
             return false;
         }
 
+        /// <summary>
+        /// Return the index of a specific option.
+        /// </summary>
+        /// <param name="value">String representation of an option.</param>
+        /// <returns>The index if the option is present otherwise -1</returns>
         public int GetIndex(String value)
         {
             if (value != null)

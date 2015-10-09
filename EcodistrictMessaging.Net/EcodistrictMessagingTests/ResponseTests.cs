@@ -58,7 +58,7 @@ namespace EcodistrictMessagingTests
                 SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
                     variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
                 var message = File.ReadAllText(@"../../TestData/Json/ModuleResponse/SelectModuleResponse.txt");
-                IMessage obj = Deserialize.JsonString(message);
+                IMessage obj = Deserialize<IMessage>.JsonString(message);
                 string expected = Serialize.ToJsonString(obj);
 
                 // act
@@ -80,7 +80,7 @@ namespace EcodistrictMessagingTests
             {
                 // arrange
                 StartModuleResponse smResponse = new StartModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
-                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", status: ModuleStatus.Processing);
+                    variantId: "503f191e8fcc19729de860ea", userId: "userId", kpiId: "cheese-taste-kpi", status: ModuleStatus.Processing);
                 var message = File.ReadAllText(@"../../TestData/Json/ModuleResponse/StartModuleResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);
                 string expected = JsonConvert.SerializeObject(obj);
@@ -89,7 +89,7 @@ namespace EcodistrictMessagingTests
                 string actual = Serialize.ToJsonString(smResponse);
 
                 // assert
-                Assert.AreEqual(expected, actual, false, "\nNot Json-seralized correctly:\n\n" + expected + "\n\n" + actual); //TODO is unordered => makes comparisson hard.
+                Assert.AreEqual(expected, actual, false, "\nNot Json-serialized correctly:\n\n" + expected + "\n\n" + actual); //TODO is unordered => makes comparisson hard.
             }
             catch (Exception ex)
             {
@@ -113,7 +113,7 @@ namespace EcodistrictMessagingTests
                 string expected = Serialize.ToJsonString(mResponse);
 
                 // act
-                SelectModuleResponse mResponseR = (SelectModuleResponse)Deserialize.JsonString(expected);
+                SelectModuleResponse mResponseR = Deserialize<SelectModuleResponse>.JsonString(expected);
                 string actual = Serialize.ToJsonString(mResponseR);
 
                 // assert
