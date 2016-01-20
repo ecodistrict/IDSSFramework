@@ -20,6 +20,9 @@ namespace Ecodistrict.Messaging
     [DataContract]
     public class List : NonAtomic
     {
+        [DataMember]
+        public List<Dictionary<String,object>> value;
+
         internal List() { }
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace Ecodistrict.Messaging
         /// </summary>
         /// <param name="label">Mandatory label of the visualized component.</param>
         /// <param name="order">Order in which this component should be rendered in the dashboard (ascending order).
-        /// Left out or null value will be interpeted as 0 in the dashboard.</param>
+        /// Left out or null value will be interpreted as 0 in the dashboard.</param>
         public List(string label, object order = null)
         {
             this.type = "list";

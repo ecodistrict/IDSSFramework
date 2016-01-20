@@ -24,7 +24,7 @@ namespace EcodistrictMessagingTests
                 Type expected = typeof(GetModulesRequest);
 
                 // act
-                IMessage message = Deserialize.JsonString(jsonmessage);
+                IMessage message = Deserialize <IMessage>.JsonString(jsonmessage);
                 Type actual = message.GetType();
 
                 // assert                
@@ -50,7 +50,7 @@ namespace EcodistrictMessagingTests
                 Type expected = typeof(SelectModuleRequest);
 
                 // act
-                IMessage message = Deserialize.JsonString(jsonmessage);
+                IMessage message = Deserialize<IMessage>.JsonString(jsonmessage);
                 Type actual = message.GetType();
 
                 // assert                
@@ -75,7 +75,7 @@ namespace EcodistrictMessagingTests
                 Type expected = typeof(StartModuleRequest);
 
                 // act
-                IMessage message = Deserialize.JsonString(jsonmessage);
+                IMessage message = Deserialize<StartModuleRequest>.JsonString(jsonmessage);
                 Type actual = message.GetType();
 
                 // assert                
@@ -100,7 +100,7 @@ namespace EcodistrictMessagingTests
                 Type expected = typeof(StartModuleRequest);
 
                 // act
-                IMessage message = Deserialize.JsonString(jsonmessage);
+                IMessage message = Deserialize<IMessage>.JsonString(jsonmessage);
                 Type actual = message.GetType();
 
                 // assert                

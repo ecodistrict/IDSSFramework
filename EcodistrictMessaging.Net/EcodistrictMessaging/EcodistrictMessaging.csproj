@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="SourceCode\Deserialize.cs" />
     <Compile Include="SourceCode\EcodistrictMessaging.cs" />
+    <Compile Include="SourceCode\EcodistrictMessaging.Output.cs" />
     <Compile Include="SourceCode\JsonItemConverter.cs" />
     <Compile Include="SourceCode\Response\Inputs\Atomic\Atomic.cs" />
     <Compile Include="SourceCode\Response\Inputs\Atomic\Checkbox.cs" />

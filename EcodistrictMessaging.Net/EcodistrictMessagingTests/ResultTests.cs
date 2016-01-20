@@ -14,17 +14,17 @@ namespace EcodistrictMessagingTests
             try
             {
                 // arrange
-                Outputs outputs = new Outputs();
-                outputs.Add(new Kpi(1,"info","unit"));
-                ModuleResult mResult = new ModuleResult("moduleId", "variantId", "KpiId", outputs);
+                Ecodistrict.Messaging.Output.Outputs outputs = new Ecodistrict.Messaging.Output.Outputs();
+                outputs.Add(new Ecodistrict.Messaging.Output.Kpi(1, "info", "unit"));
+                ModuleResult mResult = new ModuleResult("moduleId", "variantId","userId", "KpiId", outputs);
                 string str1 = Serialize.ToJsonString(mResult);
 
                 // act
-                ModuleResult mResult2 = (ModuleResult)Deserialize.JsonString(str1);
+                ModuleResult mResult2 = Deserialize <ModuleResult>.JsonString(str1);
                 string str2 = Serialize.ToJsonString(mResult2);
 
                 // assert
-                Assert.AreEqual(str1, str2, false, "\nNot Json-seralized or deserialized correctly:\n\n" + str1 + "\n\n" + str2); //TODO is unordered => makes comparisson hard.
+                Assert.AreEqual(str1, str2, false, "\nNot Json-serialized or deserialized correctly:\n\n" + str1 + "\n\n" + str2); //TODO is unordered => makes comparisson hard.
             }
             catch (Exception ex)
             {

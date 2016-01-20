@@ -38,6 +38,10 @@ namespace Ecodistrict.Messaging
             inputs.Add(key, item);
         }
 
+        /// <summary>
+        /// Returns the inputs in this <see cref="NonAtomic"/> <see cref="Input"/> type.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, Input> GetInputs()
         {
             return inputs;

@@ -9,7 +9,7 @@ namespace Ecodistrict.Messaging
     /// <summary> 
     /// Static class that can be used to deserialize json-strings into .Net <see cref="IMessage"/> types.
     /// </summary> 
-    public static class Deserialize
+    public static class Deserialize<T> where T : IMessage
     {
         static Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
 
@@ -28,17 +28,23 @@ namespace Ecodistrict.Messaging
         /// One of <see cref="IMessage"/>'s derived classes, e.g. <see cref="GetModulesRequest"/>, 
         /// <see cref="SelectModuleResponse"/>,...
         /// </returns>
-        public static IMessage JsonString(string message)
+        public static T JsonString(string message)
         {
-            try
-            {
-                return (IMessage)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(IMessage));
-            }
-            catch
-            {
-                return null;
-            }
-        }
+           try
+           {
+               T obj = (T)Newtonsoft.Json.JsonConvert.DeserializeObject(message, typeof(T));
 
+               if (obj != null)
+                   return obj;
+               else
+                   throw new Exception("Could not deserialize object", new Exception(message));
+           }
+           catch (System.Exception ex)
+           {
+               throw ex;
+           }
+        }        
     }
+
+
 }
