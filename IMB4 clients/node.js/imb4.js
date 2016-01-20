@@ -362,8 +362,8 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
     
     // link event emitter
     EventEmitter.call(this);
-    
-	console.log('starting IMB connection to ', aRemoteHost, ':', aRemotePort);
+
+	console.log('starting IMB connection to ', aRemoteHost, ':', aRemotePort);    
 	
     var fEventNames = [];
     var fEventTranslations = [];
@@ -396,7 +396,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
 
     // link handlers on socket
     fSocket.on("data", onReadCommand);
-    fSocket.on("end", handleDisconnect);
+	fSocket.on("end", handleDisconnect);
 	fSocket.on("close", handleCloseEvent);
 	fSocket.on("error", handleErrorEvent);
     
@@ -648,7 +648,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
     
     function handleDisconnect() {
         fSelf.emit("onDisconnect", fSelf);
-    }
+	}
 	
 	function handleCloseEvent(had_error) {
 		if (had_error) {
@@ -658,6 +658,7 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
 	
 	function handleErrorEvent(error) {
 		console.log("IMB connection: error, "+error.message);
+		fSelf.emit("onDisconnect", fSelf);
 	}
 
     function eventEntry(aEventID, aEventName) {
@@ -785,6 +786,21 @@ TIMBConnection = function (aRemoteHost, aRemotePort, aOwnerID, aOwnerName, aPref
 		return "Hubs."+GUIDToStringCompact(this.hubID)+".Monitor";
 	}
 };
+
+
+Object.defineProperty(TIMBConnection, "privateEventName", {
+	get: function() {
+		console.log("privateEventName");
+		return "Clients."+GUIDToStringCompact(fSelf.uniqueClientID)+".Private";
+	}
+});
+
+Object.defineProperty(TIMBConnection, "monitorEventName", {
+	get: function() {
+		return "Hubs."+GUIDToStringCompact(fSelf.hubID)+".Monitor";
+	}
+});
+	
 
 util.inherits(TIMBConnection, EventEmitter);
 
