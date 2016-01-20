@@ -2,6 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Ecodistrict.Messaging;
+using Ecodistrict.Messaging.Requests;
+using Ecodistrict.Messaging.Responses;
+using Ecodistrict.Messaging.Results;
 
 namespace EcodistrictMessagingTests
 {

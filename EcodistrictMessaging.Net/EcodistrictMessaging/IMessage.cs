@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-
 using System.Diagnostics.Contracts;
 using System.Threading;
+
+using Ecodistrict.Messaging.Requests;
+using Ecodistrict.Messaging.Responses;
+using Ecodistrict.Messaging.Results;
 
 namespace Ecodistrict.Messaging
 {
