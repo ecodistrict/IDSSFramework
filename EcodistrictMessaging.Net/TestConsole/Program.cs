@@ -8,6 +8,9 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
 using Ecodistrict.Messaging;
+using Ecodistrict.Messaging.Requests;
+using Ecodistrict.Messaging.Responses;
+using Ecodistrict.Messaging.Results;
 
 using Newtonsoft.Json;
 

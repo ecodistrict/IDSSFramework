@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-namespace Ecodistrict.Messaging
+namespace Ecodistrict.Messaging.Requests
 {
     /// <summary>
     ///  Is a base class to all messaging types that can be sent from the dashboard.

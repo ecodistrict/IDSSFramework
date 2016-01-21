@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-namespace Ecodistrict.Messaging
+namespace Ecodistrict.Messaging.Results
 {
     /// <summary>
     /// The base-class to all result massages that is attached to a specific kpi value.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-namespace Ecodistrict.Messaging
+namespace Ecodistrict.Messaging.Results
 {
     /// <summary>
     /// The base class of all result messages that can be sent to the dashboard.

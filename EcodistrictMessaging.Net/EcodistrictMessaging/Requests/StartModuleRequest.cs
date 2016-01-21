@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-namespace Ecodistrict.Messaging
+namespace Ecodistrict.Messaging.Requests
 {
 
     /// <summary>
