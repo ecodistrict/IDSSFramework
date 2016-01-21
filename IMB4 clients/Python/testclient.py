@@ -1,5 +1,6 @@
 import os
 import imb4
+import sys  # python version check
 
 STREAM_INPUT_FILENAME = 'test.jpg'
 STREAM_OUTPUT_FILENAME = 'out.python.dmp'
@@ -63,6 +64,10 @@ event = connection.subscribe('test event',
                              )
 
 print('subscribed to', event.event_name)
+
+if sys.version_info < (3,):
+    def input(s):
+        raw_input(s)
 
 input('waiting on client info; press return to show private and monitor event names.. ')
 
