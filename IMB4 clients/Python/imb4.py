@@ -583,7 +583,8 @@ class ByteBuffer:
         :return: guid (uuid)
         """
         _len = self.read_uint()
-        guid = uuid.UUID(bytes_le=self._buffer[self._cursor:self._cursor + _len])
+        b = bytes(self._buffer[self._cursor:self._cursor + _len])
+        guid = uuid.UUID(bytes_le=b)
         self._cursor += _len
         return guid
 
@@ -1002,7 +1003,7 @@ class TConnection:
 
     @property
     def monitor_event_name(self):
-        if self._hub_id == uuid.UUID('{00000000-0000-0000-0000-000000000000}'):
+        if self._hub_id == uuid.UUID('{00000000-0000-0000-0000-000000000000}') or self._hub_id == None:
             return ''
         else:
             return 'Hubs.' + self._hub_id.hex.upper() + '.Monitor'
@@ -1120,6 +1121,7 @@ class TConnection:
             try:
                 header = self._socket.recv(MINIMUM_PACKET_SIZE, MSG_WAITALL)
                 if len(header) == MINIMUM_PACKET_SIZE:
+                    ## if ord(header[0]) != MAGIC_BYTE:
                     if header[0] != MAGIC_BYTE:
                         # we have an abnormal packet because first byte is not magic byte
                         # find magic byte
