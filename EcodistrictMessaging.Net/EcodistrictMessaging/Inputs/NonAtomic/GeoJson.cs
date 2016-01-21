@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
 namespace Ecodistrict.Messaging
-{
+{  
     /// <summary>
     /// Data container containing the fundamentals for the geojson format.
     /// </summary>
@@ -52,7 +52,7 @@ namespace Ecodistrict.Messaging
     /// Collection of features for a geojson object.
     /// </summary>
     [DataContract]
-    public class GeoValue 
+    public class GeoValue : NonAtomic
     {
         /// <summary>
         /// What type of information. Defaultet to feature collection.
@@ -65,6 +65,8 @@ namespace Ecodistrict.Messaging
         /// </summary>
         [DataMember]
         public Features features;
+
+        internal GeoValue() { }
     }
 
     /// <summary>

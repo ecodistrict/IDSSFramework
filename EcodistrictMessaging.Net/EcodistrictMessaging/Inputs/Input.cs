@@ -88,6 +88,8 @@ namespace Ecodistrict.Messaging
                     return new List();
                 case "geojson":
                     return new GeoJson();
+                case "FeatureCollection":
+                    return new GeoValue();
 
             }
 
