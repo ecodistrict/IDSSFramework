@@ -5,10 +5,15 @@ import struct  # conversion of values to bytes and visa-versa
 import uuid  # guid support
 import ssl
 import os
+import sys  # for detecting python version
 
 # ecodistrict defaults
 DEFAULT_REMOTE_HOST = 'vps17642.public.cloudvps.com'  # 'localhost'
 DEFAULT_PREFIX = 'ecodistrict'  # 'nl.imb'
+
+# python 2 compatibility stuf
+class ConnectionAbortedError(OSError):
+    pass
 
 BYTEORDER = 'little'
 MAGIC_BYTE = 0xFE
@@ -295,7 +300,7 @@ def bb_decode_guid(buffer):
     return uuid.UUID(buffer)
 
 
-class ByteBuffer:
+class ByteBuffer(object):
     """
     ByteBuffer is a class to write and read a google protocol buffer
     there is a cursor position for reading from the given buffer
@@ -583,7 +588,8 @@ class ByteBuffer:
         :return: guid (uuid)
         """
         _len = self.read_uint()
-        guid = uuid.UUID(bytes_le=self._buffer[self._cursor:self._cursor + _len])
+        b = bytes(self._buffer[self._cursor:self._cursor + _len])
+        guid = uuid.UUID(bytes_le=b)
         self._cursor += _len
         return guid
 
@@ -1002,7 +1008,7 @@ class TConnection:
 
     @property
     def monitor_event_name(self):
-        if self._hub_id == uuid.UUID('{00000000-0000-0000-0000-000000000000}'):
+        if self._hub_id == uuid.UUID('{00000000-0000-0000-0000-000000000000}') or self._hub_id == None:
             return ''
         else:
             return 'Hubs.' + self._hub_id.hex.upper() + '.Monitor'
@@ -1120,7 +1126,12 @@ class TConnection:
             try:
                 header = self._socket.recv(MINIMUM_PACKET_SIZE, MSG_WAITALL)
                 if len(header) == MINIMUM_PACKET_SIZE:
-                    if header[0] != MAGIC_BYTE:
+                    # fbisnm = False
+                    if sys.version_info < (3,):
+                        fbisnm = ord(header[0]) != MAGIC_BYTE
+                    else:
+                        fbisnm = header[0] != MAGIC_BYTE
+                    if fbisnm:
                         # we have an abnormal packet because first byte is not magic byte
                         # find magic byte
                         h = 1
@@ -1183,12 +1194,10 @@ class TConnection:
                                 self._packets_dropped += 1
                 else:
                     self.handle_disconnect()
-            except ConnectionAbortedError:
-                self.handle_disconnect()
             except OSError:
                 self.handle_disconnect()
-                # except:
-                #     pass  # ignore exceptions in reader thread (except magic reading)
+            except ConnectionAbortedError:
+                self.handle_disconnect()
 
     def write_packet(self, packet):
         if len(packet) < MINIMUM_PACKET_SIZE:

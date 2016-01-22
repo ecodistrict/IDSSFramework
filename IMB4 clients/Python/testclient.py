@@ -1,5 +1,6 @@
 import os
 import imb4
+import sys  # python version check
 
 STREAM_INPUT_FILENAME = 'test.jpg'
 STREAM_OUTPUT_FILENAME = 'out.python.dmp'
@@ -51,9 +52,6 @@ print('current folder', os.getcwd())
 connection = imb4.TConnection(imb4.DEFAULT_REMOTE_HOST, imb4.DEFAULT_REMOTE_SOCKET_PORT, False, 'python test client', 1)
 # test_connection = imb4.TConnection('192.168.1.100', imb4.DEFAULT_REMOTE_PORT, 'python test client', 1)
 
-print('private event name', connection.private_event_name)
-print('monitor event name', connection.monitor_event_name)
-
 connection.on_disconnect = handle_disconnect
 
 # compact statement to subscribe to int-string event and add handler
@@ -66,6 +64,15 @@ event = connection.subscribe('test event',
                              )
 
 print('subscribed to', event.event_name)
+
+if sys.version_info < (3,):
+    def input(s):
+        raw_input(s)
+
+input('waiting on client info; press return to show private and monitor event names.. ')
+
+print('private event name', connection.private_event_name)
+print('monitor event name', connection.monitor_event_name)
 
 input('waiting on imb commands; press return to send events.. ')
 
