@@ -937,8 +937,8 @@ class TConnection:
             _working_folder = os.getcwd()
             self._socket = ssl.wrap_socket(
                 socket.socket(socket.AF_INET, socket.SOCK_STREAM),
-                keyfile=_working_folder+'\\client1.key',
-                certfile=_working_folder+'\\client1.crt',
+                keyfile=_working_folder+'\\client-eco-district-nopass.key',
+                certfile=_working_folder+'\\client-eco-district.crt',
                 cert_reqs=ssl.CERT_REQUIRED,
                 ssl_version=ssl.PROTOCOL_TLSv1_2,
                 ca_certs=_working_folder+'\\root-ca-imb.crt')
@@ -1124,14 +1124,9 @@ class TConnection:
         while self._connected:
             # noinspection PyBroadException
             try:
-                header = self._socket.recv(MINIMUM_PACKET_SIZE, MSG_WAITALL)
+                header = self._read_bytes(MINIMUM_PACKET_SIZE)  # self._socket.recv(MINIMUM_PACKET_SIZE, MSG_WAITALL)
                 if len(header) == MINIMUM_PACKET_SIZE:
-                    # fbisnm = False
-                    if sys.version_info < (3,):
-                        fbisnm = ord(header[0]) != MAGIC_BYTE
-                    else:
-                        fbisnm = header[0] != MAGIC_BYTE
-                    if fbisnm:
+                    if header[0] != MAGIC_BYTE:
                         # we have an abnormal packet because first byte is not magic byte
                         # find magic byte
                         h = 1
@@ -1140,7 +1135,7 @@ class TConnection:
                         if h < MINIMUM_PACKET_SIZE:
                             # rebuild header form magic byte on
                             old_header = header[h:]
-                            extra_bytes = self._socket.recv(h, MSG_WAITALL)
+                            extra_bytes = self._read_bytes(h)  # self._socket.recv(h, MSG_WAITALL)
                             if len(extra_bytes) == h:
                                 header = bytearray().join([old_header, extra_bytes])
                             else:
@@ -1161,7 +1156,7 @@ class TConnection:
                                 if size > ra:
                                     # read extra bytes in payload that are not already read into the buffer
                                     extra_bytes_to_read = size - ra
-                                    extra_bytes = self._socket.recv(extra_bytes_to_read, MSG_WAITALL)
+                                    extra_bytes = self._read_bytes(extra_bytes_to_read)  # self._socket.recv(extra_bytes_to_read, MSG_WAITALL)
                                     if len(extra_bytes) == extra_bytes_to_read:
                                         buffer.buffer.extend(extra_bytes)
                                         self._handle_event(buffer)
@@ -1180,7 +1175,7 @@ class TConnection:
                                 if size > ra:
                                     # read extra bytes in payload that are not already read into the buffer
                                     extra_bytes_to_read = size - ra
-                                    extra_bytes = self._socket.recv(extra_bytes_to_read, MSG_WAITALL)
+                                    extra_bytes = self._read_bytes(extra_bytes_to_read)  # self._socket.recv(extra_bytes_to_read, MSG_WAITALL)
                                     if len(extra_bytes) == extra_bytes_to_read:
                                         buffer.buffer.extend(extra_bytes)
                                         self._handle_command(buffer)
@@ -1194,9 +1189,12 @@ class TConnection:
                                 self._packets_dropped += 1
                 else:
                     self.handle_disconnect()
+                # todo: have to determine which exceptions should cause a disconnect
             except OSError:
                 self.handle_disconnect()
             except ConnectionAbortedError:
+                self.handle_disconnect()
+            except Exception:
                 self.handle_disconnect()
 
     def write_packet(self, packet):

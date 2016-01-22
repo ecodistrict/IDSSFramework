@@ -49,7 +49,7 @@ def handle_disconnect(_):
 # print the current folder to more easily locate stream input/output files
 print('current folder', os.getcwd())
 
-connection = imb4.TConnection(imb4.DEFAULT_REMOTE_HOST, imb4.DEFAULT_REMOTE_SOCKET_PORT, False, 'python test client', 1)
+connection = imb4.TConnection(imb4.DEFAULT_REMOTE_HOST, imb4.DEFAULT_REMOTE_TLS_PORT, True, 'python test client', 1)
 # test_connection = imb4.TConnection('192.168.1.100', imb4.DEFAULT_REMOTE_PORT, 'python test client', 1)
 
 connection.on_disconnect = handle_disconnect
