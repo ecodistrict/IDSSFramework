@@ -66,7 +66,7 @@ namespace Ecodistrict.Messaging
         [DataMember]
         public Features features;
 
-        internal GeoValue() { }
+        public GeoValue() { }
     }
 
     /// <summary>

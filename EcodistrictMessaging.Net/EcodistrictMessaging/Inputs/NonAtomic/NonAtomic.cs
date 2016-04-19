@@ -38,6 +38,11 @@ namespace Ecodistrict.Messaging
             inputs.Add(key, item);
         }
 
+        public bool ContainsKey(string key)
+        {
+            return inputs.ContainsKey(key);
+        }
+
         /// <summary>
         /// Returns the inputs in this <see cref="NonAtomic"/> <see cref="Input"/> type.
         /// </summary>

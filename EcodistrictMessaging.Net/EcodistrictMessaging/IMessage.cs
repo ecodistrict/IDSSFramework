@@ -25,34 +25,7 @@ namespace Ecodistrict.Messaging
     /// </remarks> 
     [DataContract]
     [Newtonsoft.Json.JsonConverter(typeof(MessageItemConverter))]
-    public class IMessage 
-    {
-        /// <summary>
-        /// String representation of the method.
-        /// </summary>
-        [DataMember]
-        public string method { get; protected set; }
-        
-        /// <summary>
-        /// String representation of the type.
-        /// </summary>
-        [DataMember]
-        public string type { get; protected set; }
-    }
-
-    /// <summary> 
-    /// Base class to all messaging types that can be sent to/from the dashboard.
-    /// </summary>
-    /// <remarks> 
-    /// Messages that are sent from the dashboard can be deseralized from a json string
-    /// into one of this class derived types by the use of <see cref="Deserialize{T}"/>.<br/>
-    /// 	<br/>
-    /// Messages that will be sent to the dashboard must first be serialized into a json-string,
-    /// this can be done by <see cref="Serialize"/>.
-    /// </remarks>
-    [DataContract]
-    [Newtonsoft.Json.JsonConverter(typeof(MessageItemConverter))]
-    public class CopyOfIMessage
+    public class IMessage
     {
         /// <summary>
         /// String representation of the method.
@@ -84,35 +57,60 @@ namespace Ecodistrict.Messaging
             var type = (string)jObject.Property("type");
             var method = (string)jObject.Property("method");
 
+            //if (objectType == typeof(Request) & type == "request")  //Makes it possible to only get header-information (i.e. not deserialize the data)
+            //    return new Request();
+            //else if (objectType == typeof(Request))
+            //    return null;
+            //else if (objectType == typeof(Response) & type == "response")
+            //    return new Response();
+            //else if (objectType == typeof(Response))
+            //    return null;
+
             switch (method)
             {
                 case "getModules":
-                    if(type == "request")
-                            return new GetModulesRequest();
-                    else if(type == "response")
-                            return new GetModulesResponse();
-                    break;                    
+                    if (type == "request")
+                        return new GetModulesRequest();
+                    else if (type == "response")
+                        return new GetModulesResponse();
+                    break;
                 case "selectModule":
-                    if(type == "request")
-                            return new SelectModuleRequest();
-                    else if(type == "response")
-                            return new SelectModuleResponse();
-                    break;   
+                    if (type == "request")
+                        return new SelectModuleRequest();
+                    else if (type == "response")
+                        return new SelectModuleResponse();
+                    break;
                 case "startModule":
-                    if(type == "request")
-                            {
-                                if (objectType == typeof(Request))  //Makes it possible to only get header-information (i.e. not deserialize the data)
-                                    return new Request();
-                                else
-                                    return new StartModuleRequest();
-                            }
-                    else if(type == "response")
-                            return new StartModuleResponse();
-                    break;   
+                    if (type == "request")
+                            return new StartModuleRequest();
+                    else if (type == "response")
+                        return new StartModuleResponse();
+                    break;
+                case "getKpiResult":
+                    if (type == "request")
+                        return new GetKpiResultRequest();
+                    else if (type == "response")
+                        return new GetKpiResultResponse();
+                    break;
+                case "getData":
+                    if (type == "request")
+                        return new GetDataRequest();
+                    else if (type == "response")
+                        return new GetDataResponse();
+                    break;
+                case "setKpiResult":
+                    if (type == "request")
+                        return new SetKpiResultRequest();
+                    else if (type == "response")
+                        return new SetKpiResultResponse();
+                    break;
                 case "moduleResult":
                     if (type == "result")
-                            return new ModuleResult();
-                    break;   
+                        return new ModuleResult();
+                    break;
+                default:
+                    return new IMessage();
+                    break;
             }
 
             throw new ApplicationException(String.Format("The message type '{0}' or method '{1}' is not supported!", type, method));

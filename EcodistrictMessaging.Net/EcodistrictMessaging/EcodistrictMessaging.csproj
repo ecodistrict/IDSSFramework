@@ -20,7 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\EcodistrictMessaging.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,13 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Data.cs" />
+    <Compile Include="Data\GeoObject.cs" />
+    <Compile Include="Data\Output.cs" />
     <Compile Include="Deserialize.cs" />
     <Compile Include="EcodistrictMessaging.cs" />
     <Compile Include="EcodistrictMessaging.Output.cs" />
     <Compile Include="JsonItemConverter.cs" />
     <Compile Include="Inputs\Atomic\Atomic.cs" />
     <Compile Include="Inputs\Atomic\Checkbox.cs" />
+    <Compile Include="Requests\GetKpiResultRequest.cs" />
+    <Compile Include="Requests\GetDataRequest.cs" />
     <Compile Include="Requests\GetModulesRequest.cs" />
+    <Compile Include="Requests\SetKpiResultRequest.cs" />
+    <Compile Include="Responses\GetKpiResultResponse.cs" />
+    <Compile Include="Responses\GetDataResponse.cs" />
     <Compile Include="Responses\GetModulesResponse.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="Inputs\Input.cs" />
@@ -62,6 +71,7 @@
     <Compile Include="Outputs\GeoJson.cs" />
     <Compile Include="Outputs\Kpi.cs" />
     <Compile Include="Outputs\Outputs.cs" />
+    <Compile Include="Responses\SetKpiResultResponse.cs" />
     <Compile Include="Serialize.cs" />
     <Compile Include="Results\ModuleResult.cs" />
     <Compile Include="Inputs\NonAtomic\NonAtomic.cs" />

@@ -145,8 +145,11 @@ namespace Ecodistrict.Messaging.Responses
         [DataMember]
         protected string kpiId;
 
+        [DataMember]
+        public string caseId { get; private set; }
+
         /// <summary>
-        /// The variant id aquired from the dashboard in the <see cref="SelectModuleRequest"/> message.
+        /// The variant id acquired from the dashboard in the <see cref="SelectModuleRequest"/> message.
         /// </summary>
         [DataMember]
         protected string variantId;
@@ -171,13 +174,14 @@ namespace Ecodistrict.Messaging.Responses
         /// <param name="variantId">Used by dashboard for tracking.</param>
         /// <param name="kpiId">The kpi that the dashboard previously selected.</param>
         /// <param name="inputSpecification">The specification to the dashboard on what data the Module need.</param>
-        public SelectModuleResponse(string moduleId, string variantId, string kpiId, InputSpecification inputSpecification)
+        public SelectModuleResponse(string moduleId, string variantId, string caseId, string kpiId, InputSpecification inputSpecification)
         {
             this.method = "selectModule";
             this.type = "response";
             this.moduleId = moduleId;
             this.kpiId = kpiId;
             this.variantId = variantId;
+            this.caseId = caseId;
             this.inputSpecification = inputSpecification;
         }
     }

@@ -67,11 +67,13 @@ namespace Ecodistrict.Messaging
             }
             catch(Newtonsoft.Json.JsonSerializationException ex)
             {
-                //TODO how to get this information up.              
+                //TODO how to get this information up.       
+                throw ex;
             }
             catch (Exception ex)
             {
-                //TODO how to get this information up.
+                //TODO how to get this information up.      
+                throw ex;
             }
 
             //Else ignore parameter
