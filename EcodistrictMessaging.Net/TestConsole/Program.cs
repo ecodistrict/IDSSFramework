@@ -74,7 +74,8 @@ namespace TestConsole
                 aList.Add("brie", new Text("Brie cheese"));
                 iSpec.Add("cheese-types", aList);
                 SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
-                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
+                    variantId: "503f191e8fcc19729de860ea", caseId: "5d9300d0-1574-4ae5-9d19-4e896b959f1c", 
+                    kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
                 string json = Serialize.ToJsonString(mResponse);
 
                 //Request from dashboard
@@ -251,11 +252,12 @@ namespace TestConsole
                 SelectModuleResponse mResponse = new SelectModuleResponse(
                     moduleId: recievedMessage.moduleId,
                     variantId: recievedMessage.variantId,
+                    caseId: recievedMessage.caseId,
                     kpiId: recievedMessage.kpiId,
                     inputSpecification: iSpec);
 
-                //json-string that can be interpeted by the dashboard
-                //In this case indented in order to be easier to read (won't efect the dashboard). 
+                //json-string that can be interpreted by the dashboard
+                //In this case indented in order to be easier to read (won't effect the dashboard). 
                 string messageResponse = Serialize.ToJsonString(mResponse, true);
 
                 //Write the message to the console
@@ -335,6 +337,7 @@ namespace TestConsole
                     StartModuleResponse mResponse = new StartModuleResponse(
                         moduleId: recievedMessage.moduleId,
                         variantId: recievedMessage.variantId,
+                        caseId: recievedMessage.caseId,
                         userId: recievedMessage.userId,
                         kpiId: recievedMessage.kpiId,
                         status: ModuleStatus.Processing);
@@ -440,7 +443,7 @@ namespace TestConsole
             aList.Add(key: "o2", item: new Number(label: "o2 label", value: 2));
             aList.Add(key: "o3", item: new Number(label: "o3 label", value: 3));
             inputSpec.Add("list", aList);
-            SelectModuleResponse mResponse = new SelectModuleResponse("", "", "", inputSpec);
+            SelectModuleResponse mResponse = new SelectModuleResponse("", "","", "", inputSpec);
             string expected = Serialize.ToJsonString(mResponse);
 
             // act
@@ -472,7 +475,8 @@ namespace TestConsole
                 iSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: brie));
 
                 SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
-                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
+                    variantId: "503f191e8fcc19729de860ea", caseId: "5d9300d0-1574-4ae5-9d19-4e896b959f1c",
+                    kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
                 var message = File.ReadAllText(@"../../../EcodistrictMessagingTests/TestData/Json/ModuleResponse/SelectModuleResponse.txt");
                 IMessage obj = Deserialize<SelectModuleResponse>.JsonString(message);
                 string expected = Serialize.ToJsonString(obj);

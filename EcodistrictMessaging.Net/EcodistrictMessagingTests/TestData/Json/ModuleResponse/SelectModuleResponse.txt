@@ -29,6 +29,7 @@
     }	
   },  
   "moduleId": "foo-bar_cheese-Module-v1-0",
+  "caseId": "5d9300d0-1574-4ae5-9d19-4e896b959f1c",
   "method": "selectModule",
   "type": "response"
 }

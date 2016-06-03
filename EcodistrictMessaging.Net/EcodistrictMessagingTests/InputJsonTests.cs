@@ -109,6 +109,9 @@ namespace EcodistrictMessagingTests
             }
         }
 
+        ///
+        /// Input Specification not used anymore
+        /// 
         [TestMethod]
         public void ISpecToJSON_E1()
         {
@@ -134,41 +137,44 @@ namespace EcodistrictMessagingTests
             }
         }
 
-        [TestMethod]
-        public void ISpecToJSON_E2()
-        {
-            try
-            {
-                // arrange
-                InputSpecification inputSpec = new InputSpecification();
-                inputSpec.Add("name", new Text(label: "Parent name"));
-                inputSpec.Add("age", new Number(label: "Parent age"));
-                List aList = new List("Children");
-                aList.Add("name", new Text(label: "Child name"));
-                aList.Add("age", new Number(label: "Child age"));
-                inputSpec.Add("child", aList);
-                string expected = "{" +
-                                    "\"name\":{\"label\":\"Parent name\",\"type\":\"text\"}" + "," +
-                                    "\"age\":{\"label\":\"Parent age\",\"type\":\"number\"}" + "," +
-                                    "\"child\":{\"inputs\":{" +
-                                                    "\"name\":{\"label\":\"Child name\",\"type\":\"text\"}" + "," +
-                                                     "\"age\":{\"label\":\"Child age\",\"type\":\"number\"}" +
-                                                           "}," +
-                                                "\"label\":\"Children\",\"type\":\"list\"" +
-                                          "}" +
-                                  "}";
+        ///
+        /// Input Specification not used anymore
+        /// 
+        //[TestMethod]
+        //public void ISpecToJSON_E2()
+        //{
+        //    try
+        //    {
+        //        // arrange
+        //        InputSpecification inputSpec = new InputSpecification();
+        //        inputSpec.Add("name", new Text(label: "Parent name"));
+        //        inputSpec.Add("age", new Number(label: "Parent age"));
+        //        List aList = new List("Children");
+        //        aList.Add("name", new Text(label: "Child name"));
+        //        aList.Add("age", new Number(label: "Child age"));
+        //        inputSpec.Add("child", aList);
+        //        string expected = "{" +
+        //                            "\"name\":{\"label\":\"Parent name\",\"type\":\"text\"}" + "," +
+        //                            "\"age\":{\"label\":\"Parent age\",\"type\":\"number\"}" + "," +
+        //                            "\"child\":{\"inputs\":{" +
+        //                                            "\"name\":{\"label\":\"Child name\",\"type\":\"text\"}" + "," +
+        //                                             "\"age\":{\"label\":\"Child age\",\"type\":\"number\"}" +
+        //                                                   "}," +
+        //                                        "\"label\":\"Children\",\"type\":\"list\"" +
+        //                                  "}" +
+        //                          "}";
 
-                // act
-                string actual = Serialize.ToJsonString(inputSpec);
+        //        // act
+        //        string actual = Serialize.ToJsonString(inputSpec);
 
-                // assert
-                Assert.AreEqual(expected, actual, false, "\nInputSpecification not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
-            }
-            catch(Exception ex)
-            {
-                Assert.Fail(ex.Message);
-            }
-        }
+        //        // assert
+        //        Assert.AreEqual(expected, actual, false, "\nInputSpecification not Json-seralized correctly:\n\n" + expected + "\n\n" + actual);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        Assert.Fail(ex.Message);
+        //    }
+        //}
                
     }
 }

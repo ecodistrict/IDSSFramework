@@ -59,7 +59,7 @@ namespace EcodistrictMessagingTests
                 iSpec.Add("cheese-type", new Select(label: "Cheese type", options: opt, value: brie));  
                 
                 SelectModuleResponse mResponse = new SelectModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
-                    variantId: "503f191e8fcc19729de860ea", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
+                    variantId: "503f191e8fcc19729de860ea",caseId:"5d9300d0-1574-4ae5-9d19-4e896b959f1c", kpiId: "cheese-taste-kpi", inputSpecification: iSpec);
                 var message = File.ReadAllText(@"../../TestData/Json/ModuleResponse/SelectModuleResponse.txt");
                 IMessage obj = Deserialize<IMessage>.JsonString(message);
                 string expected = Serialize.ToJsonString(obj);
@@ -83,7 +83,8 @@ namespace EcodistrictMessagingTests
             {
                 // arrange
                 StartModuleResponse smResponse = new StartModuleResponse(moduleId: "foo-bar_cheese-Module-v1-0",
-                    variantId: "503f191e8fcc19729de860ea", userId: "userId", kpiId: "cheese-taste-kpi", status: ModuleStatus.Processing);
+                    variantId: "503f191e8fcc19729de860ea", caseId: "5d9300d0-1574-4ae5-9d19-4e896b959f1c", userId: "userId", 
+                    kpiId: "cheese-taste-kpi", status: ModuleStatus.Processing);
                 var message = File.ReadAllText(@"../../TestData/Json/ModuleResponse/StartModuleResponse.txt");
                 object obj = JsonConvert.DeserializeObject(message);
                 string expected = JsonConvert.SerializeObject(obj);
@@ -112,7 +113,7 @@ namespace EcodistrictMessagingTests
                 aList.Add(key: "o2", item: new Number(label: "o2 label", value: 2));
                 aList.Add(key: "o3", item: new Number(label: "o3 label", value: 3));
                 inputSpec.Add("list", aList);
-                SelectModuleResponse mResponse = new SelectModuleResponse("", "", "", inputSpec);
+                SelectModuleResponse mResponse = new SelectModuleResponse("", "","", "", inputSpec);
                 string expected = Serialize.ToJsonString(mResponse);
 
                 // act

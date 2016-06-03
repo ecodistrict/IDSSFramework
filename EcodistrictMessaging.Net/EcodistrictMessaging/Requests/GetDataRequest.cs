@@ -48,13 +48,14 @@ namespace Ecodistrict.Messaging.Requests
 
         public GetDataRequest(string moduleId, string calculationId, string caseId, string variantId, string eventId, string userId = null)
         {
-            this.method = "getModuleInput";
+            this.method = "getData";
             this.type = "request";
             this.moduleId = moduleId;
             this.calculationId = calculationId;
             this.caseId = caseId;
             this.variantId = variantId;
             this.eventId = eventId;
+            this.userId = userId;
         }
 
         public GetDataRequest(StartModuleRequest smr, string calculationId, string eventId)
