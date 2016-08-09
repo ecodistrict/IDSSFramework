@@ -10,6 +10,8 @@ namespace Ecodistrict.Messaging
 {
     /// <summary>
     /// The collection of <see cref="Input"/>s the module need in order to calculate a given kpi.
+    /// 
+    /// Deprecated, the dashboard doesn't need this anymore.
     /// </summary>
     /// <example>
     /// A construction of a simple input specification containing 2 components.
@@ -50,7 +52,7 @@ namespace Ecodistrict.Messaging
     /// </example>
     /// <seealso cref="Atomic"/> <seealso cref="NonAtomic"/>
     [DataContract]
-    public class InputSpecification : Dictionary<string, Input>
+    public class InputSpecification : Dictionary<string, Input> //TODO Is not used anymore, remove when the messaging format has been finalized.
     {
 
     }

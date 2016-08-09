@@ -13,6 +13,8 @@ namespace Ecodistrict.Messaging.Requests
     /// deseralizing dashboard json-messages of the type "selectModule" request.
     /// 
     /// This message must be answered with the message type <see cref="SelectModuleResponse"/>.
+    /// 
+    /// Depricated the dashboard doesn't send this message anymore.
     /// </summary>
     /// <example>
     /// A simple reconstruction of a dashboard json message. Normaly these are acquired through
@@ -38,7 +40,7 @@ namespace Ecodistrict.Messaging.Requests
     /// <seealso cref="SelectModuleResponse"/>
     /// <seealso cref="Deserialize{T}"/>
     [DataContract]
-    public class SelectModuleRequest : Request
+    public class SelectModuleRequest : Request  //TODO Is not used anymore, remove when the messaging format has been finalized.
     {
         /// <summary>
         /// The unique identifier of the module that the dashboard want start the calculation procedure.
